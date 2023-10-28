@@ -48,20 +48,36 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Enable the Pantheon Desktop Environment.
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.pantheon.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.desktopManager.pantheon.enable = true;
   # Fix problem which prevents login after hibernation by enabling the gtk greeter
   # services.xserver.displayManager.lightdm.greeters.pantheon.enable = false;
   # services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
 
   # Enable Hyprland
   # programs.hyprland.enable = true;
+  # Optional, hint electron apps to use wayland:
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
 
   # Configure keymap in X11
   services.xserver = {
     layout = "de";
     xkbVariant = "";
+
+    displayManager.gdm = {
+      enable = true;
+      wayland = true;
+    };
+
   };
+
+  programs.hyprland = {
+    enable = true;
+    # xwayland.enable = true;
+    # nvidiaPatches = true;
+  };
+
 
   # Configure console keymap
   console.keyMap = "de";
@@ -119,6 +135,15 @@
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
+
+
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      thunar-volman
+    ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -185,15 +210,28 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     appimage-run
+    dunst
     gnome.gnome-software
     gparted
     home-manager
     htop
     inetutils
+    kitty
+    libnotify
     mc
     neofetch
+    networkmanagerapplet
+    rofi-wayland
+    swww
     thefuck
+    # thunar
+    waybar
     wget
+
+    (waybar.overrideAttrs (oldAttrs: {
+        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+      })
+    )
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -233,6 +271,7 @@
   ];
 
   # Enable Vulkan
+  hardware.opengl.enable = true;
   hardware.opengl.driSupport = true;
   # For 32 bit applications
   hardware.opengl.driSupport32Bit = true;
