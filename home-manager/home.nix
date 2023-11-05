@@ -35,10 +35,12 @@ in
 
     bat # fancy `cat` replacement
     cmatrix # there is no spoon
+    cool-retro-term # a terminal that's cool and retro
     cowsay # moo
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
+    eza # ls replacement
     fortune # mmh cookies
     lolcat # 🌈
     nixpkgs-fmt # formatter for nix code, used in VSCode
@@ -73,6 +75,10 @@ in
     ".sounds".source = dotfiles/sounds;
     ".ssh".source = dotfiles/ssh;
     ".wgetrc".source = dotfiles/wgetrc;
+    ".local/share/applications/appimage".source = dotfiles/local/share/applications/appimage;
+    ".local/share/applications/other".source = dotfiles/local/share/applications/other;
+    ".local/share/applications/secret".source = dotfiles/local/share/applications/secret;
+
 
     # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -102,6 +108,26 @@ in
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # Let virt-manager connect to KVM
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = [ "qemu:///system" ];
+      uris = [ "qemu:///system" ];
+    };
+  };
+
+  # Use dark theme in GTK apps
+  gtk = {
+    enable = true;
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+    };
+  };
+
 
   # programs.ssh.enable = true;
 
@@ -278,9 +304,25 @@ in
       save = "git stash";
       load = "git stash apply";
 
+      # OSX debris
+
+      # Recursively delete `.DS_Store` files
+      clean-ds_store = "find . -type f -name '*.DS_Store' -ls -delete";
+
       # fun
       sl = "aplay ~/.sounds/train.wav & sl";
       space-opera = "telnet towel.blinkenlights.nl";
     };
+  };
+
+  services.syncthing.enable = true;
+  # services.syncthing.tray.enable = true;
+
+  # do not create ~/Public & ~/Templates
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+    publicShare = null;
+    templates = null;
   };
 }

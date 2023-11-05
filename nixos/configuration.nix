@@ -46,6 +46,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.excludePackages = [ pkgs.xterm ]; # don't install xterm
 
   # Enable the Pantheon Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
@@ -53,6 +54,30 @@
   # Fix problem which prevents login after hibernation by enabling the gtk greeter
   # services.xserver.displayManager.lightdm.greeters.pantheon.enable = false;
   # services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
+
+  # services.xserver.desktopManager.pantheon.extraWingpanelIndicators = with pkgs; [
+  #   monitor
+  #   wingpanel-indicator-ayatana
+  # ];
+  # services.xserver.desktopManager.pantheon.extraSwitchboardPlugs = [ ];
+
+  # systemd.user.services.indicatorapp = {
+  #   description = "indicator-application-gtk3";
+  #   wantedBy = [ "graphical-session.target" ];
+  #   partOf = [ "graphical-session.target" ];
+  #   serviceConfig = {
+  #     ExecStart = "${pkgs.indicator-application-gtk3}/libexec/indicator-application/indicator-application-service";
+  #   };
+  # };
+
+  # Skip some default pantheon apps
+  environment.pantheon.excludePackages = with pkgs.pantheon; [
+    appcenter # Software center
+    epiphany # Web browser
+  ];
+
+
+
 
   # Enable Hyprland
   # programs.hyprland.enable = true;
@@ -103,7 +128,7 @@
     };
     histSize = 10000;
   };
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.pathsToLink = [ "/libexec" "/share/zsh" ];
   environment.shells = with pkgs; [ zsh ];
 
   # Enable Docker
@@ -114,6 +139,10 @@
   virtualisation.virtualbox.host.enableExtensionPack = true;
   virtualisation.virtualbox.guest.enable = true;
 
+  # Enable Virt-manager
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true; # virt-manager requires dconf to remember settings
+
   # Enable Steam
   programs.steam = {
     enable = true;
@@ -121,45 +150,52 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
+  # Enable Gnome disk manager
+  programs.gnome-disks.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jigglycrumb = {
     isNormalUser = true;
     description = "jigglycrumb";
-    extraGroups = [ "docker" "networkmanager" "vboxusers" "wheel" ];
+    extraGroups = [
+      "docker"
+      "networkmanager"
+      "vboxusers"
+      "wheel"
+      # "libvirtd"
+    ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-      # appflowy
-      arduino
+      appeditor # edit panthon app launcher entries
+      arduino # code hardware things
       # bottles
-      brave
-      clipgrab
-      cryptomator
-      darktable
-      digikam
-      discord
-      dosbox-staging
-      easytag
-      etcher
-      flatpak
-      gnome.cheese
-      godot_4
-      # google-chrome
-      gparted
-      handbrake
+      brave # web browser
+      clipgrab # youtube downloader
+      cryptomator # file encryption
+      darktable # photo manager
+      digikam # photo manager
+      discord # (voice)chat
+      dosbox-staging # emulates DOS software
+      easytag # edit mp3 tags
+      etcher # burn images to SD cards
+      # flatpak
+      gnome.simple-scan # scanning utility 
+      godot_4 # game engine
+      # gparted # drive partition manager
+      handbrake # video encoding
       # heroic
-      # joplin-desktop
       # logseq
-      makemkv
+      makemkv # DVD & Blu-Ray ripper 
       # mattermost-desktop
-      mediathekview
-      pika-backup
-      scummvm
-      signal-desktop
-      sonic-pi
-      tor-browser-bundle-bin
-      ungoogled-chromium
-      vlc
-      vscode
+      mediathekview # downloader for German public broadcasts
+      pika-backup # a backup thing
+      scummvm # emulates old adventure games
+      signal-desktop # private messenger
+      sonic-pi # code music
+      tor-browser-bundle-bin # browser for the evil dark web
+      ungoogled-chromium # chrome without google
+      vlc # media player
+      vscode # code editor
       # vscodium
       # vscodium-fhs
       # wine
@@ -184,17 +220,38 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    appimage-run
-    gnome.gnome-software
-    gparted
-    home-manager
-    htop
-    inetutils
-    mc
-    neofetch
+    appimage-run # runs appimage apps
+    gparted # drive partition manager
+    home-manager # manage user configurations
+    htop # like top, but better
+    # indicator-application-gtk3
+    inetutils # telnet
+    mc # file manager
+    neofetch # I use nix btw
     thefuck
+    virt-manager # virtual machines
     wget
   ];
+
+
+  programs.pantheon-tweaks.enable = true;
+
+
+  # Automatically upgrade the system
+  # system.autoUpgrade = {
+  #   enable = true;
+  #   dates = "daily";
+  #   allowReboot = false;
+  # };
+
+  # Automatically clean up old generations
+  # nix.settings.auto-optimise-store = true;
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "weekly";
+  #   options = "--delete-older-than 7d";
+  # };
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -224,7 +281,8 @@
   system.stateVersion = "23.05"; # Did you read the comment?
 
 
-  # Hardware specific stuff
+  # Hardware specific stuff --------------------------------------------------
+
   boot.initrd.kernelModules = [ "amdgpu" ];
 
   # AMD GPU HIP fix

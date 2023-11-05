@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Logseq
+Comment=Note taking (AppImage)
+Exec=appimage-run Logseq-linux-x64-0.9.18.AppImage
+Path=/home/jigglycrumb/Applications
+Icon=/home/jigglycrumb/.local/share/applications/appimage/logseq.png
+Terminal=false
+Type=Application
+Categories=Utility;

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=XNViewMP
+Comment=Image Browser (AppImage)
+Exec=appimage-run XnView_MP.glibc2.17-x86_64.AppImage
+Path=/home/jigglycrumb/Applications
+Icon=/home/jigglycrumb/.local/share/applications/appimage/xnviewmp.png
+Terminal=false
+Type=Application
+Categories=Graphics;
