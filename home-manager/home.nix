@@ -308,8 +308,10 @@ in
 
       # OSX debris
 
-      # Recursively delete `.DS_Store` files
+      # Recursively delete OSX `.DS_Store` files
       clean-ds_store = "find . -type f -name '*.DS_Store' -ls -delete";
+      # Recursively delete OSX resource forks
+      clean-osx-shitfiles = "find . -type f -name '._*' -ls -delete";
 
       # fun
       sl = "aplay ~/.sounds/train.wav & sl";
