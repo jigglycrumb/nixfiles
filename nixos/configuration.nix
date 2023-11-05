@@ -179,13 +179,13 @@
       easytag # edit mp3 tags
       etcher # burn images to SD cards
       # flatpak
-      gnome.simple-scan # scanning utility 
+      gnome.simple-scan # scan documents
       godot_4 # game engine
       # gparted # drive partition manager
       handbrake # video encoding
       # heroic
       # logseq
-      makemkv # DVD & Blu-Ray ripper 
+      makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
       mediathekview # downloader for German public broadcasts
       pika-backup # a backup thing
