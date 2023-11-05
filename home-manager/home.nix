@@ -43,6 +43,7 @@ in
     eza # ls replacement
     fortune # mmh cookies
     lolcat # 🌈
+    meld # merge tool
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
     ponysay # like cowsay, but 20% cooler
