@@ -72,7 +72,8 @@ in
     # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-    ".config/hypr".source = dotfiles/config/hypr;
+
+    # ".config/hypr".source = dotfiles/config/hypr;
     ".functions".source = dotfiles/functions;
     ".sounds".source = dotfiles/sounds;
     ".ssh".source = dotfiles/ssh;
