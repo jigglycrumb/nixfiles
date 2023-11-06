@@ -99,8 +99,7 @@
 
   programs.hyprland = {
     enable = true;
-    # xwayland.enable = true;
-    # nvidiaPatches = true;
+    xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers
   };
 
 
