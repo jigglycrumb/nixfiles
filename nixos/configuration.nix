@@ -99,7 +99,7 @@
 
   programs.hyprland = {
     enable = true;
-    xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers
+    # xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
   };
 
 
@@ -201,6 +201,7 @@
       dosbox-staging # emulates DOS software
       easytag # edit mp3 tags
       etcher # burn images to SD cards
+      firefox # web browser
       # flatpak
       gnome.simple-scan # scan documents
       godot_4 # game engine
@@ -244,23 +245,23 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     appimage-run # runs appimage apps
-    dunst
+    dunst # wayland notifications
     gparted # drive partition manager
     home-manager # manage user configurations
     htop # like top, but better
     # indicator-application-gtk3
     inetutils # telnet
-    kitty
+    kitty # terminal
     libnotify
     mc # file manager
     neofetch # I use nix btw
     networkmanagerapplet
     rofi-wayland
-    swww
+    rofimoji # emoji picker
+    swww # wayland background image daemon
     thefuck
-    # thunar
     virt-manager # virtual machines
-    waybar
+    waybar # wayland bar
     wget
 
     (waybar.overrideAttrs (oldAttrs: {

@@ -34,6 +34,7 @@ in
   home.packages = with pkgs; [
 
     bat # fancy `cat` replacement
+    cliphist
     cmatrix # there is no spoon
     cool-retro-term # a terminal that's cool and retro
     cowsay # moo
@@ -41,7 +42,9 @@ in
     delta # git diffs done right
     devd # on-demand webserver
     eza # ls replacement
+    font-awesome
     fortune # mmh cookies
+    jetbrains-mono
     lolcat # 🌈
     meld # merge tool
     nixpkgs-fmt # formatter for nix code, used in VSCode
@@ -50,6 +53,7 @@ in
     screen
     sl # choo choo
     tmux
+    wl-clipboard
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
