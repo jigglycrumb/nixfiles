@@ -32,28 +32,34 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-
+    asciiquarium
     bat # fancy `cat` replacement
+    blueman
+    brightnessctl # control screen brightness
     cliphist
     cmatrix # there is no spoon
-    cool-retro-term # a terminal that's cool and retro
+    # cool-retro-term # a terminal that's cool and retro
     cowsay # moo
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
     eza # ls replacement
-    font-awesome
+    font-awesome # icons for waybar
     fortune # mmh cookies
-    jetbrains-mono
+    # killall
     lolcat # 🌈
     meld # merge tool
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
+    pamixer # volume control in hyprland
     ponysay # like cowsay, but 20% cooler
+    pywal # color schemes from images
     screen
     sl # choo choo
+    # swaylock
     tmux
     wl-clipboard
+    wlogout # wayland logout,lock,etc screen
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -78,6 +84,10 @@ in
     # ".screenrc".source = dotfiles/screenrc;
 
     # ".config/hypr".source = dotfiles/config/hypr;
+
+    ".config/waybar".source = dotfiles/config/waybar;
+    ".config/wlogout".source = dotfiles/config/wlogout;
+
     ".functions".source = dotfiles/functions;
     ".sounds".source = dotfiles/sounds;
     ".ssh".source = dotfiles/ssh;
@@ -273,7 +283,7 @@ in
     '';
     shellAliases = {
       c = "clear";
-      cat = "bat";
+      # cat = "bat";
       g = "git";
 
       "c." = "code .";

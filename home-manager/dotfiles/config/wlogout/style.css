@@ -1,0 +1,76 @@
+/* import wal colors */
+@import '../../.cache/wal/colors-waybar.css';
+
+* {
+  font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+  background-image: none;
+  transition: 20ms;
+  border: none;
+}
+
+window {
+  background-color: alpha(@background, 0.75);
+}
+
+button {
+  color: @foreground;
+  font-size: 20px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25%;
+
+  border: 3px solid @foreground;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+button:focus,
+button:active,
+button:hover {
+  color: @color11;
+  background-color: alpha(@color11, 0.5);
+  border: 3px solid @color11;
+}
+
+/*
+-----------------------------------------------------
+Buttons
+-----------------------------------------------------
+*/
+
+#lock {
+  margin: 10px;
+  border-radius: 20px;
+  background-image: image(url("icons/lock.png"));
+}
+
+#logout {
+  margin: 10px;
+  border-radius: 20px;
+  background-image: image(url("icons/logout.png"));
+}
+
+#suspend {
+  margin: 10px;
+  border-radius: 20px;
+  background-image: image(url("icons/suspend.png"));
+}
+
+#hibernate {
+  margin: 10px;
+  border-radius: 20px;
+  background-image: image(url("icons/hibernate.png"));
+}
+
+#shutdown {
+  margin: 10px;
+  border-radius: 20px;
+  background-image: image(url("icons/shutdown.png"));
+}
+
+#reboot {
+  margin: 10px;
+  border-radius: 20px;
+  background-image: image(url("icons/reboot.png"));
+}
