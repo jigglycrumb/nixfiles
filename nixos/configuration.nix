@@ -48,9 +48,14 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver.excludePackages = [ pkgs.xterm ]; # don't install xterm
 
+  # Enable GNOME Desktop Environment
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+
+
   # Enable the Pantheon Desktop Environment.
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.pantheon.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.desktopManager.pantheon.enable = true;
   # Fix problem which prevents login after hibernation by enabling the gtk greeter
   # services.xserver.displayManager.lightdm.greeters.pantheon.enable = false;
   # services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
