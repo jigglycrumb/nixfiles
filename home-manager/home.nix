@@ -34,7 +34,6 @@ in
   home.packages = with pkgs; [
     asciiquarium
     bat # fancy `cat` replacement
-    blueman
     brightnessctl # control screen brightness
     cliphist
     cmatrix # there is no spoon
@@ -43,18 +42,28 @@ in
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
+    egl-wayland
     eza # ls replacement
     font-awesome # icons for waybar
     fortune # mmh cookies
+    gtklock
     # killall
     lolcat # 🌈
+    # mate.caja-with-extensions
+    # mate.mate-polkit
     meld # merge tool
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
     pamixer # volume control in hyprland
+    pantheon.pantheon-agent-polkit
+    pantheon.elementary-files
+    pcmanfm
     ponysay # like cowsay, but 20% cooler
     pywal # color schemes from images
+    ranger
+    samba # de janeiro! *da da da da, dadada, dadada*
     screen
+    shotman
     sl # choo choo
     # swaylock
     tmux
