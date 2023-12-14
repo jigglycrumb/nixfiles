@@ -13,6 +13,7 @@
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 50; # limit boot loader to the last 50 generations
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixe"; # Define your hostname.
@@ -76,13 +77,7 @@
     epiphany # Web browser
   ];
 
-
-
-
-  # Enable Hyprland
-  # programs.hyprland.enable = true;
-  # Optional, hint electron apps to use wayland:
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  services.gvfs.enable = true;
 
 
   # Configure keymap in X11
@@ -97,10 +92,19 @@
 
   };
 
+  services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
+    	[org.gnome.desktop.interface]
+    	gtk-theme='Arc-Dark'
+  '';
+
+
   programs.hyprland = {
     enable = true;
     # xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
   };
+
+  # hint electron apps to use wayland
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
 
   # Configure console keymap
@@ -108,6 +112,13 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  # Automatically discover network printers
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
+  };
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -168,10 +179,16 @@
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [
-      thunar-archive-plugin
-      thunar-volman
+      tumbler # thumbnail previews
+      thunar-volman # removable device management
+      thunar-archive-plugin # archive creation and extraction
+      thunar-media-tags-plugin # view/edit ID3/OGG tags
     ];
   };
+
+  security.pam.services.gdm.enableGnomeKeyring = true;
+  services.gnome.gnome-keyring.enable = true;
+
 
   # Enable Gnome disk manager
   programs.gnome-disks.enable = true;
@@ -203,6 +220,9 @@
       etcher # burn images to SD cards
       firefox # web browser
       # flatpak
+      gimp
+      gnome.evince # document viewer
+      gnome.seahorse # keyring manager
       gnome.simple-scan # scan documents
       godot_4 # game engine
       # gparted # drive partition manager
@@ -212,6 +232,12 @@
       makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
       mediathekview # downloader for German public broadcasts
+
+      # pantheon.elementary-files
+      # pantheon.elementary-music
+      # pantheon.elementary-photos
+      # pantheon.elementary-videos
+
       pika-backup # a backup thing
       scummvm # emulates old adventure games
       signal-desktop # private messenger
@@ -245,24 +271,44 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     appimage-run # runs appimage apps
-    dunst # wayland notifications
+    brightnessctl # control screen brightness
+    cifs-utils # mount samba shares
+    cliphist # clipboard history
+    drawing # basic image editor, similar to MS Paint
+    egl-wayland
     gparted # drive partition manager
+    gvfs # Thunar trash support, mounting with udisk and remote filesystems
     home-manager # manage user configurations
     htop # like top, but better
+    hyprpicker # pick colors from the screen
+    hyprkeys # print hyprland key bindings
     # indicator-application-gtk3
     inetutils # telnet
     kitty # terminal
-    libnotify
-    mc # file manager
+    libreoffice # office suite
+    libnotify # notification basics, includes notify-send
+    mc # shell file manager
     neofetch # I use nix btw
-    networkmanagerapplet
-    rofi-wayland
+    networkmanagerapplet # tray app for network management
+    oculante # fast image viewer
+    pamixer # volume control in hyprland
+    pcmanfm # file manager
+    peazip # archive utility
+    rofi-wayland # launcher
     rofimoji # emoji picker
+    samba # de janeiro! *da da da da, dadada, dadada*
+    shotman # screenshot tool
+    swayidle
+    swayimg # image viewer
+    swaylock-effects # screen locker
+    swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     thefuck
     virt-manager # virtual machines
     waybar # wayland bar
     wget
+    wl-clipboard # wayland clipboard management
+    wlogout # wayland logout,lock,etc screen
 
     (waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
@@ -272,6 +318,23 @@
 
   programs.pantheon-tweaks.enable = true;
 
+  fonts.packages = with pkgs; [
+    # noto-fonts
+    # noto-fonts-cjk
+    # noto-fonts-emoji
+    # liberation_ttf
+    # fira-code
+    # fira-code-symbols
+    # mplus-outline-fonts.githubRelease
+    # dina-font
+    # proggyfonts
+  ];
+
+  security.pam.services.swaylock = {
+    text = ''
+      auth include login
+    '';
+  };
 
   # Automatically upgrade the system
   # system.autoUpgrade = {

@@ -34,41 +34,30 @@ in
   home.packages = with pkgs; [
     asciiquarium
     bat # fancy `cat` replacement
-    brightnessctl # control screen brightness
-    cliphist
     cmatrix # there is no spoon
-    # cool-retro-term # a terminal that's cool and retro
+    cool-retro-term # a terminal that's cool and retro
     cowsay # moo
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
-    egl-wayland
     eza # ls replacement
-    font-awesome # icons for waybar
+    font-awesome # icons for waybar (does not work in environment.systemPackages)
     fortune # mmh cookies
-    gtklock
     # killall
     lolcat # 🌈
-    # mate.caja-with-extensions
+
     # mate.mate-polkit
     meld # merge tool
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
-    pamixer # volume control in hyprland
-    pantheon.pantheon-agent-polkit
-    pantheon.elementary-files
-    pcmanfm
     ponysay # like cowsay, but 20% cooler
+
     pywal # color schemes from images
     ranger
-    samba # de janeiro! *da da da da, dadada, dadada*
     screen
-    shotman
     sl # choo choo
-    # swaylock
     tmux
-    wl-clipboard
-    wlogout # wayland logout,lock,etc screen
+    unzip
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -94,7 +83,9 @@ in
 
     # ".config/hypr".source = dotfiles/config/hypr;
 
-    ".config/waybar".source = dotfiles/config/waybar;
+    ".config/swaylock".source = dotfiles/config/swaylock;
+
+    # ".config/waybar".source = dotfiles/config/waybar;
     ".config/wlogout".source = dotfiles/config/wlogout;
 
     ".functions".source = dotfiles/functions;
@@ -153,6 +144,33 @@ in
       gtk-application-prefer-dark-theme = true;
     };
   };
+
+  # gtk = {
+  #   enable = true;
+  #   # iconTheme = {
+  #   #   name = "elementary-Xfce-dark";
+  #   #   package = pkgs.elementary-xfce-icon-theme;
+  #   # };
+  #   # theme = {
+  #   #   name = "zukitre-dark";
+  #   #   package = pkgs.zuki-themes;
+  #   # };
+  #   gtk3.extraConfig = {
+  #     # Settings = ''
+  #     gtk-application-prefer-dark-theme = true;
+  #     # '';
+  #   };
+  #   gtk4.extraConfig = {
+  #     # Settings = ''
+  #     gtk-application-prefer-dark-theme = true;
+  #     # '';
+  #   };
+  # };
+
+  programs.gpg.enable = true;
+
+  services.gpg-agent.enable = true;
+
 
 
   # programs.ssh.enable = true;
@@ -289,6 +307,8 @@ in
 
       # thefuck integration
       # eval $(thefuck --alias)
+
+      cowsay "$(fortune)" | lolcat
     '';
     shellAliases = {
       c = "clear";
