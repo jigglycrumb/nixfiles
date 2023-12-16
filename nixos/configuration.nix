@@ -4,6 +4,21 @@
 
 { config, pkgs, ... }:
 
+let
+  # Import secrets
+  #
+  # !!! WARNING !!!
+  # This approach is far from ideal since the secrets will end up in the locally readable /nix/store
+  # It is however, an easy way for keeping the secrets out of the repo until I've learned enough nix to implement a better solution
+  # The secrets.nix file is just a simple set like this:
+  #
+  # {
+  #   github-token = "<insert token here>";
+  # }
+
+  secrets = import ./secrets.nix;
+  username = "jigglycrumb";
+in
 {
   imports =
     [
@@ -77,8 +92,8 @@
     epiphany # Web browser
   ];
 
+  # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
-
 
   # Configure keymap in X11
   services.xserver = {
@@ -93,8 +108,8 @@
   };
 
   services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
-    	[org.gnome.desktop.interface]
-    	gtk-theme='Arc-Dark'
+    [org.gnome.desktop.interface]
+    gtk-theme='Arc-Dark'
   '';
 
 
@@ -116,7 +131,7 @@
   # Automatically discover network printers
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     openFirewall = true;
   };
 
@@ -194,9 +209,9 @@
   programs.gnome-disks.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.jigglycrumb = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "jigglycrumb";
+    description = "${username}";
     extraGroups = [
       "docker"
       "networkmanager"
@@ -258,7 +273,7 @@
 
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "jigglycrumb";
+  services.xserver.displayManager.autoLogin.user = "${username}";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -277,7 +292,6 @@
     drawing # basic image editor, similar to MS Paint
     egl-wayland
     gparted # drive partition manager
-    gvfs # Thunar trash support, mounting with udisk and remote filesystems
     home-manager # manage user configurations
     htop # like top, but better
     hyprpicker # pick colors from the screen
@@ -288,6 +302,7 @@
     libreoffice # office suite
     libnotify # notification basics, includes notify-send
     mc # shell file manager
+    musikcube # cli music player
     neofetch # I use nix btw
     networkmanagerapplet # tray app for network management
     oculante # fast image viewer
@@ -316,7 +331,21 @@
     )
   ];
 
-  programs.pantheon-tweaks.enable = true;
+  # programs.pantheon-tweaks.enable = true;
+
+  fileSystems."/home/${username}/Remote/NAS" = {
+    device = "//wopr/nas";
+    fsType = "cifs";
+    options = [
+      "uid=1000"
+      "gid=1000"
+      "username=${secrets.nas-username}"
+      "password=${secrets.nas-password}"
+      "x-systemd.automount"
+      "noauto"
+    ];
+  };
+
 
   fonts.packages = with pkgs; [
     # noto-fonts

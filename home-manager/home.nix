@@ -13,12 +13,14 @@ let
   # }
 
   secrets = import ./secrets.nix;
+  username = "jigglycrumb";
+
 in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "jigglycrumb";
-  home.homeDirectory = "/home/jigglycrumb";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -91,10 +93,19 @@ in
     ".functions".source = dotfiles/functions;
     ".sounds".source = dotfiles/sounds;
     ".ssh".source = dotfiles/ssh;
+    ".vscode/argv.json".text = ''
+      {
+        // disable crash reporting
+        "enable-crash-reporter": false,
+        // use GNOME keyring
+        "password-store": "gnome"
+      }
+    '';
     ".wgetrc".source = dotfiles/wgetrc;
     ".local/share/applications/appimage".source = dotfiles/local/share/applications/appimage;
     ".local/share/applications/other".source = dotfiles/local/share/applications/other;
     ".local/share/applications/secret".source = dotfiles/local/share/applications/secret;
+
 
 
     # You can also set the file content immediately.
@@ -125,6 +136,11 @@ in
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # enable gnome keyring
+  services.gnome-keyring.enable = true;
+  services.gnome-keyring.components = [ "pkcs11" "secrets" "ssh" ];
+
 
   # Let virt-manager connect to KVM
   dconf.settings = {
@@ -312,10 +328,11 @@ in
     '';
     shellAliases = {
       c = "clear";
+      "c." = "code .";
+
       # cat = "bat";
       g = "git";
-
-      "c." = "code .";
+      icat = "kitty +kitten icat";
       pico8 = "cd ~/Applications/pico-8 && ./run.sh";
 
       # Mass rename utility, usage: mmv lolcat_<1-100>.jpg lolcat_*_thumb.jpg
@@ -337,6 +354,7 @@ in
       gaa = "git add --all";
       gb = "git branch";
       gbc = "git branch create";
+      gbd = "git branch -D";
       gc = "git checkout";
       gco = "git commit";
       gcom = "git commit -m";
