@@ -16,7 +16,7 @@ let
   #   github-token = "<insert token here>";
   # }
 
-  secrets = import ./secrets.nix;
+  # secrets = import ./secrets.nix;
   username = "jigglycrumb";
 in
 {
@@ -333,18 +333,18 @@ in
 
   # programs.pantheon-tweaks.enable = true;
 
-  fileSystems."/home/${username}/Remote/NAS" = {
-    device = "//wopr/nas";
-    fsType = "cifs";
-    options = [
-      "uid=1000"
-      "gid=1000"
-      "username=${secrets.nas-username}"
-      "password=${secrets.nas-password}"
-      "x-systemd.automount"
-      "noauto"
-    ];
-  };
+  # fileSystems."/home/${username}/Remote/NAS" = {
+  #   device = "//wopr/nas";
+  #   fsType = "cifs";
+  #   options = [
+  #     "uid=1000"
+  #     "gid=1000"
+  #     "username=${secrets.nas-username}"
+  #     "password=${secrets.nas-password}"
+  #     "x-systemd.automount"
+  #     "noauto"
+  #   ];
+  # };
 
 
   fonts.packages = with pkgs; [
