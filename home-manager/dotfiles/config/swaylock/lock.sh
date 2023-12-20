@@ -11,7 +11,7 @@ swaylock \
   --inside-wrong-color 00000000 \
   --key-hl-color "$color6" \
   --bs-hl-color "$color2" \
-  --ring-color "$color4" \
+  --ring-color "$color1" \
   --ring-clear-color "$color2" \
   --ring-wrong-color "$color5" \
   --ring-ver-color "$color2" \

@@ -91,6 +91,7 @@ in
     ".config/wlogout".source = dotfiles/config/wlogout;
 
     ".functions".source = dotfiles/functions;
+    ".scripts".source = dotfiles/scripts;
     ".sounds".source = dotfiles/sounds;
     ".ssh".source = dotfiles/ssh;
     ".vscode/argv.json".text = ''
@@ -325,6 +326,8 @@ in
       # eval $(thefuck --alias)
 
       cowsay "$(fortune)" | lolcat
+
+      export PATH="$PATH:$HOME/.scripts"
     '';
     shellAliases = {
       c = "clear";
