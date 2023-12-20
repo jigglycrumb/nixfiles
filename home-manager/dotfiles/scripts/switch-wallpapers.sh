@@ -8,7 +8,7 @@ else
   INTERVAL=$2
 fi
 
-echo "INTERVAL: $INTERVAL"
+# echo "INTERVAL: $INTERVAL"
 
 case $1 in
 "all")
