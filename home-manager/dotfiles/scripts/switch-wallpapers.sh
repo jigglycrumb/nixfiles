@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# this script writes the wallpaper directory and interval to ~/.wallpaperrc
+
 if [ -z "$2" ]; then
   echo "interval not set, defaulting"
   INTERVAL=60
@@ -7,8 +9,6 @@ if [ -z "$2" ]; then
 else
   INTERVAL=$2
 fi
-
-# echo "INTERVAL: $INTERVAL"
 
 case $1 in
 "all")
@@ -28,20 +28,6 @@ case $1 in
   ;;
 esac
 
-RC_FILE=$HOME/.wallpaperrc
-
-# read wallpaper folder from config file
-WALLPAPER_DIR=$(cat $RC_FILE | cut -d ":" -f 1)
-# echo "folder: $WALLPAPER_DIR"
-
-WALLPAPER=$(find $WALLPAPER_DIR -type f | shuf -n 1)
-# echo "new paper: $WALLPAPER"
-
-swww img "$WALLPAPER" >/dev/null 2>&1 # set wallpaper
-wal -i "$WALLPAPER" >/dev/null 2>&1   # create color scheme
-kill -9 $(pidof waybar)               # kill waybar
-waybar >/dev/null 2>&1 &              # start waybar
-kill -9 $(pidof swaync)               # kill notification center
-swaync >/dev/null 2>&1 &              # start notification center
+$HOME/.scripts/set-wallpaper.sh
 
 exit 0
