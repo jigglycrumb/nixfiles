@@ -16,7 +16,7 @@ let
   #   github-token = "<insert token here>";
   # }
 
-  # secrets = import ./secrets.nix;
+  secrets = import ./secrets.nix;
   username = "jigglycrumb";
 in
 {
@@ -128,6 +128,9 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # enable Blueman to manage bluetooth devices
+  services.blueman.enable = true;
+
   # Automatically discover network printers
   services.avahi = {
     enable = true;
@@ -234,19 +237,23 @@ in
       easytag # edit mp3 tags
       etcher # burn images to SD cards
       firefox # web browser
-      # flatpak
-      gimp
+      flatpak # flatpak support
+      gimp # image manipulation
+      gnome.gnome-software # needed for flatpak
       gnome.evince # document viewer
       gnome.seahorse # keyring manager
       gnome.simple-scan # scan documents
       godot_4 # game engine
       # gparted # drive partition manager
       handbrake # video encoding
-      # heroic
+      heroic # GUI for GOG & Epic Games
+      jstest-gtk # simple joystick testing GUI
       # logseq
       makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
       mediathekview # downloader for German public broadcasts
+      milkytracker
+      nix-info
 
       # pantheon.elementary-files
       # pantheon.elementary-music
@@ -254,6 +261,7 @@ in
       # pantheon.elementary-videos
 
       pika-backup # a backup thing
+      protonup-qt # GUI too to manage Steam compatibility tools
       scummvm # emulates old adventure games
       signal-desktop # private messenger
       sonic-pi # code music
@@ -271,9 +279,29 @@ in
     "electron-19.1.9"
   ];
 
+  services.flatpak.enable = true;
+
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "${username}";
+
+  # Enable keyd to remap keyboard keys
+  services.keyd = {
+    enable = true;
+    keyboards.default = {
+      ids = [ "*" ];
+      settings = {
+        main = {
+          home = "pageup";
+          end = "pagedown";
+          pageup = "home";
+          pagedown = "end";
+        };
+      };
+    };
+
+  };
+
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -286,6 +314,7 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     appimage-run # runs appimage apps
+    # blueman # gtk based bluetooth manager
     brightnessctl # control screen brightness
     cifs-utils # mount samba shares
     cliphist # clipboard history
@@ -298,6 +327,9 @@ in
     hyprkeys # print hyprland key bindings
     # indicator-application-gtk3
     inetutils # telnet
+    # input-remapper # maps keys
+    # keymapper # maps keys
+    # keyd # maps keys
     kitty # terminal
     libreoffice # office suite
     libnotify # notification basics, includes notify-send
@@ -305,7 +337,9 @@ in
     musikcube # cli music player
     neofetch # I use nix btw
     networkmanagerapplet # tray app for network management
-    oculante # fast image viewer
+    # oculante # fast image viewer
+    ollama # run LLMs locally
+
     pamixer # volume control in hyprland
     pcmanfm # file manager
     peazip # archive utility
@@ -318,7 +352,6 @@ in
     swaylock-effects # screen locker
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
-    thefuck
     virt-manager # virtual machines
     waybar # wayland bar
     wget
@@ -333,18 +366,16 @@ in
 
   # programs.pantheon-tweaks.enable = true;
 
-  # fileSystems."/home/${username}/Remote/NAS" = {
-  #   device = "//wopr/nas";
-  #   fsType = "cifs";
-  #   options = [
-  #     "uid=1000"
-  #     "gid=1000"
-  #     "username=${secrets.nas-username}"
-  #     "password=${secrets.nas-password}"
-  #     "x-systemd.automount"
-  #     "noauto"
-  #   ];
-  # };
+  fileSystems."/home/${username}/Remote/NAS" = {
+    device = "//wopr/nas";
+    fsType = "cifs";
+
+    options = [
+      # this line prevents hanging on network split
+      # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+      "user,uid=1000,gid=1000,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
+    ];
+  };
 
 
   # fonts.packages = with pkgs; [
@@ -417,6 +448,10 @@ in
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
   ];
+
+  # Enable bluetooth
+  hardware.bluetooth.enable = true;
+  # hardware.bluetooth.powerOnBoot = true;reboot
 
   # Enable Vulkan
   hardware.opengl.enable = true;

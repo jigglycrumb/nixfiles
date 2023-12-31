@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # this script writes the wallpaper directory and interval to ~/.wallpaperrc
+# and sets a new wallpaper instantly
 
 if [ -z "$2" ]; then
   echo "interval not set, defaulting"

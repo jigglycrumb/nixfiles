@@ -37,7 +37,6 @@ in
     asciiquarium
     bat # fancy `cat` replacement
     cmatrix # there is no spoon
-    cool-retro-term # a terminal that's cool and retro
     cowsay # moo
     ddate # discordian date
     delta # git diffs done right
@@ -52,6 +51,7 @@ in
     meld # merge tool
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
+
     ponysay # like cowsay, but 20% cooler
 
     pywal # color schemes from images
@@ -60,6 +60,7 @@ in
     sl # choo choo
     tmux
     unzip
+    vitetris
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -135,6 +136,20 @@ in
     # EDITOR = "emacs";
   };
 
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+
+    package = pkgs.bibata-cursors;
+    # name = "Bibata-Modern-Classic";
+    name = "Bibata-Modern-Ice";
+
+    # package = pkgs.banana-cursor;
+    # name = "Banana";
+    size = 22;
+  };
+
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -172,16 +187,6 @@ in
   #   #   name = "zukitre-dark";
   #   #   package = pkgs.zuki-themes;
   #   # };
-  #   gtk3.extraConfig = {
-  #     # Settings = ''
-  #     gtk-application-prefer-dark-theme = true;
-  #     # '';
-  #   };
-  #   gtk4.extraConfig = {
-  #     # Settings = ''
-  #     gtk-application-prefer-dark-theme = true;
-  #     # '';
-  #   };
   # };
 
   programs.gpg.enable = true;
@@ -295,7 +300,7 @@ in
     oh-my-zsh = {
       enable = true;
       theme = "cloud";
-      plugins = [ "git" "thefuck" ];
+      plugins = [ "git" ];
     };
     plugins = [
       {
@@ -322,10 +327,9 @@ in
 
       COMPLETION_WAITING_DOTS=true
 
-      # thefuck integration
-      # eval $(thefuck --alias)
-
       cowsay "$(fortune)" | lolcat
+
+      # source $HOME/.profile
 
       export PATH="$PATH:$HOME/.scripts"
     '';

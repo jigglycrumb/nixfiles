@@ -19,6 +19,12 @@ if [ -z $INTERVAL ]; then
 fi
 
 # if interval is not a number, fall back to default interval
+case $INTERVAL in
+'' | *[!0-9]*)
+  echo "INTERVAL is not a number, defaulting..."
+  INTERVAL=60
+  ;;
+esac
 
 echo $INTERVAL # this is the output used by scripts
 exit 0
