@@ -125,6 +125,9 @@ in
   # Configure console keymap
   console.keyMap = "de";
 
+  # Enable OpenSnitch application firewall
+  services.opensnitch.enable = true;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -226,16 +229,18 @@ in
     packages = with pkgs; [
       appeditor # edit panthon app launcher entries
       arduino # code hardware things
-      # bottles
+      bottles
       brave # web browser
       clipgrab # youtube downloader
       cryptomator # file encryption
       darktable # photo manager
+      deluge
       digikam # photo manager
       discord # (voice)chat
       dosbox-staging # emulates DOS software
       easytag # edit mp3 tags
       etcher # burn images to SD cards
+      # ffmpeg # needed for mediathekview
       firefox # web browser
       flatpak # flatpak support
       gimp # image manipulation
@@ -251,9 +256,10 @@ in
       # logseq
       makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
-      mediathekview # downloader for German public broadcasts
+      # mediathekview # downloader for German public broadcasts
       milkytracker
       nix-info
+      opensnitch-ui # GUI for opensnitch application firewall
 
       # pantheon.elementary-files
       # pantheon.elementary-music
@@ -265,7 +271,9 @@ in
       scummvm # emulates old adventure games
       signal-desktop # private messenger
       sonic-pi # code music
+      # sparrow
       tor-browser-bundle-bin # browser for the evil dark web
+      torrential
       ungoogled-chromium # chrome without google
       vlc # media player
       vscode # code editor
@@ -352,11 +360,13 @@ in
     swaylock-effects # screen locker
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
+    usbutils
     virt-manager # virtual machines
     waybar # wayland bar
     wget
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
+    xboxdrv
 
     (waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
@@ -442,7 +452,37 @@ in
 
   # Hardware specific stuff --------------------------------------------------
 
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  # Game controller settings
+
+  # We don't need this, it's enabled via the steam module
+  # hardware.steam-hardware.enable = true;
+
+
+  # Make 8Bitdo Ultimate Controller work as XBox 360 gamepad
+  # Udev rules to start or stop systemd service when controller is connected or disconnected
+  services.udev.extraRules = ''
+    # May vary depending on your controller model, find product id using 'lsusb'
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2dc8", ATTR{idProduct}=="3106", ATTR{manufacturer}=="8BitDo", RUN+="${pkgs.systemd}/bin/systemctl start 8bitdo-ultimate-xinput@2dc8:3106"
+    # This device (2dc8:3016) is "connected" when the above device disconnects
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2dc8", ATTR{idProduct}=="3016", ATTR{manufacturer}=="8BitDo", RUN+="${pkgs.systemd}/bin/systemctl stop 8bitdo-ultimate-xinput@2dc8:3106"
+  '';
+
+  # Systemd service which starts xboxdrv in xbox360 mode
+  systemd.services."8bitdo-ultimate-xinput@" = {
+    unitConfig.Description = "8BitDo Ultimate Controller XInput mode xboxdrv daemon";
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.xboxdrv}/bin/xboxdrv --mimic-xpad --silent --type xbox360 --device-by-id %I --force-feedback";
+    };
+  };
+
+
+
+  boot.initrd.kernelModules = [
+    "amdgpu"
+    "sg"
+    # "xpad"
+  ];
 
   # AMD GPU HIP fix
   systemd.tmpfiles.rules = [
