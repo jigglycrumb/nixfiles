@@ -16,19 +16,19 @@ case $1 in
   echo "$HOME/Pictures/Wallpapers/Landscape:$INTERVAL" >$HOME/.wallpaperrc
   ;;
 
-"safe" | "sfw")
-  echo "$HOME/Pictures/Wallpapers/Landscape/sfw:$INTERVAL" >$HOME/.wallpaperrc
+"safe" | "default")
+  echo "$HOME/Pictures/Wallpapers/Landscape/default:$INTERVAL" >$HOME/.wallpaperrc
   ;;
 
-"unsafe" | "nsfw")
-  echo "$HOME/Pictures/Wallpapers/Landscape/nsfw:$INTERVAL" >$HOME/.wallpaperrc
+"unsafe" | "private")
+  echo "$HOME/Pictures/Wallpapers/Landscape/private:$INTERVAL" >$HOME/.wallpaperrc
   ;;
 
 *)
-  echo "Usage: $0 <all|safe|unsafe> <refresh interval in seconds>"
+  echo "Usage: $0 <all|default|private> <refresh interval in seconds>"
   ;;
 esac
 
-$HOME/.scripts/set-wallpaper.sh
+$HOME/.scripts/set-wallpaper
 
 exit 0

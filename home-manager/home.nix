@@ -84,6 +84,9 @@ in
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
 
+    "Pictures/digiKam/digikamrc.template".source = home/Pictures/digiKam/digikamrc.template;
+
+
     # ".config/hypr".source = dotfiles/config/hypr;
 
     ".config/swaylock".source = dotfiles/config/swaylock;
@@ -107,8 +110,6 @@ in
     ".local/share/applications/appimage".source = dotfiles/local/share/applications/appimage;
     ".local/share/applications/other".source = dotfiles/local/share/applications/other;
     ".local/share/applications/secret".source = dotfiles/local/share/applications/secret;
-
-
 
     # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''

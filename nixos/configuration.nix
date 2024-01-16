@@ -87,10 +87,10 @@ in
   # };
 
   # Skip some default pantheon apps
-  environment.pantheon.excludePackages = with pkgs.pantheon; [
-    appcenter # Software center
-    epiphany # Web browser
-  ];
+  # environment.pantheon.excludePackages = with pkgs.pantheon; [
+  #   appcenter # Software center
+  #   epiphany # Web browser
+  # ];
 
   # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
@@ -118,8 +118,19 @@ in
     # xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
   };
 
-  # hint electron apps to use wayland
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    # NIXOS_OZONE_WL = "1";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_DESKTOP = "Hyprland";
+    XDG_SESSION_TYPE = "wayland";
+    GDK_BACKEND = "wayland";
+    CLUTTER_BACKEND = "wayland";
+    SDL_VIDEODRIVER = "x11";
+    MOZ_ENABLE_WAYLAND = "1";
+    QT_QPA_PLATFORM = "wayland";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+  };
 
 
   # Configure console keymap
@@ -188,7 +199,8 @@ in
 
   # Enable Virt-manager
   virtualisation.libvirtd.enable = true;
-  programs.dconf.enable = true; # virt-manager requires dconf to remember settings
+  # programs.dconf.enable = true; # virt-manager requires dconf to remember settings
+  programs.virt-manager.enable = true;
 
   # Enable Steam
   programs.steam = {
@@ -220,10 +232,10 @@ in
     description = "${username}";
     extraGroups = [
       "docker"
+      "libvirtd"
       "networkmanager"
       "vboxusers"
       "wheel"
-      # "libvirtd"
     ];
     shell = pkgs.zsh;
     packages = with pkgs; [
@@ -335,12 +347,10 @@ in
     hyprkeys # print hyprland key bindings
     # indicator-application-gtk3
     inetutils # telnet
-    # input-remapper # maps keys
-    # keymapper # maps keys
-    # keyd # maps keys
     kitty # terminal
     libreoffice # office suite
     libnotify # notification basics, includes notify-send
+    # libsForQt5.kdeconnect-kde # KDE connect
     mc # shell file manager
     musikcube # cli music player
     neofetch # I use nix btw
@@ -361,7 +371,7 @@ in
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     usbutils
-    virt-manager # virtual machines
+    # virt-manager # virtual machines
     waybar # wayland bar
     wget
     wl-clipboard # wayland clipboard management
@@ -383,7 +393,7 @@ in
     options = [
       # this line prevents hanging on network split
       # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-      "user,uid=1000,gid=1000,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
+      "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
     ];
   };
 
