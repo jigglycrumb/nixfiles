@@ -84,6 +84,9 @@ in
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
 
+    "Applications/pico-8/pico8.nix".source = home/Applications/pico-8/pico8.nix;
+    "Applications/pico-8/run.sh".source = home/Applications/pico-8/run.sh;
+
     "Pictures/digiKam/digikamrc.template".source = home/Pictures/digiKam/digikamrc.template;
 
 
