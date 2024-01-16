@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# this script writes the wallpaper directory and interval to ~/.wallpaperrc
+# and sets a new wallpaper instantly
+
+if [ -z "$2" ]; then
+  echo "interval not set, defaulting"
+  INTERVAL=60
+# TODO: if interval is set, check if it is actually a number
+else
+  INTERVAL=$2
+fi
+
+case $1 in
+"all")
+  echo "$HOME/Pictures/Wallpapers/Landscape:$INTERVAL" >$HOME/.wallpaperrc
+  ;;
+
+"safe" | "default")
+  echo "$HOME/Pictures/Wallpapers/Landscape/default:$INTERVAL" >$HOME/.wallpaperrc
+  ;;
+
+"unsafe" | "private")
+  echo "$HOME/Pictures/Wallpapers/Landscape/private:$INTERVAL" >$HOME/.wallpaperrc
+  ;;
+
+*)
+  echo "Usage: $0 <all|default|private> <refresh interval in seconds>"
+  ;;
+esac
+
+$HOME/.scripts/set-wallpaper
+
+exit 0
