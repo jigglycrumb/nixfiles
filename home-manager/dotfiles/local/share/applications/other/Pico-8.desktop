@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=pico-8
 Comment=Fantasy Console
-Exec=run.sh
+Exec=bash run.sh
 Path=/home/jigglycrumb/Applications/pico-8
 Icon=/home/jigglycrumb/.local/share/applications/other/lexaloffle-pico8.png
 Terminal=false
