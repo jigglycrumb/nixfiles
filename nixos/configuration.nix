@@ -64,6 +64,11 @@ in
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver.excludePackages = [ pkgs.xterm ]; # don't install xterm
 
+  # Enable KDE desktop environment
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+
+
   # Enable the Pantheon Desktop Environment.
   # services.xserver.displayManager.lightdm.enable = true;
   # services.xserver.desktopManager.pantheon.enable = true;
