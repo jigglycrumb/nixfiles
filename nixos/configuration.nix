@@ -105,10 +105,10 @@ in
     layout = "de";
     xkbVariant = "";
 
-    displayManager.gdm = {
-      enable = true;
-      wayland = true;
-    };
+    # displayManager.gdm = {
+    #   enable = true;
+    #   wayland = true;
+    # };
 
   };
 
@@ -118,10 +118,10 @@ in
   '';
 
 
-  programs.hyprland = {
-    enable = true;
-    # xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
-  };
+  # programs.hyprland = {
+  #   enable = true;
+  #   # xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
+  # };
 
   environment.sessionVariables = {
     # NIXOS_OZONE_WL = "1";
