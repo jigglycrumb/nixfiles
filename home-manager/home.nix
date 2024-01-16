@@ -13,12 +13,14 @@ let
   # }
 
   secrets = import ./secrets.nix;
+  username = "jigglycrumb";
+
 in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "jigglycrumb";
-  home.homeDirectory = "/home/jigglycrumb";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -32,24 +34,33 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-
+    asciiquarium
     bat # fancy `cat` replacement
     cmatrix # there is no spoon
-    cool-retro-term # a terminal that's cool and retro
     cowsay # moo
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
     eza # ls replacement
+    font-awesome # icons for waybar (does not work in environment.systemPackages)
     fortune # mmh cookies
+    # killall
     lolcat # 🌈
+
+    # mate.mate-polkit
     meld # merge tool
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
+
     ponysay # like cowsay, but 20% cooler
+
+    pywal # color schemes from images
+    ranger
     screen
     sl # choo choo
     tmux
+    unzip
+    vitetris
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -72,14 +83,33 @@ in
     # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
+
+    "Pictures/digiKam/digikamrc.template".source = home/Pictures/digiKam/digikamrc.template;
+
+
+    # ".config/hypr".source = dotfiles/config/hypr;
+
+    ".config/swaylock".source = dotfiles/config/swaylock;
+
+    # ".config/waybar".source = dotfiles/config/waybar;
+    ".config/wlogout".source = dotfiles/config/wlogout;
+
     ".functions".source = dotfiles/functions;
+    ".scripts".source = dotfiles/scripts;
     ".sounds".source = dotfiles/sounds;
     ".ssh".source = dotfiles/ssh;
+    ".vscode/argv.json".text = ''
+      {
+        // disable crash reporting
+        "enable-crash-reporter": false,
+        // use GNOME keyring
+        "password-store": "gnome"
+      }
+    '';
     ".wgetrc".source = dotfiles/wgetrc;
     ".local/share/applications/appimage".source = dotfiles/local/share/applications/appimage;
     ".local/share/applications/other".source = dotfiles/local/share/applications/other;
     ".local/share/applications/secret".source = dotfiles/local/share/applications/secret;
-
 
     # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -107,8 +137,27 @@ in
     # EDITOR = "emacs";
   };
 
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+
+    package = pkgs.bibata-cursors;
+    # name = "Bibata-Modern-Classic";
+    name = "Bibata-Modern-Ice";
+
+    # package = pkgs.banana-cursor;
+    # name = "Banana";
+    size = 22;
+  };
+
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # enable gnome keyring
+  services.gnome-keyring.enable = true;
+  services.gnome-keyring.components = [ "pkcs11" "secrets" "ssh" ];
+
 
   # Let virt-manager connect to KVM
   dconf.settings = {
@@ -128,6 +177,23 @@ in
       gtk-application-prefer-dark-theme = true;
     };
   };
+
+  # gtk = {
+  #   enable = true;
+  #   # iconTheme = {
+  #   #   name = "elementary-Xfce-dark";
+  #   #   package = pkgs.elementary-xfce-icon-theme;
+  #   # };
+  #   # theme = {
+  #   #   name = "zukitre-dark";
+  #   #   package = pkgs.zuki-themes;
+  #   # };
+  # };
+
+  programs.gpg.enable = true;
+
+  services.gpg-agent.enable = true;
+
 
 
   # programs.ssh.enable = true;
@@ -235,7 +301,7 @@ in
     oh-my-zsh = {
       enable = true;
       theme = "cloud";
-      plugins = [ "git" "thefuck" ];
+      plugins = [ "git" ];
     };
     plugins = [
       {
@@ -262,15 +328,19 @@ in
 
       COMPLETION_WAITING_DOTS=true
 
-      # thefuck integration
-      # eval $(thefuck --alias)
+      cowsay "$(fortune)" | lolcat
+
+      # source $HOME/.profile
+
+      export PATH="$PATH:$HOME/.scripts"
     '';
     shellAliases = {
       c = "clear";
-      cat = "bat";
-      g = "git";
-
       "c." = "code .";
+
+      # cat = "bat";
+      g = "git";
+      icat = "kitty +kitten icat";
       pico8 = "cd ~/Applications/pico-8 && ./run.sh";
 
       # Mass rename utility, usage: mmv lolcat_<1-100>.jpg lolcat_*_thumb.jpg
@@ -292,6 +362,7 @@ in
       gaa = "git add --all";
       gb = "git branch";
       gbc = "git branch create";
+      gbd = "git branch -D";
       gc = "git checkout";
       gco = "git commit";
       gcom = "git commit -m";
