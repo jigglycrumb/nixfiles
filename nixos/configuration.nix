@@ -65,11 +65,18 @@ in
   services.xserver.excludePackages = [ pkgs.xterm ]; # don't install xterm
 
   # Enable the Pantheon Desktop Environment.
-  # services.xserver.displayManager.lightdm.enable = true;
-  # services.xserver.desktopManager.pantheon.enable = true;
-  # Fix problem which prevents login after hibernation by enabling the gtk greeter
-  # services.xserver.displayManager.lightdm.greeters.pantheon.enable = false;
-  # services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.pantheon.enable = true;
+  Fix problem which prevents login after hibernation by enabling the gtk greeter
+  services.xserver.displayManager.lightdm.greeters.pantheon.enable = false;
+  services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
+
+  # Skip some default pantheon apps
+  environment.pantheon.excludePackages = with pkgs.pantheon; [
+    appcenter # Software center
+    epiphany # Web browser
+  ];
+
 
   # services.xserver.desktopManager.pantheon.extraWingpanelIndicators = with pkgs; [
   #   monitor
@@ -85,12 +92,6 @@ in
   #     ExecStart = "${pkgs.indicator-application-gtk3}/libexec/indicator-application/indicator-application-service";
   #   };
   # };
-
-  # Skip some default pantheon apps
-  # environment.pantheon.excludePackages = with pkgs.pantheon; [
-  #   appcenter # Software center
-  #   epiphany # Web browser
-  # ];
 
   # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
@@ -113,10 +114,10 @@ in
   '';
 
 
-  programs.hyprland = {
-    enable = true;
-    # xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
-  };
+  # programs.hyprland = {
+  #   enable = true;
+  #   # xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
+  # };
 
   environment.sessionVariables = {
     # NIXOS_OZONE_WL = "1";
