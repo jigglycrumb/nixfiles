@@ -336,6 +336,10 @@ in
       # source $HOME/.profile
 
       export PATH="$PATH:$HOME/.scripts"
+
+      # this makes kitty use the current pywal colors instantly
+      # on launch, not just after refresh
+      cat ~/.cache/wal/sequences
     '';
     shellAliases = {
       c = "clear";
