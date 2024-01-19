@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # transition config
+# TRANSITION_TYPE="random"
 TRANSITION_TYPE="simple"
 TRANSITION_FPS=60
 TRANSITION_STEP=60

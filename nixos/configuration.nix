@@ -41,6 +41,9 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # networking.firewall.trustedInterfaces = [ "virbr0" ];
+
+
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
@@ -193,11 +196,22 @@ in
   virtualisation.docker.enable = true;
 
   # Enable VirtualBox
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
-  virtualisation.virtualbox.guest.enable = true;
+  # virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.host.enableExtensionPack = true;
+  # virtualisation.virtualbox.guest.enable = true;
 
   # Enable Virt-manager
+  # virtualisation.libvirtd = {
+  #   enable = true;
+  #   qemu = {
+  #     swtpm.enable = true;
+  #     ovmf.enable = true;
+  #     ovmf.packages = [ pkgs.OVMFFull.fd ];
+  #   };
+  # };
+  # virtualisation.spiceUSBRedirection.enable = true;
+  # services.spice-vdagentd.enable = true;
+
   virtualisation.libvirtd.enable = true;
   # programs.dconf.enable = true; # virt-manager requires dconf to remember settings
   programs.virt-manager.enable = true;
@@ -245,7 +259,7 @@ in
       brave # web browser
       clipgrab # youtube downloader
       cryptomator # file encryption
-      darktable # photo manager
+      # darktable # photo manager
       deluge
       digikam # photo manager
       discord # (voice)chat
@@ -256,8 +270,9 @@ in
       firefox # web browser
       flatpak # flatpak support
       gimp # image manipulation
-      gnome.gnome-software # needed for flatpak
+      # gnome.gnome-software # needed for flatpak
       gnome.evince # document viewer
+      # gnome.gnome-boxes # VM manager
       gnome.seahorse # keyring manager
       gnome.simple-scan # scan documents
       godot_4 # game engine
@@ -283,10 +298,10 @@ in
       scummvm # emulates old adventure games
       signal-desktop # private messenger
       sonic-pi # code music
-      # sparrow
+      sparrow
       tor-browser-bundle-bin # browser for the evil dark web
       torrential
-      ungoogled-chromium # chrome without google
+      # ungoogled-chromium # chrome without google
       vlc # media player
       vscode # code editor
       # vscodium
@@ -340,6 +355,7 @@ in
     cliphist # clipboard history
     drawing # basic image editor, similar to MS Paint
     egl-wayland
+    # gnome.adwaita-icon-theme
     gparted # drive partition manager
     home-manager # manage user configurations
     htop # like top, but better
@@ -359,12 +375,15 @@ in
     ollama # run LLMs locally
 
     pamixer # volume control in hyprland
-    pcmanfm # file manager
+    # pcmanfm # file manager
     peazip # archive utility
     rofi-wayland # launcher
     rofimoji # emoji picker
     samba # de janeiro! *da da da da, dadada, dadada*
     shotman # screenshot tool
+    # spice
+    # spice-gtk
+    # spice-protocol
     swayidle
     swayimg # image viewer
     swaylock-effects # screen locker
@@ -372,8 +391,12 @@ in
     swww # wayland background image daemon
     usbutils
     # virt-manager # virtual machines
+
+    # virt-viewer
     waybar # wayland bar
     wget
+    # win-virtio
+    # win-spice
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
     xboxdrv

@@ -379,6 +379,17 @@ in
       save = "git stash";
       load = "git stash apply";
 
+      # Nix the planet
+      run-msdos = "nix run github:matthewcroughan/NixThePlanet#msdos622";
+      run-osx = "nix run github:matthewcroughan/NixThePlanet#macos-ventura";
+      run-win311 = "nix run github:matthewcroughan/NixThePlanet#wfwg311";
+      run-win98 = "nix run github:matthewcroughan/NixThePlanet#win98";
+
+
+      # NixOS specific things
+      boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
+      nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 14d && sudo nixos-rebuild boot";
+
       # OSX debris
 
       # Recursively delete OSX `.DS_Store` files
