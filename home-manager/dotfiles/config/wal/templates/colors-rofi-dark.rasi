@@ -1,0 +1,90 @@
+/*
+  Adapted from spotlight-dark theme
+  From https://github.com/newmanls/rofi-themes-collection
+*/
+
+* {{
+  font: "Montserrat 12";
+
+  bg0: {background};
+  bg1: {background};
+  bg2: {color1};
+
+  fg0: {foreground};
+  fg1: {foreground};
+  fg2: {foreground};
+
+  background-color: transparent;
+  text-color: @fg0;
+}}
+
+
+window {{
+  background-color: @bg0;
+  border: 4px;
+  border-color: @bg2;
+  location: center;
+  width: 640;
+  border-radius: 8;
+  padding: 4px 8px;
+}}
+
+inputbar {{
+  font: "Montserrat 20";
+  padding: 12px;
+  spacing: 12px;
+  children: [ entry ];
+}}
+
+entry, element-icon, element-text {{
+  vertical-align: 0.5;
+}}
+
+entry {{
+  font: inherit;
+  placeholder: "Search…";
+  placeholder-color: @fg2;
+}}
+
+message {{
+  border: 2px 0 0;
+  border-color: @fg0;
+  background-color: @fg0;
+}}
+
+textbox {{
+  padding: 8px 24px;
+  text-color: @fg0;
+}}
+
+listview {{
+  lines: 10;
+  columns: 1;
+  fixed-height: false;
+  border: 1px 0 0;
+  border-color: @bg1;
+}}
+
+element {{
+  padding: 8px 16px;
+  spacing: 16px;
+  text-color: @fg0;
+  border-radius: 8;
+}}
+
+element normal active {{
+  text-color: @bg2;
+}}
+
+element selected normal, element selected active {{
+  background-color: @bg2;
+  text-color: @fg0;
+}}
+
+element-icon {{
+  size: 1em;
+}}
+
+element-text {{
+  text-color: inherit;
+}}

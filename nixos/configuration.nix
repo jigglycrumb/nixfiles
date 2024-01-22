@@ -255,7 +255,7 @@ in
     packages = with pkgs; [
       appeditor # edit panthon app launcher entries
       arduino # code hardware things
-      bottles
+      # bottles
       brave # web browser
       clipgrab # youtube downloader
       cryptomator # file encryption
@@ -375,8 +375,10 @@ in
     ollama # run LLMs locally
 
     pamixer # volume control in hyprland
+    # pantheon.elementary-files
     # pcmanfm # file manager
     peazip # archive utility
+    rofi-calc # calculate things in rofi using natural language
     rofi-wayland # launcher
     rofimoji # emoji picker
     samba # de janeiro! *da da da da, dadada, dadada*
