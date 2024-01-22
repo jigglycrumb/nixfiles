@@ -345,6 +345,13 @@ in
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 
+  # nixpkgs.overlays = [
+  #   (final: prev: {
+  #     rofi-calc = prev.rofi-calc.override { rofi-unwrapped = prev.rofi-wayland-unwrapped; };
+  #   })
+  # ];
+
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -378,8 +385,13 @@ in
     # pantheon.elementary-files
     # pcmanfm # file manager
     peazip # archive utility
-    rofi-calc # calculate things in rofi using natural language
-    rofi-wayland # launcher
+
+    (rofi-wayland.override {
+      plugins = [ rofi-calc ];
+    })
+
+    # rofi-calc # calculate things in rofi using natural language
+    # rofi-wayland # launcher
     rofimoji # emoji picker
     samba # de janeiro! *da da da da, dadada, dadada*
     shotman # screenshot tool
