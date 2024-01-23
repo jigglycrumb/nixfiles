@@ -47,9 +47,8 @@ entry {{
 }}
 
 message {{
-  border: 2px 0 0;
-  border-color: @fg0;
-  background-color: @fg0;
+  background-color: @bg0;
+  text-color: @fg0;
 }}
 
 textbox {{
