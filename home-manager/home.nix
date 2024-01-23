@@ -89,10 +89,12 @@ in
 
     "Pictures/digiKam/digikamrc.template".source = home/Pictures/digiKam/digikamrc.template;
 
-    # ".config/hypr".source = dotfiles/config/hypr;
-
+    ".config/hypr".source = dotfiles/config/hypr;
+    ".config/kitty".source = dotfiles/config/kitty;
     ".config/rofi".source = dotfiles/config/rofi;
     ".config/swaylock".source = dotfiles/config/swaylock;
+    ".config/Thunar/uca.xml".source = dotfiles/config/Thunar/uca.xml;
+
     ".config/wal/templates".source = dotfiles/config/wal/templates;
 
     # ".config/waybar".source = dotfiles/config/waybar;

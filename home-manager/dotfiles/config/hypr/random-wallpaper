@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+while true; do
+  # read interval from config file
+  # this enables changing the interval on the fly
+  # even though this loop is endless
+  INTERVAL=$($HOME/.scripts/wallpaper-interval)
+  # set new random wallpaper
+  $HOME/.scripts/set-wallpaper
+  # go to sleep
+  sleep $INTERVAL
+done

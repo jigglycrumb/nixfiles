@@ -386,6 +386,9 @@ in
     # pcmanfm # file manager
     peazip # archive utility
 
+    (python3.withPackages (ps: with ps; [ requests ])) # needed for waybar weather script
+
+
     (rofi-wayland.override {
       plugins = [ rofi-calc ];
     })
