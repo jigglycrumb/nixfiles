@@ -94,10 +94,8 @@ in
     ".config/rofi".source = dotfiles/config/rofi;
     ".config/swaylock".source = dotfiles/config/swaylock;
     ".config/Thunar/uca.xml".source = dotfiles/config/Thunar/uca.xml;
-
     ".config/wal/templates".source = dotfiles/config/wal/templates;
-
-    # ".config/waybar".source = dotfiles/config/waybar;
+    ".config/waybar".source = dotfiles/config/waybar;
     ".config/wlogout".source = dotfiles/config/wlogout;
 
     ".functions".source = dotfiles/functions;
@@ -396,6 +394,7 @@ in
       # NixOS specific things
       boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
       nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 14d && sudo nixos-rebuild boot";
+      nixos-update = "sudo nix-channel - -update nixos";
 
       # OSX debris
 

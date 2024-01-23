@@ -201,18 +201,18 @@ in
   # virtualisation.virtualbox.guest.enable = true;
 
   # Enable Virt-manager
-  # virtualisation.libvirtd = {
-  #   enable = true;
-  #   qemu = {
-  #     swtpm.enable = true;
-  #     ovmf.enable = true;
-  #     ovmf.packages = [ pkgs.OVMFFull.fd ];
-  #   };
-  # };
-  # virtualisation.spiceUSBRedirection.enable = true;
-  # services.spice-vdagentd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      swtpm.enable = true;
+      ovmf.enable = true;
+      ovmf.packages = [ pkgs.OVMFFull.fd ];
+    };
+  };
+  virtualisation.spiceUSBRedirection.enable = true;
+  services.spice-vdagentd.enable = true;
 
-  virtualisation.libvirtd.enable = true;
+  # virtualisation.libvirtd.enable = true;
   # programs.dconf.enable = true; # virt-manager requires dconf to remember settings
   programs.virt-manager.enable = true;
 
@@ -255,7 +255,6 @@ in
     packages = with pkgs; [
       appeditor # edit panthon app launcher entries
       arduino # code hardware things
-      # bottles
       brave # web browser
       clipgrab # youtube downloader
       cryptomator # file encryption
@@ -268,15 +267,13 @@ in
       etcher # burn images to SD cards
       # ffmpeg # needed for mediathekview
       firefox # web browser
-      flatpak # flatpak support
+      # flatpak # flatpak support
       gimp # image manipulation
       # gnome.gnome-software # needed for flatpak
       gnome.evince # document viewer
-      # gnome.gnome-boxes # VM manager
       gnome.seahorse # keyring manager
       gnome.simple-scan # scan documents
       godot_4 # game engine
-      # gparted # drive partition manager
       handbrake # video encoding
       heroic # GUI for GOG & Epic Games
       jstest-gtk # simple joystick testing GUI
@@ -287,26 +284,17 @@ in
       milkytracker
       nix-info
       opensnitch-ui # GUI for opensnitch application firewall
-
-      # pantheon.elementary-files
-      # pantheon.elementary-music
-      # pantheon.elementary-photos
-      # pantheon.elementary-videos
-
       pika-backup # a backup thing
       protonup-qt # GUI too to manage Steam compatibility tools
       scummvm # emulates old adventure games
       signal-desktop # private messenger
       sonic-pi # code music
-      sparrow
+      # sparrow
       tor-browser-bundle-bin # browser for the evil dark web
       torrential
       # ungoogled-chromium # chrome without google
       vlc # media player
       vscode # code editor
-      # vscodium
-      # vscodium-fhs
-      # wine
     ];
   };
 
@@ -344,14 +332,6 @@ in
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-
-  # nixpkgs.overlays = [
-  #   (final: prev: {
-  #     rofi-calc = prev.rofi-calc.override { rofi-unwrapped = prev.rofi-wayland-unwrapped; };
-  #   })
-  # ];
-
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -362,7 +342,7 @@ in
     cliphist # clipboard history
     drawing # basic image editor, similar to MS Paint
     egl-wayland
-    # gnome.adwaita-icon-theme
+    gnome.adwaita-icon-theme # VM stuff
     gparted # drive partition manager
     home-manager # manage user configurations
     htop # like top, but better
@@ -380,40 +360,36 @@ in
     networkmanagerapplet # tray app for network management
     # oculante # fast image viewer
     ollama # run LLMs locally
-
-    pamixer # volume control in hyprland
-    # pantheon.elementary-files
+    pamixer # volume control in hyprlands
     # pcmanfm # file manager
     peazip # archive utility
 
     (python3.withPackages (ps: with ps; [ requests ])) # needed for waybar weather script
 
-
+    # launcher
     (rofi-wayland.override {
-      plugins = [ rofi-calc ];
+      plugins = [ rofi-calc ]; # calculate in rofi using natural language
+
     })
 
-    # rofi-calc # calculate things in rofi using natural language
-    # rofi-wayland # launcher
     rofimoji # emoji picker
     samba # de janeiro! *da da da da, dadada, dadada*
     shotman # screenshot tool
-    # spice
-    # spice-gtk
-    # spice-protocol
+    sparrow
+    spice # VM stuff
+    spice-gtk # VM stuff
+    spice-protocol # VM stuff
     swayidle
     swayimg # image viewer
     swaylock-effects # screen locker
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     usbutils
-    # virt-manager # virtual machines
-
-    # virt-viewer
+    virt-viewer # VM stuff
     waybar # wayland bar
     wget
-    # win-virtio
-    # win-spice
+    win-virtio # VM stuff
+    win-spice # VM stuff
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
     xboxdrv
