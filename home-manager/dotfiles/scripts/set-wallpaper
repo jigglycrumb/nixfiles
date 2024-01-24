@@ -3,8 +3,8 @@
 # transition config
 # TRANSITION_TYPE="random"
 TRANSITION_TYPE="simple"
-TRANSITION_FPS=60
-TRANSITION_STEP=60
+TRANSITION_FPS=20
+TRANSITION_STEP=20
 
 # read wallpaperrc
 RC_FILE=$HOME/.wallpaperrc

@@ -112,7 +112,22 @@ in
     '';
     ".wgetrc".source = dotfiles/wgetrc;
     ".local/share/applications/appimage".source = dotfiles/local/share/applications/appimage;
-    ".local/share/applications/other".source = dotfiles/local/share/applications/other;
+
+    # ".local/share/applications/other".source = dotfiles/local/share/applications/other;
+
+    ".local/share/applications/other/pico8.png".source = dotfiles/local/share/applications/other/pico8.png;
+    ".local/share/applications/other/Pico-8.desktop".text = ''
+      [Desktop Entry]
+      Name=pico-8
+      Comment=Fantasy Console
+      Exec=bash run.sh
+      Path=/home/${username}/Applications/pico-8
+      Icon=/home/${username}/.local/share/applications/other/pico8.png
+      Terminal=false
+      Type=Application
+      Categories=Development;
+    '';
+
     ".local/share/applications/secret".source = dotfiles/local/share/applications/secret;
 
     # You can also set the file content immediately.

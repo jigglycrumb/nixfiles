@@ -286,6 +286,7 @@ in
       opensnitch-ui # GUI for opensnitch application firewall
       pika-backup # a backup thing
       protonup-qt # GUI too to manage Steam compatibility tools
+      rhythmbox # GNOME music player
       scummvm # emulates old adventure games
       signal-desktop # private messenger
       sonic-pi # code music
