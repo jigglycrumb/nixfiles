@@ -267,6 +267,7 @@ in
       etcher # burn images to SD cards
       # ffmpeg # needed for mediathekview
       firefox # web browser
+      floorp # web browser
       # flatpak # flatpak support
       gimp # image manipulation
       # gnome.gnome-software # needed for flatpak
@@ -345,6 +346,7 @@ in
     egl-wayland
     gnome.adwaita-icon-theme # VM stuff
     gparted # drive partition manager
+    grimblast # screenshot tool
     home-manager # manage user configurations
     htop # like top, but better
     hyprpicker # pick colors from the screen
@@ -359,7 +361,7 @@ in
     musikcube # cli music player
     neofetch # I use nix btw
     networkmanagerapplet # tray app for network management
-    # oculante # fast image viewer
+    oculante # fast image viewer
     ollama # run LLMs locally
     pamixer # volume control in hyprlands
     # pcmanfm # file manager
@@ -375,7 +377,7 @@ in
 
     rofimoji # emoji picker
     samba # de janeiro! *da da da da, dadada, dadada*
-    shotman # screenshot tool
+    satty # screenshot annotation tool
     sparrow
     spice # VM stuff
     spice-gtk # VM stuff
@@ -385,16 +387,17 @@ in
     swaylock-effects # screen locker
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
-    usbutils
+    usbutils # provides lsusb
     virt-viewer # VM stuff
-    waybar # wayland bar
-    wget
+    # waybar
+    wget # download stuff
     win-virtio # VM stuff
     win-spice # VM stuff
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
-    xboxdrv
+    xboxdrv # X-Box gamepad support, I think
 
+    # wayland bar
     (waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
     })

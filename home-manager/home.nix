@@ -409,7 +409,7 @@ in
       # NixOS specific things
       boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
       nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 14d && sudo nixos-rebuild boot";
-      nixos-update = "sudo nix-channel - -update nixos";
+      nixos-update = "sudo nix-channel --update nixos";
 
       # OSX debris
 

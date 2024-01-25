@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# thin wrapper around grimblast
+# $1 = action (save, copy, copysave, edit)
+# $2 = area (active (active window), output (current screen), screen (all screens))
+
+SCREENSHOT_DIR=~/Pictures/Screenshots
+SCREENSHOT_FILE="$SCREENSHOT_DIR/Screenshot-$2-$(date +"%Y-%m-%d-%H:%M:%S").png"
+
+grimblast --notify $1 $2 $SCREENSHOT_FILE
