@@ -327,6 +327,18 @@ in
 
   };
 
+  # enable ledger udev rules
+  hardware.ledger.enable = true;
+
+  # alternative
+  # services.udev.packages = with pkgs; [
+  #   ledger-udev-rules
+  #   trezor-udev-rules
+  #   # potentially even more if you need them
+  # ];
+
+
+
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -338,12 +350,14 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     appimage-run # runs appimage apps
+    bisq-desktop
     # blueman # gtk based bluetooth manager
     brightnessctl # control screen brightness
     cifs-utils # mount samba shares
     cliphist # clipboard history
     drawing # basic image editor, similar to MS Paint
     egl-wayland
+    electrum
     gnome.adwaita-icon-theme # VM stuff
     gparted # drive partition manager
     grimblast # screenshot tool
@@ -354,6 +368,7 @@ in
     # indicator-application-gtk3
     inetutils # telnet
     kitty # terminal
+    kooha # screen recording
     libreoffice # office suite
     libnotify # notification basics, includes notify-send
     # libsForQt5.kdeconnect-kde # KDE connect
@@ -389,10 +404,11 @@ in
     swww # wayland background image daemon
     usbutils # provides lsusb
     virt-viewer # VM stuff
-    # waybar
+    wasabiwallet
     wget # download stuff
     win-virtio # VM stuff
     win-spice # VM stuff
+    wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
     xboxdrv # X-Box gamepad support, I think
