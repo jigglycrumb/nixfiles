@@ -34,6 +34,7 @@
       "disk",
       "battery",
       "custom/weather",
+      "custom/discordian-date",
       "custom/moon-phase",
       "custom/bitcoin",
       // "bluetooth",
@@ -132,6 +133,14 @@
       "format": "",
       "tooltip": false,
       "on-click": "cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+    },
+
+    "custom/discordian-date": {
+      "format": "{}",
+      "tooltip": true,
+      "interval": 3600,
+      "exec": "~/.config/waybar/scripts/discordian-date.js",
+      "return-type": "json"
     },
 
     "custom/kitty": {

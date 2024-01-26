@@ -102,7 +102,7 @@ tooltip label {
 #cpu,
 #custom-bitcoin,
 #custom-clipboard,
-#custom-fortune,
+#custom-discordian-date,
 #custom-media,
 #custom-moon-phase,
 #custom-weather,
@@ -137,6 +137,10 @@ tooltip label {
 }
 
 /* add this style if you want the icon to be bitcoin-orange */
+
+#custom-discordian-date {
+  color: gold;
+}
 
 #custom-bitcoin {
   color: #F2A900;

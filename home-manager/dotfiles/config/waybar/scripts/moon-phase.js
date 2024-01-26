@@ -126,7 +126,7 @@ function main() {
     "<span>" +
     ["<b>" + phaseLabel + "</b>", cycleProgress]
       .filter(output => output !== "")
-      .join("\n\n") +
+      .join("\n") +
     "</span>";
 
   const data = {
