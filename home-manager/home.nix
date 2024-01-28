@@ -214,7 +214,6 @@ in
   services.gpg-agent.enable = true;
 
 
-
   # programs.ssh.enable = true;
 
   programs.direnv = {

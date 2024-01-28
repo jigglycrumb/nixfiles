@@ -98,6 +98,10 @@ in
   # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
 
+
+  services.cockpit.enable = true;
+
+
   # Configure keymap in X11
   services.xserver = {
     layout = "de";
@@ -284,6 +288,7 @@ in
       # mediathekview # downloader for German public broadcasts
       milkytracker
       nix-info
+      npm-check-updates
       opensnitch-ui # GUI for opensnitch application firewall
       pika-backup # a backup thing
       protonup-qt # GUI too to manage Steam compatibility tools
@@ -296,6 +301,7 @@ in
       torrential
       # ungoogled-chromium # chrome without google
       vlc # media player
+      vokoscreen-ng
       vscode # code editor
     ];
   };
@@ -304,7 +310,8 @@ in
     "electron-19.1.9"
   ];
 
-  services.flatpak.enable = true;
+  # Enable flatpak support
+  # services.flatpak.enable = true;
 
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
@@ -403,6 +410,7 @@ in
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     usbutils # provides lsusb
+    # virtiofsd # enables shared folders between host and Windows VM
     virt-viewer # VM stuff
     wasabiwallet
     wget # download stuff
