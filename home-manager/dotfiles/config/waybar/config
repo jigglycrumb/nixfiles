@@ -40,6 +40,7 @@
       // "bluetooth",
       "tray",
       // "custom/clipboard",
+      "custom/screen-recording",
       "custom/notification",
       "custom/wlogout"
     ],
@@ -147,6 +148,14 @@
       "format": "",
       "tooltip": false,
       "on-click": "kitty"
+    },
+
+    "custom/screen-recording": {
+      "format": "{}",
+      "tooltip": true,
+      "interval": 1,
+      "exec": "~/.config/waybar/scripts/screen-recording.sh",
+      "return-type": "json"
     },
 
     "custom/thunar": {

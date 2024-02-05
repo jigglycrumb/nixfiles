@@ -283,6 +283,7 @@ in
       heroic # GUI for GOG & Epic Games
       jstest-gtk # simple joystick testing GUI
       # logseq
+      lmms # DAW similar to FL Studio
       makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
       # mediathekview # downloader for German public broadcasts
@@ -301,7 +302,6 @@ in
       torrential
       # ungoogled-chromium # chrome without google
       vlc # media player
-      vokoscreen-ng
       vscode # code editor
     ];
   };
@@ -311,7 +311,7 @@ in
   ];
 
   # Enable flatpak support
-  # services.flatpak.enable = true;
+  services.flatpak.enable = true;
 
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
@@ -374,6 +374,7 @@ in
     hyprkeys # print hyprland key bindings
     # indicator-application-gtk3
     inetutils # telnet
+    killall
     kitty # terminal
     kooha # screen recording
     libreoffice # office suite
@@ -400,6 +401,7 @@ in
     rofimoji # emoji picker
     samba # de janeiro! *da da da da, dadada, dadada*
     satty # screenshot annotation tool
+    slurp # select region on screen (used in screen recording script)
     sparrow
     spice # VM stuff
     spice-gtk # VM stuff
@@ -410,7 +412,7 @@ in
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     usbutils # provides lsusb
-    # virtiofsd # enables shared folders between host and Windows VM
+    virtiofsd # enables shared folders between host and Windows VM
     virt-viewer # VM stuff
     wasabiwallet
     wget # download stuff
