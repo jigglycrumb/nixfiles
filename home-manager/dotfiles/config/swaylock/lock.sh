@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-#import pywal colors
+# import pywal colors
 source "$HOME/.cache/wal/colors.sh"
 
 swaylock \

@@ -32,11 +32,12 @@ WALLPAPER=$(find $WALLPAPER_DIR -type f | shuf -n 1)
 # echo "new paper: $WALLPAPER"
 
 # set wallpaper, refresh theme, restart apps
+wal -i "$WALLPAPER" >/dev/null 2>&1 # create color scheme
+# sleep 1
 swww img "$WALLPAPER" \
   --transition-step $TRANSITION_STEP \
   --transition-fps $TRANSITION_FPS \
   --transition-type $TRANSITION_TYPE >/dev/null 2>&1 # set wallpaper
-wal -i "$WALLPAPER" >/dev/null 2>&1                  # create color scheme
 kill -9 $(pidof waybar)                              # kill waybar
 waybar >/dev/null 2>&1 &                             # start waybar
 kill -9 $(pidof swaync)                              # kill notification center

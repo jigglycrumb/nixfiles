@@ -122,7 +122,7 @@ in
 
   programs.hyprland = {
     enable = true;
-    # xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
+    xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
   };
 
   environment.sessionVariables = {
@@ -215,9 +215,6 @@ in
   };
   virtualisation.spiceUSBRedirection.enable = true;
   services.spice-vdagentd.enable = true;
-
-  # virtualisation.libvirtd.enable = true;
-  # programs.dconf.enable = true; # virt-manager requires dconf to remember settings
   programs.virt-manager.enable = true;
 
   # Enable Steam
@@ -262,8 +259,8 @@ in
       brave # web browser
       clipgrab # youtube downloader
       cryptomator # file encryption
-      # darktable # photo manager
-      deluge
+      deluge # bittorrent client
+      devilutionx # Diablo
       digikam # photo manager
       discord # (voice)chat
       dosbox-staging # emulates DOS software
@@ -272,9 +269,7 @@ in
       # ffmpeg # needed for mediathekview
       firefox # web browser
       floorp # web browser
-      # flatpak # flatpak support
       gimp # image manipulation
-      # gnome.gnome-software # needed for flatpak
       gnome.evince # document viewer
       gnome.seahorse # keyring manager
       gnome.simple-scan # scan documents
@@ -284,12 +279,13 @@ in
       jstest-gtk # simple joystick testing GUI
       # logseq
       lmms # DAW similar to FL Studio
+      lutris # play games
       makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
       # mediathekview # downloader for German public broadcasts
-      milkytracker
+      milkytracker # music tracker
       nix-info
-      npm-check-updates
+      npm-check-updates # tool to check package.json for updates
       opensnitch-ui # GUI for opensnitch application firewall
       pika-backup # a backup thing
       protonup-qt # GUI too to manage Steam compatibility tools
@@ -374,7 +370,7 @@ in
     hyprkeys # print hyprland key bindings
     # indicator-application-gtk3
     inetutils # telnet
-    killall
+    killall # Gotta kill 'em all!
     kitty # terminal
     kooha # screen recording
     libreoffice # office suite
@@ -416,8 +412,8 @@ in
     virt-viewer # VM stuff
     wasabiwallet
     wget # download stuff
-    win-virtio # VM stuff
-    win-spice # VM stuff
+    win-virtio # Windows VM stuff
+    win-spice # Windows VM stuff
     wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
