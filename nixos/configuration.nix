@@ -273,6 +273,7 @@ in
       gnome.evince # document viewer
       gnome.seahorse # keyring manager
       gnome.simple-scan # scan documents
+      # gnome.zenity
       godot_4 # game engine
       handbrake # video encoding
       heroic # GUI for GOG & Epic Games
@@ -287,8 +288,10 @@ in
       nix-info
       npm-check-updates # tool to check package.json for updates
       opensnitch-ui # GUI for opensnitch application firewall
+      # openxcom
       pika-backup # a backup thing
       protonup-qt # GUI too to manage Steam compatibility tools
+      retroarch
       rhythmbox # GNOME music player
       scummvm # emulates old adventure games
       signal-desktop # private messenger
@@ -296,6 +299,7 @@ in
       # sparrow
       tor-browser-bundle-bin # browser for the evil dark web
       torrential
+      ufoai
       # ungoogled-chromium # chrome without google
       vlc # media player
       vscode # code editor

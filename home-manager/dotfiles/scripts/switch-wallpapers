@@ -4,10 +4,9 @@
 # and sets a new wallpaper instantly
 
 if [ -z "$2" ]; then
-  echo "interval not set, defaulting"
   INTERVAL=60
-# TODO: if interval is set, check if it is actually a number
 else
+  # TODO: if interval is set, check if it is actually a number
   INTERVAL=$2
 fi
 
@@ -25,7 +24,8 @@ case $1 in
   ;;
 
 *)
-  echo "Usage: $0 <all|default|private> <refresh interval in seconds>"
+  echo "Usage: $(basename $0) <all|default|private> <refresh interval in seconds>"
+  exit 0
   ;;
 esac
 

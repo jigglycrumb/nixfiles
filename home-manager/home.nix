@@ -420,6 +420,11 @@ in
       # fun
       sl = "aplay ~/.sounds/train.wav & sl";
       space-opera = "telnet towel.blinkenlights.nl";
+
+      # games
+      diablo = "(cd ~/Games/Diablo && devilutionx) &";
+      diablo-hellfire = "(cd ~/Games/Diablo && devilutionx --hellfire) &";
+
     };
   };
 
