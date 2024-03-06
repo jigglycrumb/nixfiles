@@ -134,9 +134,9 @@ in
     CLUTTER_BACKEND = "wayland";
     SDL_VIDEODRIVER = "x11";
     MOZ_ENABLE_WAYLAND = "1";
-    QT_QPA_PLATFORM = "wayland";
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    # QT_QPA_PLATFORM = "wayland";
+    # QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    # QT_AUTO_SCREEN_SCALE_FACTOR = "1";
   };
 
 
@@ -169,7 +169,7 @@ in
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -257,6 +257,7 @@ in
       appeditor # edit panthon app launcher entries
       arduino # code hardware things
       brave # web browser
+      celestia # spaaaaaaaaaaace
       clipgrab # youtube downloader
       cryptomator # file encryption
       deluge # bittorrent client
@@ -278,6 +279,7 @@ in
       handbrake # video encoding
       heroic # GUI for GOG & Epic Games
       jstest-gtk # simple joystick testing GUI
+      kstars # spaaaaaaaaaaace
       # logseq
       lmms # DAW similar to FL Studio
       lutris # play games
@@ -297,6 +299,7 @@ in
       signal-desktop # private messenger
       sonic-pi # code music
       # sparrow
+      theforceengine # dark forces source port
       tor-browser-bundle-bin # browser for the evil dark web
       torrential
       ufoai
@@ -329,6 +332,10 @@ in
           pageup = "home";
           pagedown = "end";
         };
+        # leftalt = {
+        #   home = "pageup";
+        #   end = "pagedown";
+        # };
       };
     };
 
@@ -363,8 +370,9 @@ in
     cifs-utils # mount samba shares
     cliphist # clipboard history
     drawing # basic image editor, similar to MS Paint
-    egl-wayland
+    # egl-wayland
     electrum
+    exiftool # read & write exif data - integrates with digikam
     gnome.adwaita-icon-theme # VM stuff
     gparted # drive partition manager
     grimblast # screenshot tool
@@ -374,7 +382,7 @@ in
     hyprkeys # print hyprland key bindings
     # indicator-application-gtk3
     inetutils # telnet
-    killall # Gotta kill 'em all!
+    killall # Gotta kill 'em all! Currently used in screen recorder script
     kitty # terminal
     kooha # screen recording
     libreoffice # office suite
@@ -389,6 +397,7 @@ in
     pamixer # volume control in hyprlands
     # pcmanfm # file manager
     peazip # archive utility
+    powertop
 
     (python3.withPackages (ps: with ps; [ requests ])) # needed for waybar weather script
 

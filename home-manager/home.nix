@@ -36,6 +36,7 @@ in
   home.packages = with pkgs; [
     asciiquarium
     bat # fancy `cat` replacement
+    btop # like top, but better
     cmatrix # there is no spoon
     cowsay # moo
     ddate # discordian date
@@ -44,11 +45,13 @@ in
     eza # ls replacement
     font-awesome # icons for waybar (does not work in environment.systemPackages)
     fortune # mmh cookies
-    # killall
+    fzf # fuzzy finder
+    lf # file manager
     lolcat # 🌈
 
     # mate.mate-polkit
     meld # merge tool
+    ncdu
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
 
@@ -58,9 +61,11 @@ in
     ranger
     screen
     sl # choo choo
+    tldr # man but short
     tmux
     unzip
-    vitetris
+    vitetris # tetris
+    zoxide # a better cd
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -172,6 +177,12 @@ in
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+
+  # Enable atuin for shell history
+  programs.atuin.enable = true;
+  programs.atuin.flags = [ "--disable-up-arrow" ];
+
 
   # enable gnome keyring
   services.gnome-keyring.enable = true;
@@ -355,6 +366,9 @@ in
       # this makes kitty use the current pywal colors instantly
       # on launch, not just after refresh
       cat ~/.cache/wal/sequences
+
+      # init zoxide
+      eval "$(zoxide init --cmd cd zsh)"
     '';
     shellAliases = {
       c = "clear";
