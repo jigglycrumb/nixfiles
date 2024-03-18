@@ -98,14 +98,14 @@ in
   # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
 
-
   services.cockpit.enable = true;
-
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "de";
-    xkbVariant = "";
+    xkb = {
+      layout = "de";
+      variant = "";
+    };
 
     displayManager.gdm = {
       enable = true;
@@ -266,7 +266,7 @@ in
       discord # (voice)chat
       dosbox-staging # emulates DOS software
       easytag # edit mp3 tags
-      etcher # burn images to SD cards
+      # etcher # burn images to SD cards - currently broken
       # ffmpeg # needed for mediathekview
       firefox # web browser
       floorp # web browser
@@ -396,7 +396,7 @@ in
     ollama # run LLMs locally
     pamixer # volume control in hyprlands
     # pcmanfm # file manager
-    peazip # archive utility
+    # peazip # archive utility - build is broken at the moment
     powertop
 
     (python3.withPackages (ps: with ps; [ requests ])) # needed for waybar weather script
