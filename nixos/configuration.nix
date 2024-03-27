@@ -388,6 +388,7 @@ in
     libreoffice # office suite
     libnotify # notification basics, includes notify-send
     # libsForQt5.kdeconnect-kde # KDE connect
+    libsForQt5.ark # KDE archive utility
     mc # shell file manager
     musikcube # cli music player
     neofetch # I use nix btw
