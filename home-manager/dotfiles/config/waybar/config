@@ -230,7 +230,7 @@
       "format": "{ifname}",
       "format-wifi": " {signalStrength}%   {bandwidthUpBytes}   {bandwidthDownBytes}",
       "format-ethernet": "󰊗 {ipaddr}/{cidr}",
-      "format-disconnected": " no network",
+      "format-disconnected": "no network, GFY",
       "tooltip-format": "󰊗 {ifname} via {gwaddr}",
       "tooltip-format-wifi": " {essid} ({signalStrength}%) - {ipaddr}",
       "tooltip-format-ethernet": " {ifname}",
