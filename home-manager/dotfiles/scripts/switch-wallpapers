@@ -29,6 +29,6 @@ case $1 in
   ;;
 esac
 
-$HOME/.scripts/set-wallpaper
+kill -s USR1 $(pgrep -f endless-wallpaper-loop)
 
 exit 0

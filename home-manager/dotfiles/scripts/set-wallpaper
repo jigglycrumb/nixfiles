@@ -5,7 +5,7 @@
 TRANSITION_TYPE="simple"
 TRANSITION_FPS=12
 TRANSITION_STEP=20
-THEME_SATURATION=0.35 # 0.0-1.0
+THEME_SATURATION=0.5 # 0.0-1.0
 
 # read wallpaperrc
 RC_FILE=$HOME/.wallpaperrc
@@ -35,18 +35,12 @@ WALLPAPER=$(find $WALLPAPER_DIR -type f | shuf -n 1)
 # set wallpaper, refresh theme, restart apps
 wal --saturate $THEME_SATURATION -i "$WALLPAPER" >/dev/null 2>&1 # create color scheme
 
-# sleep 1
 swww img "$WALLPAPER" \
   --transition-step $TRANSITION_STEP \
   --transition-fps $TRANSITION_FPS \
   --transition-type $TRANSITION_TYPE >/dev/null 2>&1 # set wallpaper
 
-# reload waybar config to update colors
-# pkill -SIGUSR2 waybar
-
-kill -9 $(pidof waybar)  # kill waybar
-waybar >/dev/null 2>&1 & # start waybar
-
+pkill -SIGUSR2 waybar      # reload waybar config
 swaync-client --reload-css # reload notification center
 
 exit 0
