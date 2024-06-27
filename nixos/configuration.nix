@@ -40,6 +40,9 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.plugins = with pkgs; [
+    networkmanager-openvpn
+  ];
 
   # networking.firewall.trustedInterfaces = [ "virbr0" ];
 
@@ -130,7 +133,6 @@ in
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
-    GDK_BACKEND = "wayland";
     CLUTTER_BACKEND = "wayland";
     SDL_VIDEODRIVER = "x11";
     MOZ_ENABLE_WAYLAND = "1";
@@ -139,6 +141,7 @@ in
     # QT_AUTO_SCREEN_SCALE_FACTOR = "1";
   };
 
+  xdg.portal.enable = true;
 
   # Configure console keymap
   console.keyMap = "de";
@@ -222,7 +225,10 @@ in
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    gamescopeSession.enable = true;
   };
+
+  programs.gamemode.enable = true;
 
   programs.thunar = {
     enable = true;
@@ -254,71 +260,110 @@ in
     ];
     shell = pkgs.zsh;
     packages = with pkgs; [
+      affine # workspace / knowledge space
+      ags # desktop widget system
+      amberol # music player
+      angband # lotr cli roguelike
+      angryipscanner # network scanner
       appeditor # edit panthon app launcher entries
       arduino # code hardware things
+      ardour # audio/midi recorder/mixer
+      ascii-draw # draw diagrams etc in ASCII
+      asciicam # webcam in the terminal
+      # bisq-desktop
+      blanket # ambient sounds
       brave # web browser
+      bruno # API client/tester/explorer
+      calibre # ebook software
+      caligula # # burn/flash images to SD cards from the terminal
+      castero # cli podcast client
       celestia # spaaaaaaaaaaace
+      cinnamon.nemo-with-extensions # file manager
       clipgrab # youtube downloader
+      cmus # cli music player
+      cointop # cli crypto tracker
+      cool-retro-term # terminal emulator
+      cozy # audio book player
+      crawl # roguelike
+      czkawka # remove useless files
       cryptomator # file encryption
-      deluge # bittorrent client
       devilutionx # Diablo
+      devour # devours your current terminal
       digikam # photo manager
       discord # (voice)chat
       dosbox-staging # emulates DOS software
       easytag # edit mp3 tags
-      # etcher # burn images to SD cards - currently broken
+      # electrum
       # ffmpeg # needed for mediathekview
+      famistudio # NES music editor
       firefox # web browser
-      floorp # web browser
+      foliate # ebook reader
+      furnace # multi-system chiptune tracker
+      g4music # music player
       gimp # image manipulation
+      gnome.cheese # webcam fun
       gnome.evince # document viewer
       gnome.seahorse # keyring manager
       gnome.simple-scan # scan documents
       # gnome.zenity
       godot_4 # game engine
-      handbrake # video encoding
+      grandorgue # virtual pipe organ
+      # handbrake # video encoding
       heroic # GUI for GOG & Epic Games
+      hydrogen # drum machine
       jstest-gtk # simple joystick testing GUI
+      kdenlive # video editor
+      keeperrl # roguelike
+      krita # painting software
       kstars # spaaaaaaaaaaace
       # logseq
+      letterpress # convert images to ascii art
       lmms # DAW similar to FL Studio
+      localsend # like Airdrop
+      lollypop # music player
+      losslesscut-bin # cut video fast
       lutris # play games
       makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
       # mediathekview # downloader for German public broadcasts
       milkytracker # music tracker
+      musikcube # cli music player
+      neovim # text editor
       nix-info
       npm-check-updates # tool to check package.json for updates
+      nwg-launchers # contains nwggrid, a launchpad like app launcher
+      obsidian # personal knowledge base
+      ollama # run LLMs locally
       opensnitch-ui # GUI for opensnitch application firewall
       # openxcom
       pika-backup # a backup thing
+      pipes # terminal screensaver
       protonup-qt # GUI too to manage Steam compatibility tools
       retroarch
       rhythmbox # GNOME music player
+      rtorrent # terminal torrent client
       scummvm # emulates old adventure games
-      signal-desktop # private messenger
+      signal-desktop # messenger
+      simplex-chat-desktop # messenger
       sonic-pi # code music
-      # sparrow
+      sparrow
       theforceengine # dark forces source port
       tor-browser-bundle-bin # browser for the evil dark web
-      torrential
-      ufoai
       # ungoogled-chromium # chrome without google
+      ventoy # create a multi-boot usb stick
       vlc # media player
       vscode # code editor
+      wasabiwallet
+      yazi # terminal file manager
     ];
   };
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-19.1.9"
-  ];
 
   # Enable flatpak support
   services.flatpak.enable = true;
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "${username}";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "${username}";
 
   # Enable keyd to remap keyboard keys
   services.keyd = {
@@ -351,9 +396,6 @@ in
   #   # potentially even more if you need them
   # ];
 
-
-
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -364,18 +406,22 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     appimage-run # runs appimage apps
-    bisq-desktop
     # blueman # gtk based bluetooth manager
     brightnessctl # control screen brightness
     cifs-utils # mount samba shares
+    clinfo
     cliphist # clipboard history
+    door-knocker # check availability of portals
     drawing # basic image editor, similar to MS Paint
     # egl-wayland
-    electrum
+    easyeffects # effects for pipewire apps
     exiftool # read & write exif data - integrates with digikam
     gnome.adwaita-icon-theme # VM stuff
     gparted # drive partition manager
+    gpu-viewer # gui for GPU info
+    gpuvis # gpu trace visualizer
     grimblast # screenshot tool
+    helvum # patchbay for PipeWire
     home-manager # manage user configurations
     htop # like top, but better
     hyprpicker # pick colors from the screen
@@ -384,35 +430,35 @@ in
     inetutils # telnet
     killall # Gotta kill 'em all! Currently used in screen recorder script
     kitty # terminal
-    kooha # screen recording
     libreoffice # office suite
     libnotify # notification basics, includes notify-send
-    # libsForQt5.kdeconnect-kde # KDE connect
     libsForQt5.ark # KDE archive utility
-    mc # shell file manager
-    musikcube # cli music player
+    # mate.mate-polkit
+    mc # dual pane terminal file manager
+    micro # terminal editor
     neofetch # I use nix btw
     networkmanagerapplet # tray app for network management
+    nh # nix helper
+    nix-output-monitor # nom nom nom
+    nvd # nix version diff
     oculante # fast image viewer
-    ollama # run LLMs locally
-    pamixer # volume control in hyprlands
-    # pcmanfm # file manager
+    pamixer # terminal volume control
+    pavucontrol # GUI volume conrol
     # peazip # archive utility - build is broken at the moment
-    powertop
+    powertop # power monitor
+    pulseaudio # pactl
 
     (python3.withPackages (ps: with ps; [ requests ])) # needed for waybar weather script
 
-    # launcher
-    (rofi-wayland.override {
-      plugins = [ rofi-calc ]; # calculate in rofi using natural language
+    radeontop
+    reaper # DAW
+    rocmPackages.rocminfo
 
-    })
-
+    rofi-wayland # launcher
     rofimoji # emoji picker
     samba # de janeiro! *da da da da, dadada, dadada*
     satty # screenshot annotation tool
     slurp # select region on screen (used in screen recording script)
-    sparrow
     spice # VM stuff
     spice-gtk # VM stuff
     spice-protocol # VM stuff
@@ -424,13 +470,13 @@ in
     usbutils # provides lsusb
     virtiofsd # enables shared folders between host and Windows VM
     virt-viewer # VM stuff
-    wasabiwallet
     wget # download stuff
     win-virtio # Windows VM stuff
     win-spice # Windows VM stuff
     wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
+    wlsunset # day/night gamma adjustments
     xboxdrv # X-Box gamepad support, I think
 
     # wayland bar
@@ -439,8 +485,6 @@ in
     })
     )
   ];
-
-  # programs.pantheon-tweaks.enable = true;
 
   fileSystems."/home/${username}/Remote/NAS" = {
     device = "//wopr/nas";
@@ -452,7 +496,6 @@ in
       "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
     ];
   };
-
 
   # fonts.packages = with pkgs; [
   #   noto-fonts
@@ -487,7 +530,6 @@ in
   #   options = "--delete-older-than 7d";
   # };
 
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -506,6 +548,16 @@ in
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  networking.firewall = {
+    enable = true;
+    # allowedTCPPorts = [ 34113 ];
+    # allowedUDPPortRanges = [
+    #   { from = 4000; to = 4007; }
+    #   { from = 8000; to = 8010; }
+    # ];
+  };
+
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -569,7 +621,14 @@ in
   # amdvlk is not needed for basic vulkan support but nice to have I guess
   hardware.opengl.extraPackages = with pkgs; [
     amdvlk
+    # rocmPackages
+    rocmPackages.clr.icd
+    rocmPackages.rocm-runtime
+    rocmPackages.rocm-smi
+    # rocm-opencl-icd
+    # rocm-runtime-ext
   ];
+
   # For 32 bit applications
   # Only available on unstable
   hardware.opengl.extraPackages32 = with pkgs; [

@@ -105,7 +105,9 @@ tooltip label {
 #custom-bitcoin,
 #custom-clipboard,
 #custom-discordian-date,
+#custom-launcher,
 #custom-media,
+#custom-microphone,
 #custom-moon-phase,
 #custom-screen-recording,
 #custom-weather,
@@ -133,6 +135,7 @@ tooltip label {
   padding: 4px 8px;
 }
 
+#custom-launcher,
 #custom-kitty,
 #custom-thunar,
 #custom-brave {
@@ -149,10 +152,12 @@ tooltip label {
   color: #F2A900;
 }
 
+#custom-microphone,
 #custom-screen-recording {
   color: @icon-red;
 }
 
+#custom-microphone.hidden,
 #custom-screen-recording.hidden {
   padding: 0;
 }

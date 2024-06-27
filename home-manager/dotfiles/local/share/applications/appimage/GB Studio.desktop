@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=GB Studio
+Comment=Create Gameboy games (AppImage)
+Exec=appimage-run gb-studio-linux.AppImage
+Path=/home/jigglycrumb/Applications
+Icon=/home/jigglycrumb/.local/share/applications/appimage/gbstudio.png
+Terminal=false
+Type=Application
+Categories=Development;

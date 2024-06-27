@@ -37,6 +37,7 @@ in
     asciiquarium
     bat # fancy `cat` replacement
     btop # like top, but better
+    cava # terminal audio visualizer
     cmatrix # there is no spoon
     cowsay # moo
     ddate # discordian date
@@ -46,23 +47,16 @@ in
     font-awesome # icons for waybar (does not work in environment.systemPackages)
     fortune # mmh cookies
     fzf # fuzzy finder
-    lf # file manager
     lolcat # 🌈
-
-    # mate.mate-polkit
     meld # merge tool
-    ncdu
+    ncdu # show disk usage
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
-
     ponysay # like cowsay, but 20% cooler
-
     pywal # color schemes from images
-    ranger
     screen
     sl # choo choo
     tldr # man but short
-    tmux
     unzip
     vitetris # tetris
     zoxide # a better cd
@@ -98,6 +92,7 @@ in
     ".config/kitty".source = dotfiles/config/kitty;
     ".config/rofi".source = dotfiles/config/rofi;
     ".config/swaylock".source = dotfiles/config/swaylock;
+    ".config/swaync".source = dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = dotfiles/config/wal/templates;
     ".config/waybar".source = dotfiles/config/waybar;
@@ -107,6 +102,8 @@ in
     ".scripts".source = dotfiles/scripts;
     ".sounds".source = dotfiles/sounds;
     ".ssh".source = dotfiles/ssh;
+
+
     ".vscode/argv.json".text = ''
       {
         // disable crash reporting
@@ -115,6 +112,8 @@ in
         "password-store": "gnome"
       }
     '';
+
+    ".rtorrent.rc".source = dotfiles/rtorrent.rc;
     ".wgetrc".source = dotfiles/wgetrc;
     ".local/share/applications/appimage".source = dotfiles/local/share/applications/appimage;
 
@@ -432,7 +431,7 @@ in
       clean-osx-shitfiles = "find . -type f -name '._*' -ls -delete";
 
       # fun
-      sl = "aplay ~/.sounds/train.wav & sl";
+      sl = "aplay -q ~/.sounds/train.wav & sl";
       space-opera = "telnet towel.blinkenlights.nl";
 
       # games

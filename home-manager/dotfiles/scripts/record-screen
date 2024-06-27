@@ -7,18 +7,19 @@
 
 RECORDING_DIR=~/Videos/Recordings
 RECORDING_FILE="$RECORDING_DIR/Recording-$(date +"%Y-%m-%d--%H-%M-%S").mp4"
+SCREEN="eDP-1" # internal display
 
 if [ -z $(pgrep wf-recorder) ]; then
   # record selection
   if [ "$1" == "-s" ]; then
     rect=$(slurp -c "#FFFFFF")
     notify-send "Recording selected area" --icon=media-record
-    wf-recorder -f $RECORDING_FILE -a -g "$rect" >/dev/null 2>&1 &
+    wf-recorder -o $SCREEN -f $RECORDING_FILE -a -g "$rect" >/dev/null 2>&1 &
 
   # record screen
   else
     notify-send "Recording screen" --icon=media-record
-    wf-recorder -f $RECORDING_FILE -a >/dev/null 2>&1 &
+    wf-recorder -o $SCREEN -f $RECORDING_FILE -a >/dev/null 2>&1 &
   fi
 else
   killall -s SIGINT wf-recorder
