@@ -40,7 +40,16 @@ swww img "$WALLPAPER" \
   --transition-fps $TRANSITION_FPS \
   --transition-type $TRANSITION_TYPE >/dev/null 2>&1 # set wallpaper
 
-pkill -SIGUSR2 waybar      # reload waybar config
+# these would be better methods for reloading waybar
+# but other apps crash randomly when using these
+# i don't know why
+
+# pkill -SIGUSR2 waybar      # reload waybar config
+# kill -s USR2 $(pgrep -f waybar)
+
+kill -9 $(pidof waybar)  # kill waybar
+waybar >/dev/null 2>&1 & # start waybar
+
 swaync-client --reload-css # reload notification center
 
 exit 0
