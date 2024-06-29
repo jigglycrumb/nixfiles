@@ -57,6 +57,7 @@ in
     screen
     sl # choo choo
     tldr # man but short
+    tmux
     unzip
     vitetris # tetris
     zoxide # a better cd
@@ -91,7 +92,6 @@ in
     ".config/hypr".source = dotfiles/config/hypr;
     ".config/kitty".source = dotfiles/config/kitty;
     ".config/rofi".source = dotfiles/config/rofi;
-    ".config/swaylock".source = dotfiles/config/swaylock;
     ".config/swaync".source = dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = dotfiles/config/wal/templates;

@@ -220,7 +220,7 @@
 
     "custom/wlogout": {
       "format": "",
-      "on-click": "wlogout",
+      "on-click": "~/.config/wlogout/wlogout.sh",
       "tooltip": false
     },
 
@@ -246,7 +246,8 @@
       "interface": "wlp2s0",
       "interval": 5,
       "format": "{ifname}",
-      "format-wifi": " {signalStrength}%   {bandwidthUpBytes}   {bandwidthDownBytes}",
+      // "format-wifi": " {signalStrength}%   {bandwidthUpBytes}   {bandwidthDownBytes}",
+      "format-wifi": " {bandwidthUpBytes}   {bandwidthDownBytes}",
       "format-ethernet": "󰊗 {ipaddr}/{cidr}",
       "format-disconnected": "no network, GFY",
       "tooltip-format": "󰊗 {ifname} via {gwaddr}",

@@ -105,7 +105,6 @@ tooltip label {
 #custom-bitcoin,
 #custom-clipboard,
 #custom-discordian-date,
-#custom-launcher,
 #custom-media,
 #custom-microphone,
 #custom-moon-phase,
@@ -114,6 +113,7 @@ tooltip label {
 #custom-wlogout,
 #custom-notification,
 
+#custom-launcher,
 #custom-brave,
 #custom-kitty,
 #custom-thunar,
@@ -140,6 +140,17 @@ tooltip label {
 #custom-thunar,
 #custom-brave {
   color: @color6;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  border-radius: 6px;
+}
+
+#custom-launcher:hover,
+#custom-kitty:hover,
+#custom-thunar:hover,
+#custom-brave:hover {
+  color: @background;
+  background: @color6;
 }
 
 /* add this style if you want the icon to be bitcoin-orange */

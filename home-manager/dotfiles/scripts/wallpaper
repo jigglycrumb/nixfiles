@@ -1,36 +1,20 @@
 #!/usr/bin/env bash
 
+WALLPAPER=$1
+
 # Script config
 # TRANSITION_TYPE="random"
 TRANSITION_TYPE="simple"
 TRANSITION_FPS=12
 TRANSITION_STEP=20
-THEME_SATURATION=0.5 # 0.0-1.0
-
-# read wallpaperrc
-RC_FILE=$HOME/.wallpaperrc
+THEME_SATURATION=0.4 # 0.0-1.0
 
 echo "setting new wallpaper..."
+echo $WALLPAPER
 
-# if file isnt found, fall back to default folder + interval
-if [ ! -f "$RC_FILE" ]; then
-  echo "no wallpaper config found, enabling default wallpapers..."
-  $HOME/.scripts/switch-wallpapers default 60
-fi
-
-# read wallpaper folder from config file
-WALLPAPER_DIR=$(cat $RC_FILE | cut -d ":" -f 1)
-echo "folder: $WALLPAPER_DIR"
-
-# get wallpaper interval
-INTERVAL=$($HOME/.scripts/wallpaper-interval)
-echo "interval: $INTERVAL"
-
-# write config file?
-
-WALLPAPER=$(find $WALLPAPER_DIR -type f | shuf -n 1)
-
-# echo "new paper: $WALLPAPER"
+# write wallpaper to cache for hyprlock - warning: spaces in the filename will break hyprlock background
+# check hyprlock.conf for more details
+echo "\$wallpaper = $WALLPAPER" >$HOME/.cache/hyprland/hyprlock-wallpaper
 
 # set wallpaper, refresh theme, restart apps
 wal --saturate $THEME_SATURATION -i "$WALLPAPER" >/dev/null 2>&1 # create color scheme
@@ -44,8 +28,12 @@ swww img "$WALLPAPER" \
 # but other apps crash randomly when using these
 # i don't know why
 
+# hyprctl dispatch exec pkill -SIGUSR2 waybar
+
 # pkill -SIGUSR2 waybar      # reload waybar config
 # kill -s USR2 $(pgrep -f waybar)
+
+# pkill -USR2 waybar
 
 kill -9 $(pidof waybar)  # kill waybar
 waybar >/dev/null 2>&1 & # start waybar

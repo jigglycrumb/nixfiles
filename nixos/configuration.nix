@@ -365,6 +365,9 @@ in
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "${username}";
 
+  services.hypridle.enable = true; # enable hyprland idle daemon
+  programs.hyprlock.enable = true; # enable hyprland screen lock
+
   # Enable keyd to remap keyboard keys
   services.keyd = {
     enable = true;
@@ -424,10 +427,11 @@ in
     helvum # patchbay for PipeWire
     home-manager # manage user configurations
     htop # like top, but better
-    hyprpicker # pick colors from the screen
     hyprkeys # print hyprland key bindings
+    hyprpicker # pick colors from the screen
     # indicator-application-gtk3
     inetutils # telnet
+    jq # query JSON
     killall # Gotta kill 'em all! Currently used in screen recorder script
     kitty # terminal
     libreoffice # office suite
@@ -464,15 +468,12 @@ in
     spice-protocol # VM stuff
     swayidle
     swayimg # image viewer
-    swaylock-effects # screen locker
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     usbutils # provides lsusb
     virtiofsd # enables shared folders between host and Windows VM
     virt-viewer # VM stuff
     wget # download stuff
-    win-virtio # Windows VM stuff
-    win-spice # Windows VM stuff
     wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
@@ -508,12 +509,6 @@ in
   #   dina-font
   #   proggyfonts
   # ];
-
-  security.pam.services.swaylock = {
-    text = ''
-      auth include login
-    '';
-  };
 
   # Automatically upgrade the system
   # system.autoUpgrade = {
