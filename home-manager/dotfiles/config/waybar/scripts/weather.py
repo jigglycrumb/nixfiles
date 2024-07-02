@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # Based on <https://gist.github.com/bjesus/f8db49e1434433f78e5200dc403d58a3>
-# Note that the location info used with this is fetched from ~/.waybar_weather_location by default
+# Note that the location info used with this is fetched from ~/.cache/weather-location by default
 # Setup:
-# echo "<my city>" > ~/.waybar_weather_location
+# echo "<city>" > ~/.cache/weather-location
 
 import json
 import requests
@@ -66,7 +66,7 @@ data = {}
 location = ""
 
 try:
-    with open(os.path.expanduser("~/.waybar_weather_location")) as f:
+    with open(os.path.expanduser("~/.cache/weather-location")) as f:
         location = f.read().replace("\n", "").replace(",", "")
 except:
     location = ""

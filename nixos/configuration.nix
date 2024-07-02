@@ -255,17 +255,15 @@ in
       "docker"
       "libvirtd"
       "networkmanager"
-      "vboxusers"
-      "wheel"
+      # "vboxusers"
+      "wheel" # enables sudo
     ];
     shell = pkgs.zsh;
     packages = with pkgs; [
       affine # workspace / knowledge space
-      ags # desktop widget system
-      amberol # music player
       angband # lotr cli roguelike
       angryipscanner # network scanner
-      appeditor # edit panthon app launcher entries
+      appeditor # gui to edit app launcher entries (.desktop files)
       arduino # code hardware things
       ardour # audio/midi recorder/mixer
       ascii-draw # draw diagrams etc in ASCII
@@ -274,14 +272,13 @@ in
       blanket # ambient sounds
       brave # web browser
       bruno # API client/tester/explorer
+      calcurse # cli calendar / todo list
       calibre # ebook software
       caligula # # burn/flash images to SD cards from the terminal
       castero # cli podcast client
       celestia # spaaaaaaaaaaace
       cinnamon.nemo-with-extensions # file manager
       clipgrab # youtube downloader
-      cmus # cli music player
-      cointop # cli crypto tracker
       cool-retro-term # terminal emulator
       cozy # audio book player
       crawl # roguelike
@@ -296,19 +293,20 @@ in
       # electrum
       # ffmpeg # needed for mediathekview
       famistudio # NES music editor
+      file # identify file types
       firefox # web browser
       foliate # ebook reader
+      frotz # infocom game interpreter
       furnace # multi-system chiptune tracker
-      g4music # music player
       gimp # image manipulation
       gnome.cheese # webcam fun
       gnome.evince # document viewer
       gnome.seahorse # keyring manager
       gnome.simple-scan # scan documents
-      # gnome.zenity
       godot_4 # game engine
+      gossip # nostr client
       grandorgue # virtual pipe organ
-      # handbrake # video encoding
+      handbrake # video encoding
       heroic # GUI for GOG & Epic Games
       hydrogen # drum machine
       jstest-gtk # simple joystick testing GUI
@@ -320,7 +318,6 @@ in
       letterpress # convert images to ascii art
       lmms # DAW similar to FL Studio
       localsend # like Airdrop
-      lollypop # music player
       losslesscut-bin # cut video fast
       lutris # play games
       makemkv # DVD & Blu-Ray ripper
@@ -331,16 +328,15 @@ in
       neovim # text editor
       nix-info
       npm-check-updates # tool to check package.json for updates
-      nwg-launchers # contains nwggrid, a launchpad like app launcher
-      obsidian # personal knowledge base
+      # obsidian # personal knowledge base
       ollama # run LLMs locally
       opensnitch-ui # GUI for opensnitch application firewall
       # openxcom
       pika-backup # a backup thing
       pipes # terminal screensaver
       protonup-qt # GUI too to manage Steam compatibility tools
-      retroarch
-      rhythmbox # GNOME music player
+      retroarch # multi system emulator
+      rhythmbox # music player
       rtorrent # terminal torrent client
       scummvm # emulates old adventure games
       signal-desktop # messenger
@@ -354,12 +350,16 @@ in
       vlc # media player
       vscode # code editor
       wasabiwallet
+      wtype # fake keypresses in wayland (bookmarks mgmt)
       yazi # terminal file manager
     ];
   };
 
   # Enable flatpak support
   services.flatpak.enable = true;
+
+  # Enable AppImages to run directly
+  programs.appimage.binfmt = true;
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
@@ -419,6 +419,7 @@ in
     # egl-wayland
     easyeffects # effects for pipewire apps
     exiftool # read & write exif data - integrates with digikam
+    fuzzel # wayland app launcher
     gnome.adwaita-icon-theme # VM stuff
     gparted # drive partition manager
     gpu-viewer # gui for GPU info
@@ -437,6 +438,7 @@ in
     libreoffice # office suite
     libnotify # notification basics, includes notify-send
     libsForQt5.ark # KDE archive utility
+    linuxKernel.packages.linux_libre.cpupower # switch CPU governors
     # mate.mate-polkit
     mc # dual pane terminal file manager
     micro # terminal editor
@@ -458,15 +460,12 @@ in
     reaper # DAW
     rocmPackages.rocminfo
 
-    rofi-wayland # launcher
-    rofimoji # emoji picker
     samba # de janeiro! *da da da da, dadada, dadada*
     satty # screenshot annotation tool
     slurp # select region on screen (used in screen recording script)
     spice # VM stuff
     spice-gtk # VM stuff
     spice-protocol # VM stuff
-    swayidle
     swayimg # image viewer
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
@@ -607,14 +606,13 @@ in
   # hardware.bluetooth.powerOnBoot = true;reboot
 
   # Enable Vulkan
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
+  hardware.graphics.enable = true;
   # For 32 bit applications
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.enable32Bit = true;
 
   # Enable amdvlk driver - apps choose between mesa and this one
   # amdvlk is not needed for basic vulkan support but nice to have I guess
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
     amdvlk
     # rocmPackages
     rocmPackages.clr.icd
@@ -626,7 +624,7 @@ in
 
   # For 32 bit applications
   # Only available on unstable
-  hardware.opengl.extraPackages32 = with pkgs; [
+  hardware.graphics.extraPackages32 = with pkgs; [
     driversi686Linux.amdvlk
   ];
 

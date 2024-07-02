@@ -9,7 +9,8 @@ let
   # The secrets.nix file is just a simple set like this:
   #
   # {
-  #   github-token = "<insert token here>";
+  #   github-token = "<token>";
+  #   weather-location = "<city>";
   # }
 
   secrets = import ./secrets.nix;
@@ -49,6 +50,7 @@ in
     fzf # fuzzy finder
     lolcat # 🌈
     meld # merge tool
+    mpc-cli # control mpd music daemon
     ncdu # show disk usage
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
@@ -89,9 +91,30 @@ in
 
     "Pictures/digiKam/digikamrc.template".source = home/Pictures/digiKam/digikamrc.template;
 
+    ".cache/weather-location".text = ''
+      ${secrets.weather-location}
+    '';
+
+    ".config/atuin/config.toml".text = ''
+      ## exec command on enter, edit on tab
+      enter_accept = true
+
+      ## use history of current shell when invoked with up arrow
+      filter_mode_shell_up_key_binding = "session"
+
+      ## date format used, either "us" or "uk"
+      dialect = "uk"
+
+      ## disable automatic sync
+      auto_sync = false
+
+      ## disable automatic update checks
+      update_check = false
+    '';
+
+    ".config/fuzzel/scripts".source = dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = dotfiles/config/hypr;
     ".config/kitty".source = dotfiles/config/kitty;
-    ".config/rofi".source = dotfiles/config/rofi;
     ".config/swaync".source = dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = dotfiles/config/wal/templates;
@@ -157,7 +180,7 @@ in
   #
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "micro";
   };
 
   home.pointerCursor = {
@@ -180,7 +203,7 @@ in
 
   # Enable atuin for shell history
   programs.atuin.enable = true;
-  programs.atuin.flags = [ "--disable-up-arrow" ];
+  # programs.atuin.flags = [ "--disable-up-arrow" ];
 
 
   # enable gnome keyring
@@ -223,6 +246,15 @@ in
 
   services.gpg-agent.enable = true;
 
+  services.mpd = {
+    enable = true;
+    musicDirectory = /home/${username}/Remote/NAS/Audio/Music;
+  };
+
+  programs.ncmpcpp.enable = true;
+
+
+  # services.swaync # todo check
 
   # programs.ssh.enable = true;
 
@@ -324,12 +356,11 @@ in
     enable = true;
     history = {
       ignoreAllDups = true;
-      ignorePatterns = [ "ls" "pwd" "date" "* --help" "man" ];
+      ignorePatterns = [ "ls" "pwd" "date" "* --help" "man" "tldr" ];
     };
     oh-my-zsh = {
       enable = true;
       theme = "cloud";
-      plugins = [ "git" ];
     };
     plugins = [
       {
@@ -412,16 +443,19 @@ in
       load = "git stash apply";
 
       # Nix the planet
-      run-msdos = "nix run github:matthewcroughan/NixThePlanet#msdos622";
-      run-osx = "nix run github:matthewcroughan/NixThePlanet#macos-ventura";
-      run-win311 = "nix run github:matthewcroughan/NixThePlanet#wfwg311";
-      run-win98 = "nix run github:matthewcroughan/NixThePlanet#win98";
+      run-msdos = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#msdos622 && cd $WD";
+      run-win311 = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#wfwg311&& cd $WD";
+      run-win98 = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#win98 && cd $WD";
 
 
       # NixOS specific things
       boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
-      nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 14d && sudo nixos-rebuild boot";
+      nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 14d"; # && sudo nixos-rebuild boot";
       nixos-update = "sudo nix-channel --update nixos";
+
+      # Home manager
+      home-manager-update = "cd ~/.config/home-manager && nix flake update";
+      home-manager-cleanup = "home-manager expire-generations '-14 days'";
 
       # OSX debris
 

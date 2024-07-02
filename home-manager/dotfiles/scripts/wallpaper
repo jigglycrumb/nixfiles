@@ -12,17 +12,22 @@ THEME_SATURATION=0.4 # 0.0-1.0
 echo "setting new wallpaper..."
 echo $WALLPAPER
 
-# write wallpaper to cache for hyprlock - warning: spaces in the filename will break hyprlock background
+# write wallpaper image path to cache for hyprlock - warning: spaces in the filename will break hyprlock background
 # check hyprlock.conf for more details
 echo "\$wallpaper = $WALLPAPER" >$HOME/.cache/hyprland/hyprlock-wallpaper
 
-# set wallpaper, refresh theme, restart apps
-wal --saturate $THEME_SATURATION -i "$WALLPAPER" >/dev/null 2>&1 # create color scheme
+# create new color scheme
+wal --saturate $THEME_SATURATION -i "$WALLPAPER" >/dev/null 2>&1
 
+# change wallpaper
 swww img "$WALLPAPER" \
   --transition-step $TRANSITION_STEP \
   --transition-fps $TRANSITION_FPS \
-  --transition-type $TRANSITION_TYPE >/dev/null 2>&1 # set wallpaper
+  --transition-type $TRANSITION_TYPE >/dev/null 2>&1
+
+# update fuzzel config - this is hacky, but it works :D
+cp -f $HOME/nixfiles/home-manager/dotfiles/config/fuzzel/fuzzel.ini.template $HOME/.config/fuzzel/fuzzel.ini
+cat $HOME/.cache/wal/colors-fuzzel.ini >>$HOME/.config/fuzzel/fuzzel.ini
 
 # these would be better methods for reloading waybar
 # but other apps crash randomly when using these

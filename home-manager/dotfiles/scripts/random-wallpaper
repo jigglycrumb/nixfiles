@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-# read wallpaperrc
-RC_FILE=$HOME/.wallpaperrc
+# read wallpaper config
+CONFIG_FILE=$HOME/.cache/wallpaper-config
 
 # if file isnt found, fall back to default folder + interval
-if [ ! -f "$RC_FILE" ]; then
+if [ ! -f "$CONFIG_FILE" ]; then
   echo "no wallpaper config found, enabling default wallpapers..."
   $HOME/.scripts/switch-wallpapers default 60
 fi
 
 # read wallpaper folder from config file
-WALLPAPER_DIR=$(cat $RC_FILE | cut -d ":" -f 1)
+WALLPAPER_DIR=$(cat $CONFIG_FILE | cut -d ":" -f 1)
 echo "folder: $WALLPAPER_DIR"
 
 # get wallpaper interval

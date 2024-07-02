@@ -297,7 +297,7 @@
         ]
       },
       "scroll-step": 1,
-      "on-click": "pavucontrol",
+      "on-click": "pidof pavucontrol && pkill pavucontrol || pavucontrol",
       "ignored-sinks": [
         "Easy Effects Sink"
       ]
