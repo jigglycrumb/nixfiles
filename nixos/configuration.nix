@@ -265,22 +265,22 @@ in
       angryipscanner # network scanner
       appeditor # gui to edit app launcher entries (.desktop files)
       arduino # code hardware things
-      ardour # audio/midi recorder/mixer
       ascii-draw # draw diagrams etc in ASCII
       asciicam # webcam in the terminal
       # bisq-desktop
+      audacity
       blanket # ambient sounds
+      bookworm # ebook reader
       brave # web browser
       bruno # API client/tester/explorer
       calcurse # cli calendar / todo list
-      calibre # ebook software
       caligula # # burn/flash images to SD cards from the terminal
       castero # cli podcast client
       celestia # spaaaaaaaaaaace
       cinnamon.nemo-with-extensions # file manager
+      cli-visualizer
       clipgrab # youtube downloader
       cool-retro-term # terminal emulator
-      cozy # audio book player
       crawl # roguelike
       czkawka # remove useless files
       cryptomator # file encryption
@@ -292,10 +292,9 @@ in
       easytag # edit mp3 tags
       # electrum
       # ffmpeg # needed for mediathekview
-      famistudio # NES music editor
       file # identify file types
       firefox # web browser
-      foliate # ebook reader
+      fluidsynth
       frotz # infocom game interpreter
       furnace # multi-system chiptune tracker
       gimp # image manipulation
@@ -312,6 +311,7 @@ in
       jstest-gtk # simple joystick testing GUI
       kdenlive # video editor
       keeperrl # roguelike
+      koodo-reader # ebook reader
       krita # painting software
       kstars # spaaaaaaaaaaace
       # logseq
@@ -335,8 +335,10 @@ in
       pika-backup # a backup thing
       pipes # terminal screensaver
       protonup-qt # GUI too to manage Steam compatibility tools
+      qsynth
       retroarch # multi system emulator
       rhythmbox # music player
+      rosegarden
       rtorrent # terminal torrent client
       scummvm # emulates old adventure games
       signal-desktop # messenger
@@ -457,7 +459,6 @@ in
     (python3.withPackages (ps: with ps; [ requests ])) # needed for waybar weather script
 
     radeontop
-    reaper # DAW
     rocmPackages.rocminfo
 
     samba # de janeiro! *da da da da, dadada, dadada*
@@ -496,6 +497,13 @@ in
       "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
     ];
   };
+
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
+
 
   # fonts.packages = with pkgs; [
   #   noto-fonts

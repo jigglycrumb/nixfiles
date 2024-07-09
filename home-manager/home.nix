@@ -48,17 +48,22 @@ in
     font-awesome # icons for waybar (does not work in environment.systemPackages)
     fortune # mmh cookies
     fzf # fuzzy finder
+    glow # markdown reader
+    hollywood # hacking...
+    htop # process monitor
     lolcat # 🌈
     meld # merge tool
-    mpc-cli # control mpd music daemon
     ncdu # show disk usage
+    nms
     nixpkgs-fmt # formatter for nix code, used in VSCode
     nodejs_20
     ponysay # like cowsay, but 20% cooler
     pywal # color schemes from images
     screen
     sl # choo choo
+    speedread # read text fast
     tldr # man but short
+    trash-cli # use trash can in the terminal
     tmux
     unzip
     vitetris # tetris
@@ -112,9 +117,18 @@ in
       update_check = false
     '';
 
+    ".config/direnv/direnv.toml".text = ''
+      [global]
+      hide_env_diff = true
+    '';
+
     ".config/fuzzel/scripts".source = dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = dotfiles/config/hypr;
-    ".config/kitty".source = dotfiles/config/kitty;
+    ".config/kitty/kitty.conf".text = ''
+      background_opacity 0.95
+      confirm_os_window_close 0
+      window_padding_width 4 6
+    '';
     ".config/swaync".source = dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = dotfiles/config/wal/templates;
@@ -245,14 +259,7 @@ in
   programs.gpg.enable = true;
 
   services.gpg-agent.enable = true;
-
-  services.mpd = {
-    enable = true;
-    musicDirectory = /home/${username}/Remote/NAS/Audio/Music;
-  };
-
-  programs.ncmpcpp.enable = true;
-
+  services.syncthing.enable = true;
 
   # services.swaync # todo check
 
@@ -387,7 +394,6 @@ in
 
       COMPLETION_WAITING_DOTS=true
 
-      cowsay "$(fortune)" | lolcat
 
       # source $HOME/.profile
 
@@ -399,6 +405,8 @@ in
 
       # init zoxide
       eval "$(zoxide init --cmd cd zsh)"
+
+      fortune | cowsay -f llama | lolcat
     '';
     shellAliases = {
       c = "clear";
@@ -427,7 +435,8 @@ in
       ga = "git add";
       gaa = "git add --all";
       gb = "git branch";
-      gbc = "git branch create";
+      gbc = "git checkout -b";
+      gcb = "git checkout -b";
       gbd = "git branch -D";
       gc = "git checkout";
       gco = "git commit";
@@ -465,6 +474,7 @@ in
       clean-osx-shitfiles = "find . -type f -name '._*' -ls -delete";
 
       # fun
+      decrypt-cookie = "fortune | nms -a | lolcat";
       sl = "aplay -q ~/.sounds/train.wav & sl";
       space-opera = "telnet towel.blinkenlights.nl";
 
@@ -474,9 +484,6 @@ in
 
     };
   };
-
-  services.syncthing.enable = true;
-  # services.syncthing.tray.enable = true;
 
   # do not create ~/Public & ~/Templates
   xdg.userDirs = {
