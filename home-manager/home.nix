@@ -35,39 +35,84 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    asciiquarium
+    angband # lotr terminal roguelike
+    asciicam # webcam in the terminal
+    asciiquarium # a fishy app
     bat # fancy `cat` replacement
+    bluetuith # terminal bluetooth manager
     btop # like top, but better
+    calcure # calendar tui
+    caligula # burn/flash images to SD cards from the terminal
+    castero # terminal podcast client
     cava # terminal audio visualizer
+    cbonsai # terminal tree
+    chess-tui # terminal chess
     cmatrix # there is no spoon
+    confetty # 🎊
     cowsay # moo
+    crawl # roguelike
+    daktilo # typewriter sounds for the keyboard
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
+    doge # much wow
+    dooit # todo tui
+    epy # terminal ebook reader
     eza # ls replacement
+    fast-ssh # ssh connection manager
+    file # identify file types
+    fluidsynth # software synthesizer
     font-awesome # icons for waybar (does not work in environment.systemPackages)
     fortune # mmh cookies
-    fzf # fuzzy finder
+    frotz # infocom game interpreter
+    fzf # fuzzy finder (zoxide)
+    gambit-chess # terminal chess
+    gitui # git tui
     glow # markdown reader
+    go # go programming language
+    gum # various little helpers
     hollywood # hacking...
     htop # process monitor
+    hyprland-monitor-attached # run scripts when monitors plug
+    # hyprlandPlugins.hyprexpo # workspace overview plugin
+    jp2a # convert jpg and png to ascii art
+    lazygit # git tui
     lolcat # 🌈
     meld # merge tool
+    minesweep-rs # terminal minesweeper
+    mprocs # run multiple processes at the same time
+    mpv # video player
+    musikcube # cli music player
+    neovim # text editor
     ncdu # show disk usage
-    nms
-    nixpkgs-fmt # formatter for nix code, used in VSCode
+    nms # decrypting...
+    nixfmt-rfc-style # formatter for nix code, used in VSCode
     nodejs_20
+    npm-check-updates # tool to check package.json for updates
+    ollama # run LLMs locally
+    oxker # docker container management tui
+    pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
     pywal # color schemes from images
+    rtorrent # terminal torrent client
     screen
+    scope-tui # terminal oscilloscope
     sl # choo choo
+    solitaire-tui # terminal card game
     speedread # read text fast
+    stockfish # chess engine
+    # textual-paint # terminal ms paint - build is currently broken
+    terminal-parrot # party parrot
+    termpdfpy # graphical pdf/ebook reader for kitty
+    # termusic # music player - very promising, but crashes a lot currently
     tldr # man but short
     trash-cli # use trash can in the terminal
     tmux
-    unzip
-    vitetris # tetris
-    zoxide # a better cd
+    tasktimer # task timer
+    unzip # extract zip files
+    ventoy # create multi-boot usb sticks
+    vitetris # terminal tetris
+    yazi # terminal file manager
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -128,6 +173,8 @@ in
       background_opacity 0.95
       confirm_os_window_close 0
       window_padding_width 4 6
+      font_size 12.0
+      font_family Hack
     '';
     ".config/swaync".source = dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = dotfiles/config/Thunar/uca.xml;
@@ -140,12 +187,9 @@ in
     ".sounds".source = dotfiles/sounds;
     ".ssh".source = dotfiles/ssh;
 
-
     ".vscode/argv.json".text = ''
       {
-        // disable crash reporting
         "enable-crash-reporter": false,
-        // use GNOME keyring
         "password-store": "gnome"
       }
     '';
@@ -210,20 +254,23 @@ in
     size = 22;
   };
 
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-
   # Enable atuin for shell history
   programs.atuin.enable = true;
-  # programs.atuin.flags = [ "--disable-up-arrow" ];
 
+  # Enable zoxide for cd
+  programs.zoxide.enable = true;
+  programs.zoxide.options = [ "--cmd cd" ];
 
   # enable gnome keyring
   services.gnome-keyring.enable = true;
-  services.gnome-keyring.components = [ "pkcs11" "secrets" "ssh" ];
-
+  services.gnome-keyring.components = [
+    "pkcs11"
+    "secrets"
+    "ssh"
+  ];
 
   # Let virt-manager connect to KVM
   dconf.settings = {
@@ -363,7 +410,14 @@ in
     enable = true;
     history = {
       ignoreAllDups = true;
-      ignorePatterns = [ "ls" "pwd" "date" "* --help" "man" "tldr" ];
+      ignorePatterns = [
+        "ls"
+        "pwd"
+        "date"
+        "* --help"
+        "man"
+        "tldr"
+      ];
     };
     oh-my-zsh = {
       enable = true;
@@ -388,25 +442,17 @@ in
       source ~/.functions/git-ls
       source ~/.functions/misc
 
-      # Bind some keys
-      bindkey "^[^[[C" forward-word
-      bindkey "^[^[[D" backward-word
-
       COMPLETION_WAITING_DOTS=true
 
-
-      # source $HOME/.profile
-
+      # add own scripts to PATH
       export PATH="$PATH:$HOME/.scripts"
 
       # this makes kitty use the current pywal colors instantly
       # on launch, not just after refresh
       cat ~/.cache/wal/sequences
 
-      # init zoxide
-      eval "$(zoxide init --cmd cd zsh)"
-
       fortune | cowsay -f llama | lolcat
+      echo ""
     '';
     shellAliases = {
       c = "clear";
@@ -456,10 +502,9 @@ in
       run-win311 = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#wfwg311&& cd $WD";
       run-win98 = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#win98 && cd $WD";
 
-
       # NixOS specific things
       boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
-      nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 14d"; # && sudo nixos-rebuild boot";
+      nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 14d";
       nixos-update = "sudo nix-channel --update nixos";
 
       # Home manager

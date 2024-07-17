@@ -62,7 +62,7 @@ function unidecode() {
 	echo # newline
 }
 
-# Get a character’s Unicode code point
+# Get a characters Unicode code point
 function codepoint() {
 	perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
 	echo # newline
@@ -124,4 +124,14 @@ function new-ssh-key() {
 	ssh-add "$private_key_file"
 	pbcopy <"$private_key_file.pub"
 	echo "copied public key to clipboard"
+}
+
+# yazi wrapper
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd "$cwd"
+	fi
+	rm -f -- "$tmp"
 }

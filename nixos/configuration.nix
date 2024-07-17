@@ -20,11 +20,10 @@ let
   username = "jigglycrumb";
 in
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    /etc/nixos/hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -40,12 +39,9 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.networkmanager.plugins = with pkgs; [
-    networkmanager-openvpn
-  ];
+  networking.networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
 
   # networking.firewall.trustedInterfaces = [ "virbr0" ];
-
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -70,38 +66,28 @@ in
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver.excludePackages = [ pkgs.xterm ]; # don't install xterm
 
-  # Enable the Pantheon Desktop Environment.
-  # services.xserver.displayManager.lightdm.enable = true;
-  # services.xserver.desktopManager.pantheon.enable = true;
-  # Fix problem which prevents login after hibernation by enabling the gtk greeter
-  # services.xserver.displayManager.lightdm.greeters.pantheon.enable = false;
-  # services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
-
-  # services.xserver.desktopManager.pantheon.extraWingpanelIndicators = with pkgs; [
-  #   monitor
-  #   wingpanel-indicator-ayatana
-  # ];
-  # services.xserver.desktopManager.pantheon.extraSwitchboardPlugs = [ ];
-
-  # systemd.user.services.indicatorapp = {
-  #   description = "indicator-application-gtk3";
-  #   wantedBy = [ "graphical-session.target" ];
-  #   partOf = [ "graphical-session.target" ];
-  #   serviceConfig = {
-  #     ExecStart = "${pkgs.indicator-application-gtk3}/libexec/indicator-application/indicator-application-service";
-  #   };
-  # };
-
-  # Skip some default pantheon apps
-  # environment.pantheon.excludePackages = with pkgs.pantheon; [
-  #   appcenter # Software center
-  #   epiphany # Web browser
-  # ];
-
   # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
 
+  # TODO: review this
   services.cockpit.enable = true;
+
+  # TODO: finish this: enable tuigreet from wlogout, disable autologin
+  services.greetd = {
+    enable = true;
+    package = pkgs.greetd.tuigreet;
+    settings = rec {
+      initial_session = {
+        command = "${pkgs.hyprland}/bin/Hyprland";
+        user = "${username}";
+      };
+      default_session = initial_session;
+    };
+  };
+
+  #environment.etc."greetd/environments".text = ''
+  #  Hyprland
+  #'';
 
   # Configure keymap in X11
   services.xserver = {
@@ -114,7 +100,6 @@ in
       enable = true;
       wayland = true;
     };
-
   };
 
   services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
@@ -122,6 +107,7 @@ in
     gtk-theme='Arc-Dark'
   '';
 
+  services.openssh.enable = true;
 
   programs.hyprland = {
     enable = true;
@@ -141,7 +127,16 @@ in
     # QT_AUTO_SCREEN_SCALE_FACTOR = "1";
   };
 
-  xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true; # enable portal for wayland
+    xdgOpenUsePortal = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
+  };
 
   # Configure console keymap
   console.keyMap = "de";
@@ -163,7 +158,6 @@ in
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -171,12 +165,7 @@ in
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
     jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -189,23 +178,26 @@ in
     setOptions = [ "RM_STAR_WAIT" ];
     syntaxHighlighting = {
       enable = true;
-      highlighters = [ "main" "brackets" "pattern" "cursor" ];
+      highlighters = [
+        "main"
+        "brackets"
+        "pattern"
+        "cursor"
+      ];
       patterns = {
         "rm -rf *" = "fg=white,bold,bg=red";
       };
     };
     histSize = 10000;
   };
-  environment.pathsToLink = [ "/libexec" "/share/zsh" ];
+  environment.pathsToLink = [
+    "/libexec"
+    "/share/zsh"
+  ];
   environment.shells = with pkgs; [ zsh ];
 
   # Enable Docker
   virtualisation.docker.enable = true;
-
-  # Enable VirtualBox
-  # virtualisation.virtualbox.host.enable = true;
-  # virtualisation.virtualbox.host.enableExtensionPack = true;
-  # virtualisation.virtualbox.guest.enable = true;
 
   # Enable Virt-manager
   virtualisation.libvirtd = {
@@ -240,9 +232,10 @@ in
     ];
   };
 
+  security.polkit.enable = true;
+
   security.pam.services.gdm.enableGnomeKeyring = true;
   services.gnome.gnome-keyring.enable = true;
-
 
   # Enable Gnome disk manager
   programs.gnome-disks.enable = true;
@@ -255,33 +248,24 @@ in
       "docker"
       "libvirtd"
       "networkmanager"
-      # "vboxusers"
       "wheel" # enables sudo
     ];
     shell = pkgs.zsh;
     packages = with pkgs; [
       affine # workspace / knowledge space
-      angband # lotr cli roguelike
       angryipscanner # network scanner
       appeditor # gui to edit app launcher entries (.desktop files)
       arduino # code hardware things
       ascii-draw # draw diagrams etc in ASCII
-      asciicam # webcam in the terminal
       # bisq-desktop
       audacity
       blanket # ambient sounds
-      bookworm # ebook reader
       brave # web browser
       bruno # API client/tester/explorer
-      calcurse # cli calendar / todo list
-      caligula # # burn/flash images to SD cards from the terminal
-      castero # cli podcast client
       celestia # spaaaaaaaaaaace
       cinnamon.nemo-with-extensions # file manager
-      cli-visualizer
       clipgrab # youtube downloader
       cool-retro-term # terminal emulator
-      crawl # roguelike
       czkawka # remove useless files
       cryptomator # file encryption
       devilutionx # Diablo
@@ -292,16 +276,13 @@ in
       easytag # edit mp3 tags
       # electrum
       # ffmpeg # needed for mediathekview
-      file # identify file types
       firefox # web browser
-      fluidsynth
-      frotz # infocom game interpreter
       furnace # multi-system chiptune tracker
       gimp # image manipulation
-      gnome.cheese # webcam fun
-      gnome.evince # document viewer
-      gnome.seahorse # keyring manager
-      gnome.simple-scan # scan documents
+      cheese # webcam fun
+      evince # document viewer
+      seahorse # keyring manager
+      simple-scan # scan documents
       godot_4 # game engine
       gossip # nostr client
       grandorgue # virtual pipe organ
@@ -311,10 +292,8 @@ in
       jstest-gtk # simple joystick testing GUI
       kdenlive # video editor
       keeperrl # roguelike
-      koodo-reader # ebook reader
       krita # painting software
       kstars # spaaaaaaaaaaace
-      # logseq
       letterpress # convert images to ascii art
       lmms # DAW similar to FL Studio
       localsend # like Airdrop
@@ -324,22 +303,15 @@ in
       # mattermost-desktop
       # mediathekview # downloader for German public broadcasts
       milkytracker # music tracker
-      musikcube # cli music player
-      neovim # text editor
-      nix-info
-      npm-check-updates # tool to check package.json for updates
       # obsidian # personal knowledge base
-      ollama # run LLMs locally
       opensnitch-ui # GUI for opensnitch application firewall
       # openxcom
       pika-backup # a backup thing
-      pipes # terminal screensaver
       protonup-qt # GUI too to manage Steam compatibility tools
-      qsynth
+      qsynth # small gui for fluidsynth
       retroarch # multi system emulator
       rhythmbox # music player
       rosegarden
-      rtorrent # terminal torrent client
       scummvm # emulates old adventure games
       signal-desktop # messenger
       simplex-chat-desktop # messenger
@@ -348,12 +320,11 @@ in
       theforceengine # dark forces source port
       tor-browser-bundle-bin # browser for the evil dark web
       # ungoogled-chromium # chrome without google
-      ventoy # create a multi-boot usb stick
       vlc # media player
       vscode # code editor
       wasabiwallet
       wtype # fake keypresses in wayland (bookmarks mgmt)
-      yazi # terminal file manager
+      zed-editor # code editor
     ];
   };
 
@@ -369,6 +340,19 @@ in
 
   services.hypridle.enable = true; # enable hyprland idle daemon
   programs.hyprlock.enable = true; # enable hyprland screen lock
+
+  # better ttys
+  services.kmscon = {
+    enable = true;
+    hwRender = true;
+    fonts = [
+      {
+        name = "Hack";
+        package = pkgs.hack-font;
+      }
+    ];
+    extraConfig = "font-size=18\nxkb-layout=de";
+  };
 
   # Enable keyd to remap keyboard keys
   services.keyd = {
@@ -405,7 +389,10 @@ in
   nixpkgs.config.allowUnfree = true;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -422,7 +409,7 @@ in
     easyeffects # effects for pipewire apps
     exiftool # read & write exif data - integrates with digikam
     fuzzel # wayland app launcher
-    gnome.adwaita-icon-theme # VM stuff
+    adwaita-icon-theme # VM stuff
     gparted # drive partition manager
     gpu-viewer # gui for GPU info
     gpuvis # gpu trace visualizer
@@ -432,7 +419,6 @@ in
     htop # like top, but better
     hyprkeys # print hyprland key bindings
     hyprpicker # pick colors from the screen
-    # indicator-application-gtk3
     inetutils # telnet
     jq # query JSON
     killall # Gotta kill 'em all! Currently used in screen recorder script
@@ -441,12 +427,12 @@ in
     libnotify # notification basics, includes notify-send
     libsForQt5.ark # KDE archive utility
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
-    # mate.mate-polkit
+    lxqt.lxqt-policykit
     mc # dual pane terminal file manager
     micro # terminal editor
     neofetch # I use nix btw
     networkmanagerapplet # tray app for network management
-    nh # nix helper
+    nh # shortcuts for comomon NixOS/home-manager commands
     nix-output-monitor # nom nom nom
     nvd # nix version diff
     oculante # fast image viewer
@@ -483,8 +469,7 @@ in
     # wayland bar
     (waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    })
-    )
+    }))
   ];
 
   fileSystems."/home/${username}/Remote/NAS" = {
@@ -504,18 +489,10 @@ in
     style = "adwaita-dark";
   };
 
-
-  # fonts.packages = with pkgs; [
-  #   noto-fonts
-  #   noto-fonts-cjk
-  #   noto-fonts-emoji
-  #   liberation_ttf
-  #   fira-code
-  #   fira-code-symbols
-  #   mplus-outline-fonts.githubRelease
-  #   dina-font
-  #   proggyfonts
-  # ];
+  fonts.packages = with pkgs; [
+    hack-font
+    victor-mono
+  ];
 
   # Automatically upgrade the system
   # system.autoUpgrade = {
@@ -560,7 +537,6 @@ in
     # ];
   };
 
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -569,14 +545,12 @@ in
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
-
   # Hardware specific stuff --------------------------------------------------
 
   # Game controller settings
 
   # We don't need this, it's enabled via the steam module
   # hardware.steam-hardware.enable = true;
-
 
   # Make 8Bitdo Ultimate Controller work as XBox 360 gamepad
   # Udev rules to start or stop systemd service when controller is connected or disconnected
@@ -596,8 +570,6 @@ in
     };
   };
 
-
-
   boot.initrd.kernelModules = [
     "amdgpu"
     "sg"
@@ -605,9 +577,7 @@ in
   ];
 
   # AMD GPU HIP fix
-  systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-  ];
+  systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
@@ -632,9 +602,6 @@ in
 
   # For 32 bit applications
   # Only available on unstable
-  hardware.graphics.extraPackages32 = with pkgs; [
-    driversi686Linux.amdvlk
-  ];
-
+  hardware.graphics.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
 
 }
