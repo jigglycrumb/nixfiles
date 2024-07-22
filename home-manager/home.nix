@@ -40,6 +40,7 @@ in
     asciiquarium # a fishy app
     bat # fancy `cat` replacement
     bluetuith # terminal bluetooth manager
+    browsh # terminal web browser
     btop # like top, but better
     calcure # calendar tui
     caligula # burn/flash images to SD cards from the terminal
@@ -67,6 +68,7 @@ in
     frotz # infocom game interpreter
     fzf # fuzzy finder (zoxide)
     gambit-chess # terminal chess
+    gifgen # jen jifs from video files
     gitui # git tui
     glow # markdown reader
     go # go programming language
@@ -74,10 +76,12 @@ in
     hollywood # hacking...
     htop # process monitor
     hyprland-monitor-attached # run scripts when monitors plug
+    hyprshot # screenshot utility
     # hyprlandPlugins.hyprexpo # workspace overview plugin
     jp2a # convert jpg and png to ascii art
     lazygit # git tui
     lolcat # 🌈
+    lynx # terminal web browser, can be scripted for tasks
     meld # merge tool
     minesweep-rs # terminal minesweeper
     mprocs # run multiple processes at the same time
@@ -112,6 +116,7 @@ in
     unzip # extract zip files
     ventoy # create multi-boot usb sticks
     vitetris # terminal tetris
+    wiki-tui # terminal wikipedia
     yazi # terminal file manager
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
