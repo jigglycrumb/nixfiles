@@ -1,3 +1,4 @@
-home-manager/dotfiles/local/share/applications/secret
-home-manager/dotfiles/ssh
+machines/nixe/home-manager/dotfiles/local/share/applications/secret
+machines/nixe/home-manager/dotfiles/ssh
+
 secrets.nix

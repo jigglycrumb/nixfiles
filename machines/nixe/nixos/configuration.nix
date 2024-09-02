@@ -17,6 +17,7 @@ let
   # }
 
   secrets = import ./secrets.nix;
+  hostname = "nixe";
   username = "jigglycrumb";
 in
 {
@@ -30,7 +31,45 @@ in
   boot.loader.systemd-boot.configurationLimit = 50; # limit boot loader to the last 50 generations
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixe"; # Define your hostname.
+  # boot.extraModulePackages = [
+  #   config.boot.kernelPackages.exfat-nofuse # enable ExFAT support
+  # ];
+
+  boot.initrd.kernelModules = [
+    "amdgpu" # AMD graphics driver
+    "sg" # generic SCSI for external DVD/BluRay drive support
+    # "xpad"
+  ];
+
+  # Enable bluetooth
+  hardware.bluetooth.enable = true;
+  # hardware.bluetooth.powerOnBoot = true;reboot
+
+  # Enable Vulkan
+  hardware.graphics.enable = true;
+  # For 32 bit applications
+  hardware.graphics.enable32Bit = true;
+
+  # Enable amdvlk driver - apps choose between mesa and this one
+  # amdvlk is not needed for basic vulkan support but nice to have I guess
+  hardware.graphics.extraPackages = with pkgs; [
+    amdvlk
+    # rocmPackages
+    rocmPackages.clr.icd
+    rocmPackages.rocm-runtime
+    rocmPackages.rocm-smi
+    # rocm-opencl-icd
+    # rocm-runtime-ext
+  ];
+
+  # For 32 bit applications
+  # Only available on unstable
+  hardware.graphics.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+
+  # enable ledger udev rules
+  hardware.ledger.enable = true;
+
+  networking.hostName = "${hostname}"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -40,6 +79,20 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [
+      50000 # rtorrent
+    ];
+    allowedUDPPorts = [
+      50000 # rtorrent
+    ];
+    # allowedUDPPortRanges = [
+    #   { from = 4000; to = 4007; }
+    #   { from = 8000; to = 8010; }
+    # ];
+  };
 
   # networking.firewall.trustedInterfaces = [ "virbr0" ];
 
@@ -60,6 +113,9 @@ in
     LC_TELEPHONE = "de_DE.UTF-8";
     LC_TIME = "de_DE.UTF-8";
   };
+
+  # Configure console keymap
+  console.keyMap = "de";
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -138,9 +194,6 @@ in
     ];
   };
 
-  # Configure console keymap
-  console.keyMap = "de";
-
   # Enable OpenSnitch application firewall
   services.opensnitch.enable = true;
 
@@ -190,6 +243,7 @@ in
     };
     histSize = 10000;
   };
+
   environment.pathsToLink = [
     "/libexec"
     "/share/zsh"
@@ -375,9 +429,6 @@ in
 
   };
 
-  # enable ledger udev rules
-  hardware.ledger.enable = true;
-
   # alternative
   # services.udev.packages = with pkgs; [
   #   ledger-udev-rules
@@ -407,6 +458,7 @@ in
     drawing # basic image editor, similar to MS Paint
     # egl-wayland
     easyeffects # effects for pipewire apps
+    exfat # tools for ExFAT formatted disks
     exiftool # read & write exif data - integrates with digikam
     fuzzel # wayland app launcher
     adwaita-icon-theme # VM stuff
@@ -472,16 +524,16 @@ in
     }))
   ];
 
-  fileSystems."/home/${username}/Remote/NAS" = {
-    device = "//wopr/nas";
-    fsType = "cifs";
+  #fileSystems."/home/${username}/Remote/NAS" = {
+  #  device = "//wopr/nas";
+  #  fsType = "cifs";
 
-    options = [
-      # this line prevents hanging on network split
-      # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-      "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
-    ];
-  };
+  #  options = [
+  #    # this line prevents hanging on network split
+  #    # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+  #    "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
+  #  ];
+  #};
 
   qt = {
     enable = true;
@@ -517,29 +569,9 @@ in
   #   enableSSHSupport = true;
   # };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  networking.firewall = {
-    enable = true;
-    # allowedTCPPorts = [ 34113 ];
-    # allowedUDPPortRanges = [
-    #   { from = 4000; to = 4007; }
-    #   { from = 8000; to = 8010; }
-    # ];
-  };
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
@@ -570,38 +602,6 @@ in
     };
   };
 
-  boot.initrd.kernelModules = [
-    "amdgpu"
-    "sg"
-    # "xpad"
-  ];
-
   # AMD GPU HIP fix
   systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
-
-  # Enable bluetooth
-  hardware.bluetooth.enable = true;
-  # hardware.bluetooth.powerOnBoot = true;reboot
-
-  # Enable Vulkan
-  hardware.graphics.enable = true;
-  # For 32 bit applications
-  hardware.graphics.enable32Bit = true;
-
-  # Enable amdvlk driver - apps choose between mesa and this one
-  # amdvlk is not needed for basic vulkan support but nice to have I guess
-  hardware.graphics.extraPackages = with pkgs; [
-    amdvlk
-    # rocmPackages
-    rocmPackages.clr.icd
-    rocmPackages.rocm-runtime
-    rocmPackages.rocm-smi
-    # rocm-opencl-icd
-    # rocm-runtime-ext
-  ];
-
-  # For 32 bit applications
-  # Only available on unstable
-  hardware.graphics.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
-
 }

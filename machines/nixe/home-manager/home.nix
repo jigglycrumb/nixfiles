@@ -35,6 +35,9 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    aba # address book for aerc
+    aerc # terminal email client
+    alsa-utils # aplay
     angband # lotr terminal roguelike
     asciicam # webcam in the terminal
     asciiquarium # a fishy app
@@ -93,7 +96,7 @@ in
     nixfmt-rfc-style # formatter for nix code, used in VSCode
     nodejs_20
     npm-check-updates # tool to check package.json for updates
-    ollama # run LLMs locally
+    # ollama # run LLMs locally
     oxker # docker container management tui
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
@@ -105,14 +108,16 @@ in
     solitaire-tui # terminal card game
     speedread # read text fast
     stockfish # chess engine
+    tasktimer # task timer
     # textual-paint # terminal ms paint - build is currently broken
     terminal-parrot # party parrot
     termpdfpy # graphical pdf/ebook reader for kitty
     # termusic # music player - very promising, but crashes a lot currently
     tldr # man but short
-    trash-cli # use trash can in the terminal
     tmux
-    tasktimer # task timer
+    trash-cli # use trash can in the terminal
+    tui-journal # terminal journal app
+    tuifeed # terminal feed reader
     unzip # extract zip files
     ventoy # create multi-boot usb sticks
     vitetris # terminal tetris
@@ -190,7 +195,7 @@ in
     ".functions".source = dotfiles/functions;
     ".scripts".source = dotfiles/scripts;
     ".sounds".source = dotfiles/sounds;
-    ".ssh".source = dotfiles/ssh;
+    # ".ssh".source = dotfiles/ssh;
 
     ".vscode/argv.json".text = ''
       {
@@ -451,6 +456,10 @@ in
 
       # add own scripts to PATH
       export PATH="$PATH:$HOME/.scripts"
+
+      # add go binaries to PATH
+      # TODO explore $GOPATH and move this folder
+      export PATH="$PATH:$HOME/go/bin"
 
       # this makes kitty use the current pywal colors instantly
       # on launch, not just after refresh
