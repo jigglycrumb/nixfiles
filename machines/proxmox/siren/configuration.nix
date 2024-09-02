@@ -42,8 +42,6 @@ in
   networking.hostName = "${hostname}";
   networking.networkmanager.enable = true;
 
-  time.timeZone = "Europe/Berlin";
-
   time.timeZone = "${timezone}";
 
   i18n.defaultLocale = "${locale}";
