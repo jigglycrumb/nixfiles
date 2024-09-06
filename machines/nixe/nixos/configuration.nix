@@ -117,6 +117,21 @@ in
   # Configure console keymap
   console.keyMap = "de";
 
+  # Enable flakes
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # Allow broken packages
+  # nixpkgs.config.allowBroken = true;
+
+  # Enabled support for rocm
+  # nixpkgs.config.rocmSupport = true;
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
@@ -210,6 +225,25 @@ in
     openFirewall = true;
   };
 
+  # Enable ollama to run LLMs
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-rocm;
+    acceleration = "rocm";
+  };
+
+  # Enable web GUI for ollama
+  services.open-webui = {
+    enable = true;
+    # port = 8080;
+    environment = {
+      ANONYMIZED_TELEMETRY = "False";
+      DO_NOT_TRACK = "True";
+      SCARF_NO_ANALYTICS = "True";
+      WEBUI_AUTH = "False";
+    };
+  };
+
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -220,9 +254,6 @@ in
     pulse.enable = true;
     jack.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Enable ZSH
   programs.zsh = {
@@ -435,15 +466,6 @@ in
   #   trezor-udev-rules
   #   # potentially even more if you need them
   # ];
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Enable flakes
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
