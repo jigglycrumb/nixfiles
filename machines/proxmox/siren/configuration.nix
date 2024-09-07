@@ -30,7 +30,6 @@ let
   locale = "de_DE.UTF-8";
   keymap = "de";
   timezone = "Europe/Berlin";
-  domain = "mina.kiwi";
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -78,6 +77,7 @@ in
   environment.systemPackages = with pkgs; [
     bat
     micro
+    ncdu
   ];
 
   environment.sessionVariables = {
@@ -109,9 +109,10 @@ in
 
   services.samba = {
     enable = true;
-    package = pkgs.sambaFull;
+    package = pkgs.sambaFull; # full package is needed for printer sharing
     securityType = "user";
     openFirewall = true;
+
     extraConfig = ''
       workgroup = WORKGROUP
       server string = ${hostname}
@@ -129,18 +130,8 @@ in
       printing = cups
       printcap name = cups
     '';
-    shares = {
-      # public = {
-      #   path = "/mnt/Shares/Public";
-      #   browseable = "yes";
-      #   "read only" = "no";
-      #   "guest ok" = "yes";
-      #   "create mask" = "0644";
-      #   "directory mask" = "0755";
-      #   "force user" = "username";
-      #   "force group" = "groupname";
-      # };
 
+    shares = {
       printers = {
         comment = "All Printers";
         path = "/var/spool/samba";
@@ -186,6 +177,17 @@ in
         "force group" = "users";
       };
 
+      Machine = {
+        path = "/mnt/nas/Machine";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "${username}";
+        "force group" = "users";
+      };
+
       Other = {
         path = "/mnt/nas/Other";
         browseable = "yes";
@@ -199,6 +201,28 @@ in
 
       Photos = {
         path = "/mnt/nas/Photos";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "${username}";
+        "force group" = "users";
+      };
+
+      Pictures = {
+        path = "/mnt/nas/Pictures";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "${username}";
+        "force group" = "users";
+      };
+
+      Private = {
+        path = "/mnt/nas/Private";
         browseable = "yes";
         "read only" = "no";
         "guest ok" = "no";
@@ -241,9 +265,6 @@ in
   # copied from nixos wiki - printer sharing
   systemd.tmpfiles.rules = [ "d /var/spool/samba 1777 root root -" ];
 
-  networking.firewall.enable = true;
-  networking.firewall.allowPing = true;
-
   services.jellyfin = {
     enable = true;
     openFirewall = true;
@@ -252,22 +273,23 @@ in
     dataDir = "/home/${username}/jellyfin";
   };
 
-  services.nginx = {
+  services.syncthing = {
     enable = true;
-    # fix heartbleed
-    package = pkgs.nginxStable.override { openssl = pkgs.libressl; };
-
-    virtualHosts."${domain}" = {
-      addSSL = true;
-      enableACME = true;
-      root = "/home/${username}/nginx/${domain}";
-    };
+    openDefaultPorts = true;
+    # dataDir = "/mnt/nas";
+    configDir = "/home/${username}/.config/syncthing";
+    user = "${username}";
+    group = "users";
+    guiAddress = "0.0.0.0:8384";
   };
 
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "mina@${domain}";
-  };
+  systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 
-  # TODO: Syncthing
+  networking.firewall = {
+    enable = true;
+    allowPing = true;
+    allowedTCPPorts = [
+      8384 # syncthing
+    ];
+  };
 }
