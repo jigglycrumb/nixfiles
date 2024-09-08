@@ -96,7 +96,6 @@ in
     nixfmt-rfc-style # formatter for nix code, used in VSCode
     nodejs_20
     npm-check-updates # tool to check package.json for updates
-    # ollama # run LLMs locally
     oxker # docker container management tui
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
@@ -107,6 +106,7 @@ in
     sl # choo choo
     solitaire-tui # terminal card game
     speedread # read text fast
+    sshpass
     stockfish # chess engine
     tasktimer # task timer
     # textual-paint # terminal ms paint - build is currently broken
