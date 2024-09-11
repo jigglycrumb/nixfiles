@@ -16,9 +16,10 @@ let
   #   github-token = "<insert token here>";
   # }
 
-  secrets = import ./secrets.nix;
   hostname = "nixe";
   username = "jigglycrumb";
+  secrets = import ./secrets.nix;
+  secrets-syncthing = import ../../../common/secret/syncthing.nix;
 in
 {
   imports = [
@@ -72,10 +73,6 @@ in
   networking.hostName = "${hostname}"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Enable networking
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
@@ -88,10 +85,6 @@ in
     allowedUDPPorts = [
       50000 # rtorrent
     ];
-    # allowedUDPPortRanges = [
-    #   { from = 4000; to = 4007; }
-    #   { from = 8000; to = 8010; }
-    # ];
   };
 
   # networking.firewall.trustedInterfaces = [ "virbr0" ];
@@ -182,7 +175,7 @@ in
 
   programs.hyprland = {
     enable = true;
-    xwayland.enable = true; # fix lag in Brave & other Chromium-based browsers - EDIT: disabled again, does not fix lag
+    xwayland.enable = true;
   };
 
   environment.sessionVariables = {
@@ -203,7 +196,7 @@ in
     wlr.enable = true; # enable portal for wayland
     xdgOpenUsePortal = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-wlr
+      # pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-hyprland
     ];
@@ -243,6 +236,34 @@ in
       WEBUI_AUTH = "False";
     };
   };
+
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    configDir = "/home/${username}/.config/syncthing";
+    user = "${username}";
+    group = "users";
+
+    cert = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/cert.pem";
+    key = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/key.pem";
+
+    overrideDevices = true; # overrides any devices added or deleted through the WebUI
+    overrideFolders = true; # overrides any folders added or deleted through the WebUI
+
+    settings = {
+      options = {
+        urAccepted = -1; # disable telemetry
+      };
+
+      devices = {
+        siren = secrets-syncthing.devices.siren;
+      };
+
+      folders = secrets-syncthing.folders."${hostname}";
+    };
+  };
+
+  systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;

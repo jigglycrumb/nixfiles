@@ -30,6 +30,8 @@ let
   locale = "de_DE.UTF-8";
   keymap = "de";
   timezone = "Europe/Berlin";
+  secrets-samba = import ./secret/samba.nix;
+  secrets-syncthing = import ./secret/syncthing.nix;
 in
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
@@ -76,6 +78,7 @@ in
 
   environment.systemPackages = with pkgs; [
     bat
+    mc
     micro
     ncdu
   ];
@@ -131,129 +134,7 @@ in
       printcap name = cups
     '';
 
-    shares = {
-      printers = {
-        comment = "All Printers";
-        path = "/var/spool/samba";
-        public = "yes";
-        browseable = "yes";
-        # to allow user 'guest account' to print.
-        "guest ok" = "yes";
-        writable = "no";
-        printable = "yes";
-        "create mode" = 700;
-      };
-
-      NAS = {
-        path = "/mnt/nas";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-
-      Audio = {
-        path = "/mnt/nas/Audio";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-
-      DVD = {
-        path = "/mnt/nas/DVD";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-
-      Machine = {
-        path = "/mnt/nas/Machine";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-
-      Other = {
-        path = "/mnt/nas/Other";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-
-      Photos = {
-        path = "/mnt/nas/Photos";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-
-      Pictures = {
-        path = "/mnt/nas/Pictures";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-
-      Private = {
-        path = "/mnt/nas/Private";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-
-      Software = {
-        path = "/mnt/nas/Software";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-
-      Video = {
-        path = "/mnt/nas/Video";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "${username}";
-        "force group" = "users";
-      };
-    };
+    shares = secrets-samba.shares."${hostname}";
   };
 
   # this service allows windows hosts to see the shares
@@ -281,6 +162,27 @@ in
     user = "${username}";
     group = "users";
     guiAddress = "0.0.0.0:8384";
+
+    cert = "/home/${username}/nixos/secret/syncthing/cert.pem";
+    key = "/home/${username}/nixos/secret/syncthing/key.pem";
+
+    overrideDevices = true; # overrides any devices added or deleted through the WebUI
+    overrideFolders = true; # overrides any folders added or deleted through the WebUI
+
+    settings = {
+      options = {
+        urAccepted = -1; # disable telemetry
+      };
+
+      devices = {
+        megabox = secrets-syncthing.devices.megabox;
+        nixe = secrets-syncthing.devices.nixe;
+        phone = secrets-syncthing.devices.phone;
+        superbox = secrets-syncthing.devices.superbox;
+      };
+
+      folders = secrets-syncthing.folders."${hostname}";
+    };
   };
 
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder

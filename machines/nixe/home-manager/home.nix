@@ -316,11 +316,8 @@ in
   programs.gpg.enable = true;
 
   services.gpg-agent.enable = true;
-  services.syncthing.enable = true;
 
   # services.swaync # todo check
-
-  # programs.ssh.enable = true;
 
   programs.direnv = {
     enable = true;

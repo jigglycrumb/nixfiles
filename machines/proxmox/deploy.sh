@@ -28,7 +28,7 @@ echo ""
 
 # Copy config to target host
 echo "Copying system configuration"
-sshpass -p $pass scp $target/configuration.nix $user@$target:~/nixos
+sshpass -p $pass scp -r $target/* $user@$target:~/nixos
 
 # Rebuild system
 echo "Rebuilding system"
