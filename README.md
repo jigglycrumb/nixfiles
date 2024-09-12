@@ -1,6 +1,6 @@
 # nixfiles
 
-My NixOS confiurations.
+My NixOS confiurations
 
 - `machines/nixe` is my laptop
-- `machines/proxmox` contains configurations for different Proxmox VMs I use
+- `machines/proxmox` contains configurations for different Proxmox VMs

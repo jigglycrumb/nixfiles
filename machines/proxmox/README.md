@@ -1,10 +1,10 @@
-This folder contains NixOS configurations for different Proxmox VMs.
+## NixOS configurations for Proxmox VMs
 
 See the individual configs for details.
 
-The configs are located in `~/nixos/configuration.nix` on the VM and symlinked to `/etc/nixos/configuraion.nix`.  
-This enables copying new configs to the VM over SSH with normal user permissions.  
-Note to self: Setting up the `~/nixos/` folder and symlinking the system config is currently still a manual step.
+On the VMs, the config files are located in `~/nixos/configuration.nix` and symlinked to `/etc/nixos/configuraion.nix`.  
+This enables copying updated configs to the VM over SSH with normal user permissions.  
+Note: Setting up the `~/nixos/` folder and symlinking the system config is currently still a manual step.
 
 VMs:
 
