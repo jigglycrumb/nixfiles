@@ -13,6 +13,8 @@ let
   email = "mina@${domain}";
 in
 {
+  # COMMON - DEFAULT CONFIG FOR ALL VMS
+
   imports = [ /etc/nixos/hardware-configuration.nix ];
 
   boot.loader.grub.enable = true;
@@ -55,16 +57,6 @@ in
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    bat
-    micro
-  ];
-
-  environment.sessionVariables = {
-    EDITOR = "micro";
-    TERM = "xterm"; # prevent problems when SSHing in with kitty
-  };
-
   services.openssh.enable = true;
 
   services.kmscon = {
@@ -84,6 +76,16 @@ in
   };
 
   system.stateVersion = "24.05";
+
+  environment.sessionVariables = {
+    EDITOR = "micro";
+    TERM = "xterm"; # prevent problems when SSHing in with kitty
+  };
+
+  environment.systemPackages = with pkgs; [
+    bat
+    micro
+  ];
 
   # SERVICES
 

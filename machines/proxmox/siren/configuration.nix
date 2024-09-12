@@ -34,6 +34,8 @@ let
   secrets-syncthing = import ./secret/syncthing.nix;
 in
 {
+  # COMMON - DEFAULT CONFIG FOR ALL VMS
+
   imports = [ /etc/nixos/hardware-configuration.nix ];
 
   boot.loader.grub.enable = true;
@@ -76,18 +78,6 @@ in
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    bat
-    mc
-    micro
-    ncdu
-  ];
-
-  environment.sessionVariables = {
-    EDITOR = "micro";
-    TERM = "xterm"; # prevent problems when SSHing in with kitty
-  };
-
   services.openssh.enable = true;
 
   services.kmscon = {
@@ -107,6 +97,20 @@ in
   };
 
   system.stateVersion = "24.05";
+
+  environment.sessionVariables = {
+    EDITOR = "micro";
+    TERM = "xterm"; # prevent problems when SSHing in with kitty
+  };
+
+  # SOFTWARE
+
+  environment.systemPackages = with pkgs; [
+    bat
+    mc
+    micro
+    ncdu
+  ];
 
   # SERVICES
 
