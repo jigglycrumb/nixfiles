@@ -112,6 +112,16 @@ in
         forceSSL = true;
         enableACME = true;
       };
+
+      "wiki.${domain}" = {
+        locations."/".proxyPass = "http://driftwood:8080";
+        forceSSL = true;
+        enableACME = true;
+        # To create the auth file, SSH into VM, then:
+        # nix-shell -p apacheHttpd
+        # sudo htpasswd - c /www/htpasswd-credentials <username>
+        basicAuthFile = /www/htpasswd-credentials;
+      };
     };
   };
 
