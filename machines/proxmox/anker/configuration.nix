@@ -82,6 +82,8 @@ in
     TERM = "xterm"; # prevent problems when SSHing in with kitty
   };
 
+  # SOFTWARE
+
   environment.systemPackages = with pkgs; [
     bat
     micro

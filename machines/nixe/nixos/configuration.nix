@@ -551,6 +551,7 @@ in
     swayimg # image viewer
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
+    system-config-printer # printer configuration UI
     usbutils # provides lsusb
     virtiofsd # enables shared folders between host and Windows VM
     virt-viewer # VM stuff

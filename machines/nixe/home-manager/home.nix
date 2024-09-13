@@ -70,7 +70,6 @@ in
     fortune # mmh cookies
     frotz # infocom game interpreter
     fzf # fuzzy finder (zoxide)
-    gambit-chess # terminal chess
     gifgen # jen jifs from video files
     gitui # git tui
     glow # markdown reader
@@ -106,8 +105,7 @@ in
     sl # choo choo
     solitaire-tui # terminal card game
     speedread # read text fast
-    sshpass
-    stockfish # chess engine
+    sshpass # use ssh password auth within scripts - used for deploying proxmox VM configs
     tasktimer # task timer
     # textual-paint # terminal ms paint - build is currently broken
     terminal-parrot # party parrot

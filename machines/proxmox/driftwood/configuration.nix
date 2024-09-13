@@ -9,6 +9,7 @@ let
   locale = "de_DE.UTF-8";
   keymap = "de";
   timezone = "Europe/Berlin";
+  secrets-syncthing = import ./secret/syncthing.nix;
 in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
@@ -80,8 +81,11 @@ in
     TERM = "xterm"; # prevent problems when SSHing in with kitty
   };
 
+  # SOFTWARE
+
   environment.systemPackages = with pkgs; [
     bat
+    git
     micro
   ];
 
@@ -128,16 +132,46 @@ in
     ];
   };
 
+  # allow homepage to run on port 80
+  systemd.services.homepage-dashboard.serviceConfig.AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+
   services.gollum = {
     enable = true;
     user = "${username}";
     port = 8080;
   };
 
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    configDir = "/home/${username}/.config/syncthing";
+    user = "${username}";
+    group = "users";
+    guiAddress = "0.0.0.0:8384";
+
+    cert = "/home/${username}/nixos/secret/syncthing/cert.pem";
+    key = "/home/${username}/nixos/secret/syncthing/key.pem";
+
+    overrideDevices = true; # overrides any devices added or deleted through the WebUI
+    overrideFolders = true; # overrides any folders added or deleted through the WebUI
+
+    settings = {
+      options = {
+        urAccepted = -1; # disable telemetry
+      };
+
+      devices = {
+        siren = secrets-syncthing.devices.siren;
+      };
+
+      folders = secrets-syncthing.folders."${hostname}";
+    };
+  };
+
+  systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
+
   networking.firewall.allowedTCPPorts = [
     8080 # gollum
+    8384 # syncthing
   ];
-
-  # allow homepage to run on port 80
-  systemd.services.homepage-dashboard.serviceConfig.AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
 }

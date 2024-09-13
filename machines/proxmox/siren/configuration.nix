@@ -116,7 +116,6 @@ in
 
   services.samba = {
     enable = true;
-    package = pkgs.sambaFull; # full package is needed for printer sharing
     securityType = "user";
     openFirewall = true;
 
@@ -132,10 +131,6 @@ in
       hosts deny = 0.0.0.0/0
       guest account = nobody
       map to guest = bad user
-      # printer sharing
-      load printers = yes
-      printing = cups
-      printcap name = cups
     '';
 
     shares = secrets-samba.shares."${hostname}";
@@ -146,9 +141,6 @@ in
     enable = true;
     openFirewall = true;
   };
-
-  # copied from nixos wiki - printer sharing
-  systemd.tmpfiles.rules = [ "d /var/spool/samba 1777 root root -" ];
 
   services.jellyfin = {
     enable = true;
@@ -161,7 +153,6 @@ in
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
-    # dataDir = "/mnt/nas";
     configDir = "/home/${username}/.config/syncthing";
     user = "${username}";
     group = "users";
@@ -179,6 +170,7 @@ in
       };
 
       devices = {
+        driftwood = secrets-syncthing.devices.driftwood;
         megabox = secrets-syncthing.devices.megabox;
         nixe = secrets-syncthing.devices.nixe;
         phone = secrets-syncthing.devices.phone;

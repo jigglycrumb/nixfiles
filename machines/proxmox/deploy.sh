@@ -30,6 +30,8 @@ echo ""
 echo "Copying system configuration"
 sshpass -p $pass scp -r $target/* $user@$target:~/nixos
 
-# Rebuild system
-echo "Rebuilding system"
-sshpass -p $pass ssh -t $user@$target "echo $pass | sudo -p '' -S nixos-rebuild switch"
+if [ "$2" != "--copy" ]; then
+  # Rebuild system
+  echo "Rebuilding system"
+  sshpass -p $pass ssh -t $user@$target "echo $pass | sudo -p '' -S nixos-rebuild switch"
+fi
