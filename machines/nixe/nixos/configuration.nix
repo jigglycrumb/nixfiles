@@ -133,9 +133,6 @@ in
   # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
 
-  # TODO: review this
-  services.cockpit.enable = true;
-
   # TODO: finish this: enable tuigreet from wlogout, disable autologin
   services.greetd = {
     enable = true;
