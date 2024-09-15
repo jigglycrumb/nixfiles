@@ -98,6 +98,10 @@ in
 
   system.stateVersion = "24.05";
 
+  environment.shellAliases = {
+    c = "clear";
+  };
+
   environment.sessionVariables = {
     EDITOR = "micro";
     TERM = "xterm"; # prevent problems when SSHing in with kitty
@@ -148,6 +152,27 @@ in
     user = "${username}";
     group = "users";
     dataDir = "/home/${username}/jellyfin";
+  };
+
+  systemd.timers."jellyfin-backup" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      Description = "Daily backup of the Jellyfin database";
+      OnCalendar = "*-*-* 7:00:00"; # run every day at 7am
+      Persistent = true; # run job if timer was missed, e.g. due to power off
+      Unit = "jellyfin-backup.service";
+    };
+  };
+
+  systemd.services."jellyfin-backup" = {
+    script = ''
+      set -eu # exit on error and undefined variables
+      ${pkgs.rsync}/bin/rsync -Pav --delete /home/${username}/jellyfin/ /mnt/nas/Machine/siren/jellyfin
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "${username}";
+    };
   };
 
   services.syncthing = {

@@ -77,6 +77,10 @@ in
 
   system.stateVersion = "24.05";
 
+  environment.shellAliases = {
+    c = "clear";
+  };
+
   environment.sessionVariables = {
     EDITOR = "micro";
     TERM = "xterm"; # prevent problems when SSHing in with kitty

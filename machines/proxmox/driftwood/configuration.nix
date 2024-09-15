@@ -76,6 +76,10 @@ in
 
   system.stateVersion = "24.05";
 
+  environment.shellAliases = {
+    c = "clear";
+  };
+
   environment.sessionVariables = {
     EDITOR = "micro";
     TERM = "xterm"; # prevent problems when SSHing in with kitty
@@ -105,12 +109,41 @@ in
             };
           }
           {
+            "Jellyfin" = {
+              description = "Media Server";
+              href = "http://siren:8096";
+            };
+          }
+          {
             "Gollum" = {
-              description = "Personal Wiki";
+              description = "Wiki";
               href = "http://driftwood:8080";
             };
           }
-
+          {
+            "Syncthing" = {
+              description = "driftwood";
+              href = "http://driftwood:8384";
+            };
+          }
+          {
+            "Syncthing" = {
+              description = "siren";
+              href = "http://siren:8384";
+            };
+          }
+          {
+            "Syncthing" = {
+              description = "superbox";
+              href = "http://superbox:8384";
+            };
+          }
+          {
+            "Syncthing" = {
+              description = "megabox";
+              href = "http://megabox:8384";
+            };
+          }
         ];
       }
       {
@@ -124,7 +157,13 @@ in
           {
             "proxmox" = {
               description = "Proxmox Virtual Environment";
-              href = "http://promox:8006";
+              href = "http://proxmox:8006";
+            };
+          }
+          {
+            "epaper" = {
+              description = "E-ink frame";
+              href = "http://epaper";
             };
           }
         ];
