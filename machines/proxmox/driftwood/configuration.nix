@@ -1,4 +1,4 @@
-# Nix OS config for an misc use Home server
+# Nix OS config for a misc use Home server
 # Proxmox VM: 1 CPU, 4GB RAM, 32GB HDD
 
 { config, pkgs, ... }:
@@ -78,6 +78,9 @@ in
 
   environment.shellAliases = {
     c = "clear";
+    ".." = "cd ..";
+    "..." = "cd ../..";
+    "...." = "cd ../../..";
   };
 
   environment.sessionVariables = {

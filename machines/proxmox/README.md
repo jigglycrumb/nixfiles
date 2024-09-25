@@ -19,4 +19,5 @@ VMs:
 - `anker`: Nginx server/proxy
 - `driftwood`: Playground server for miscellaneous things
 - `kraken`: AdGuard Home server
+- `nautilus`: Home Assistant server
 - `siren`: Media and filesharing server

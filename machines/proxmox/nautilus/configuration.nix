@@ -1,16 +1,15 @@
-# Nix OS config for an nginx (proxy) server
-# Proxmox VM: 1 CPU, 4GB RAM, 16GB HDD
+# Nix OS config for a Home Assistant server
+# Proxmox VM: 2 CPUs, 4GB RAM, 64GB HDD
 
 { config, pkgs, ... }:
 
 let
-  hostname = "anker";
+  hostname = "nautilus";
   username = "jigglycrumb";
   locale = "de_DE.UTF-8";
   keymap = "de";
   timezone = "Europe/Berlin";
-  domain = "mina.kiwi";
-  email = "mina@${domain}";
+  secrets-home-assistant = import ./secret/home-assistant.nix;
 in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
@@ -98,55 +97,12 @@ in
 
   # SERVICES
 
-  services.nginx = {
+  services.home-assistant = {
     enable = true;
-    package = pkgs.nginxStable.override { openssl = pkgs.libressl; };
-
-    recommendedTlsSettings = true;
-    recommendedOptimisation = true;
-    recommendedGzipSettings = true;
-    recommendedProxySettings = true;
-
-    virtualHosts = {
-      "${hostname}" = {
-        root = "/www/${domain}";
-      };
-
-      "${domain}" = {
-        root = "/www/${domain}";
-        forceSSL = true;
-        enableACME = true;
-      };
-
-      "flox.${domain}" = {
-        locations."/".proxyPass = "http://siren:8096";
-        forceSSL = true;
-        enableACME = true;
-      };
-
-      "wiki.${domain}" = {
-        locations."/".proxyPass = "http://driftwood:8080";
-        forceSSL = true;
-        enableACME = true;
-        # To create the auth file, SSH into VM, then:
-        # nix-shell -p apacheHttpd
-        # sudo htpasswd - c /www/htpasswd-credentials <username>
-        basicAuthFile = /www/htpasswd-credentials;
-      };
-    };
+    openFirewall = true;
+    # http.server_port = 8123;
+    config.homeassistant = secrets-home-assistant.config.homeassistant;
   };
 
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "${email}";
-  };
-
-  networking.firewall = {
-    enable = true;
-    allowPing = true;
-    allowedTCPPorts = [
-      80 # nginx
-      443 # nginx
-    ];
-  };
+  # networking.firewall.allowedTCPPorts = [ ];
 }

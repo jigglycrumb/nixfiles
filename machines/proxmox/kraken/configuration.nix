@@ -77,6 +77,9 @@ in
 
   environment.shellAliases = {
     c = "clear";
+    ".." = "cd ..";
+    "..." = "cd ../..";
+    "...." = "cd ../../..";
   };
 
   environment.sessionVariables = {

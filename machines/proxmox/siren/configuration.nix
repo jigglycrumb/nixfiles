@@ -100,6 +100,9 @@ in
 
   environment.shellAliases = {
     c = "clear";
+    ".." = "cd ..";
+    "..." = "cd ../..";
+    "...." = "cd ../../..";
   };
 
   environment.sessionVariables = {
@@ -199,6 +202,7 @@ in
         megabox = secrets-syncthing.devices.megabox;
         nixe = secrets-syncthing.devices.nixe;
         phone = secrets-syncthing.devices.phone;
+        steamdeck = secrets-syncthing.devices.steamdeck;
         superbox = secrets-syncthing.devices.superbox;
       };
 

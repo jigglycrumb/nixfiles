@@ -93,7 +93,7 @@ in
     ncdu # show disk usage
     nms # decrypting...
     nixfmt-rfc-style # formatter for nix code, used in VSCode
-    nodejs_20
+    nodejs
     npm-check-updates # tool to check package.json for updates
     oxker # docker container management tui
     pipes # terminal screensaver
