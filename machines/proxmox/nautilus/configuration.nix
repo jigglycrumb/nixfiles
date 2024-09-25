@@ -101,7 +101,13 @@ in
     enable = true;
     openFirewall = true;
     # http.server_port = 8123;
-    config.homeassistant = secrets-home-assistant.config.homeassistant;
+    config.homeassistant = {
+      name = "Home";
+      latitude = secrets-home-assistant.latitude;
+      longitude = secrets-home-assistant.longitude;
+      # elevation = secrets-home-assistant.elevation;
+      time_zone = timezone;
+    };
   };
 
   # networking.firewall.allowedTCPPorts = [ ];
