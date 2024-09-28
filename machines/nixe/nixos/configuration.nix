@@ -193,7 +193,7 @@ in
     wlr.enable = true; # enable portal for wayland
     xdgOpenUsePortal = true;
     extraPortals = [
-      # pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-hyprland
     ];
@@ -358,6 +358,7 @@ in
       affine # workspace / knowledge space
       angryipscanner # network scanner
       appeditor # gui to edit app launcher entries (.desktop files)
+      appflowy
       arduino # code hardware things
       ascii-draw # draw diagrams etc in ASCII
       # bisq-desktop
@@ -366,7 +367,7 @@ in
       brave # web browser
       bruno # API client/tester/explorer
       celestia # spaaaaaaaaaaace
-      cinnamon.nemo-with-extensions # file manager
+      nemo-with-extensions # file manager
       clipgrab # youtube downloader
       cool-retro-term # terminal emulator
       czkawka # remove useless files
@@ -427,6 +428,7 @@ in
       vscode # code editor
       wasabiwallet
       wtype # fake keypresses in wayland (bookmarks mgmt)
+      yoshimi # software synthesizer
       zed-editor # code editor
     ];
   };
@@ -509,6 +511,7 @@ in
     helvum # patchbay for PipeWire
     home-manager # manage user configurations
     htop # like top, but better
+    hyprcursor # xcursor replacement
     hyprkeys # print hyprland key bindings
     hyprpicker # pick colors from the screen
     inetutils # telnet

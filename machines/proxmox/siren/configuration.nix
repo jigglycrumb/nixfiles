@@ -114,6 +114,8 @@ in
 
   environment.systemPackages = with pkgs; [
     bat
+    btop
+    htop
     mc
     micro
     ncdu

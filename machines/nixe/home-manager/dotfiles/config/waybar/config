@@ -46,6 +46,7 @@
       "custom/microphone",
       "custom/screen-recording",
       "custom/notification",
+      "custom/keyboard",
       "custom/wlogout"
     ],
 
@@ -145,6 +146,14 @@
       "tooltip": true,
       "interval": 3600,
       "exec": "~/.config/waybar/scripts/discordian-date.js",
+      "return-type": "json"
+    },
+
+    "custom/keyboard": {
+      "format": "{}",
+      "tooltip": true,
+      "interval": 1,
+      "exec": "~/.config/waybar/scripts/keyboard-layout.sh",
       "return-type": "json"
     },
 

@@ -35,8 +35,6 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    aba # address book for aerc
-    aerc # terminal email client
     alsa-utils # aplay
     angband # lotr terminal roguelike
     asciicam # webcam in the terminal

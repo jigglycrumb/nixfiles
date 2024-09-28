@@ -92,6 +92,8 @@ in
 
   environment.systemPackages = with pkgs; [
     bat
+    btop
+    htop
     micro
   ];
 

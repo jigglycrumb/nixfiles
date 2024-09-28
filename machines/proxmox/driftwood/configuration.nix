@@ -1,5 +1,5 @@
 # Nix OS config for a misc use Home server
-# Proxmox VM: 1 CPU, 4GB RAM, 32GB HDD
+# Proxmox VM: 2 CPUs, 6GB RAM, 32GB HDD
 
 { config, pkgs, ... }:
 
@@ -92,7 +92,9 @@ in
 
   environment.systemPackages = with pkgs; [
     bat
+    btop
     git
+    htop
     micro
   ];
 
@@ -177,12 +179,14 @@ in
   # allow homepage to run on port 80
   systemd.services.homepage-dashboard.serviceConfig.AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
 
+  # wiki
   services.gollum = {
     enable = true;
     user = "${username}";
     port = 8080;
   };
 
+  # syncthing for wiki backup
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
@@ -212,8 +216,18 @@ in
 
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 
+  # minecraft server
+  nixpkgs.config.allowUnfree = true;
+  services.minecraft-server = {
+    enable = true;
+    eula = true;
+    # jvmOpts = "-Xms4092M -Xmx4092M -XX:+UseG1GC -XX:+CMSIncrementalPacing -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=2 -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10";
+    openFirewall = true;
+  };
+
   networking.firewall.allowedTCPPorts = [
     8080 # gollum
     8384 # syncthing
+    # 25565 # minecraft server
   ];
 }
