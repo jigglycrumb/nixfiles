@@ -15,7 +15,7 @@
 window#waybar {
   background: @background-alpha;
   color: @foreground;
-  border-radius: 8px;
+  /* border-radius: 0 0 8px 8px; */
 }
 
 window#waybar > * {
@@ -61,7 +61,7 @@ tooltip label {
 #taskbar button,
 #workspaces button {
   background-color: @color6;
-  border-radius: 6px;
+  border-radius: 8px;
   margin-right: 2px;
   margin-top: -4px;
   color: @background;

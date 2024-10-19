@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  # lib,
+  pkgs,
+  ...
+}:
 
 let
   # Import secrets
@@ -20,6 +25,7 @@ let
   username = "jigglycrumb";
   secrets = import ./secrets.nix;
   secrets-syncthing = import ../../../common/secret/syncthing.nix;
+  secrets-wireguard = import ../../../common/secret/wireguard.nix;
 in
 {
   imports = [
@@ -84,8 +90,52 @@ in
     ];
     allowedUDPPorts = [
       50000 # rtorrent
+      secrets-wireguard.port # wireguard
     ];
   };
+
+  # Enable WireGuard
+  # systemd.services.wireguard-wg0.wantedBy = [ ]; # lib.mkForce [ ]; # dont connect automatically # TODO doesnt seem to work, investigate
+
+  # networking.wireguard.interfaces = {
+  #   # "wg0" is the network interface name. You can name the interface arbitrarily.
+  #   wg0 = {
+  #     # Determines the IP address and subnet of the client's end of the tunnel interface.
+  #     ips = secrets-wireguard.hosts.${hostname}.ips;
+
+  #     listenPort = secrets-wireguard.port; # to match firewall allowedUDPPorts (without this wg uses random port numbers)
+
+  #     # Path to the private key file.
+  #     #
+  #     # Note: The private key can also be included inline via the privateKey option,
+  #     # but this makes the private key world-readable; thus, using privateKeyFile is
+  #     # recommended.
+  #     privateKeyFile = "/home/${username}/.wireguard-keys/${hostname}-wireguard.private";
+
+  #     peers = secrets-wireguard.hosts.${hostname}.peers;
+  #   };
+  # };
+
+  networking.wg-quick.interfaces = {
+    home = {
+      # Determines the IP address and subnet of the client's end of the tunnel interface.
+      address = secrets-wireguard.hosts.${hostname}.ips;
+      autostart = false;
+
+      listenPort = secrets-wireguard.port; # to match firewall allowedUDPPorts (without this wg uses random port numbers)
+
+      # Path to the private key file.
+      #
+      # Note: The private key can also be included inline via the privateKey option,
+      # but this makes the private key world-readable; thus, using privateKeyFile is
+      # recommended.
+      privateKeyFile = "/home/${username}/.wireguard-keys/${hostname}-wireguard.private";
+
+      peers = secrets-wireguard.hosts.${hostname}.peers;
+    };
+  };
+
+  networking.extraHosts = "192.168.100.1 home"; # add wireguard endpoint to hosts file
 
   # networking.firewall.trustedInterfaces = [ "virbr0" ];
 
@@ -190,10 +240,9 @@ in
 
   xdg.portal = {
     enable = true;
-    wlr.enable = true; # enable portal for wayland
+    # wlr.enable = true;
     xdgOpenUsePortal = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-hyprland
     ];
@@ -372,6 +421,7 @@ in
       cool-retro-term # terminal emulator
       czkawka # remove useless files
       cryptomator # file encryption
+      # davinci-resolve # video editor
       devilutionx # Diablo
       devour # devours your current terminal
       digikam # photo manager
@@ -388,7 +438,7 @@ in
       seahorse # keyring manager
       simple-scan # scan documents
       godot_4 # game engine
-      gossip # nostr client
+      # gossip # nostr client
       grandorgue # virtual pipe organ
       handbrake # video encoding
       heroic # GUI for GOG & Epic Games
@@ -405,12 +455,14 @@ in
       lutris # play games
       makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
-      # mediathekview # downloader for German public broadcasts
+      mediathekview # downloader for German public broadcasts
       milkytracker # music tracker
       # obsidian # personal knowledge base
       opensnitch-ui # GUI for opensnitch application firewall
+      orca # screen reader
       # openxcom
       pika-backup # a backup thing
+      prismlauncher # Minecraft launcher
       protonup-qt # GUI too to manage Steam compatibility tools
       qsynth # small gui for fluidsynth
       retroarch # multi system emulator
@@ -418,7 +470,7 @@ in
       rosegarden
       scummvm # emulates old adventure games
       signal-desktop # messenger
-      simplex-chat-desktop # messenger
+      # simplex-chat-desktop # messenger
       sonic-pi # code music
       sparrow
       theforceengine # dark forces source port
@@ -429,7 +481,6 @@ in
       wasabiwallet
       wtype # fake keypresses in wayland (bookmarks mgmt)
       yoshimi # software synthesizer
-      zed-editor # code editor
     ];
   };
 
@@ -498,15 +549,11 @@ in
     cliphist # clipboard history
     door-knocker # check availability of portals
     drawing # basic image editor, similar to MS Paint
-    # egl-wayland
     easyeffects # effects for pipewire apps
     exfat # tools for ExFAT formatted disks
     exiftool # read & write exif data - integrates with digikam
     fuzzel # wayland app launcher
-    adwaita-icon-theme # VM stuff
     gparted # drive partition manager
-    gpu-viewer # gui for GPU info
-    gpuvis # gpu trace visualizer
     grimblast # screenshot tool
     helvum # patchbay for PipeWire
     home-manager # manage user configurations
@@ -527,13 +574,13 @@ in
     micro # terminal editor
     neofetch # I use nix btw
     networkmanagerapplet # tray app for network management
-    nh # shortcuts for comomon NixOS/home-manager commands
-    nix-output-monitor # nom nom nom
-    nvd # nix version diff
+    # nh # shortcuts for common NixOS/home-manager commands
+    # nix-output-monitor # nom nom nom
+    # nvd # nix version diff
     oculante # fast image viewer
     pamixer # terminal volume control
     pavucontrol # GUI volume conrol
-    # peazip # archive utility - build is broken at the moment
+    peazip # archive utility - build is broken at the moment
     powertop # power monitor
     pulseaudio # pactl
 
@@ -545,16 +592,16 @@ in
     samba # de janeiro! *da da da da, dadada, dadada*
     satty # screenshot annotation tool
     slurp # select region on screen (used in screen recording script)
-    spice # VM stuff
-    spice-gtk # VM stuff
-    spice-protocol # VM stuff
+    # spice # VM stuff
+    # spice-gtk # VM stuff
+    # spice-protocol # VM stuff
     swayimg # image viewer
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     system-config-printer # printer configuration UI
     usbutils # provides lsusb
-    virtiofsd # enables shared folders between host and Windows VM
-    virt-viewer # VM stuff
+    # virtiofsd # enables shared folders between host and Windows VM
+    virt-viewer # VM management GUI
     wget # download stuff
     wf-recorder # screen recording
     wl-clipboard # wayland clipboard management

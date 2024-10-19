@@ -177,7 +177,7 @@ in
     ".config/fuzzel/scripts".source = dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = dotfiles/config/hypr;
     ".config/kitty/kitty.conf".text = ''
-      background_opacity 0.95
+      background_opacity 0.97
       confirm_os_window_close 0
       window_padding_width 4 6
       font_size 12.0
@@ -192,7 +192,6 @@ in
     ".functions".source = dotfiles/functions;
     ".scripts".source = dotfiles/scripts;
     ".sounds".source = dotfiles/sounds;
-    # ".ssh".source = dotfiles/ssh;
 
     ".vscode/argv.json".text = ''
       {
@@ -204,29 +203,22 @@ in
     ".rtorrent.rc".source = dotfiles/rtorrent.rc;
     ".wgetrc".source = dotfiles/wgetrc;
     ".local/share/applications/appimage".source = dotfiles/local/share/applications/appimage;
+    ".local/share/applications/other".source = dotfiles/local/share/applications/other;
 
-    # ".local/share/applications/other".source = dotfiles/local/share/applications/other;
-
-    ".local/share/applications/other/pico8.png".source = dotfiles/local/share/applications/other/pico8.png;
-    ".local/share/applications/other/Pico-8.desktop".text = ''
-      [Desktop Entry]
-      Name=pico-8
-      Comment=Fantasy Console
-      Exec=bash run.sh
-      Path=/home/${username}/Applications/pico-8
-      Icon=/home/${username}/.local/share/applications/other/pico8.png
-      Terminal=false
-      Type=Application
-      Categories=Development;
-    '';
+    # ".local/share/applications/other/pico8.png".source = dotfiles/local/share/applications/other/pico8.png;
+    # ".local/share/applications/other/Pico-8.desktop".text = ''
+    #   [Desktop Entry]
+    #   Name=pico-8
+    #   Comment=Fantasy Console
+    #   Exec=bash run.sh
+    #   Path=/home/${username}/Applications/pico-8
+    #   Icon=/home/${username}/.local/share/applications/other/pico8.png
+    #   Terminal=false
+    #   Type=Application
+    #   Categories=Development;
+    # '';
 
     ".local/share/applications/secret".source = dotfiles/local/share/applications/secret;
-
-    # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
 
     ".screenrc".text = ''
       # Disable the startup message
@@ -412,6 +404,7 @@ in
 
   programs.zsh = {
     enable = true;
+
     history = {
       ignoreAllDups = true;
       ignorePatterns = [
@@ -423,10 +416,12 @@ in
         "tldr"
       ];
     };
+
     oh-my-zsh = {
       enable = true;
       theme = "cloud";
     };
+
     plugins = [
       {
         name = "you-should-use";
@@ -438,6 +433,7 @@ in
         };
       }
     ];
+
     initExtra = ''
       autoload -U compinit && compinit
       autoload zmv
@@ -459,9 +455,15 @@ in
       # on launch, not just after refresh
       cat ~/.cache/wal/sequences
 
+      echo ""
+      echo " It's $(ddate +'%{%A, the %e of %B%}, %Y. %N%nCelebrate %H ')" | lolcat
+      echo ""
+      echo " Wise llama says:" | lolcat
+      echo ""
       fortune | cowsay -f llama | lolcat
       echo ""
     '';
+
     shellAliases = {
       c = "clear";
       "c." = "code .";
@@ -518,6 +520,10 @@ in
       # Home manager
       home-manager-update = "cd ~/.config/home-manager && nix flake update";
       home-manager-cleanup = "home-manager expire-generations '-14 days'";
+
+      # VPN
+      vpn-up = "sudo systemctl start wg-quick-home.service";
+      vpn-down = "sudo systemctl stop wg-quick-home.service";
 
       # OSX debris
 

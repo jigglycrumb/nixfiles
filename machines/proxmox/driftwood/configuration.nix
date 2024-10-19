@@ -1,5 +1,5 @@
 # Nix OS config for a misc use Home server
-# Proxmox VM: 2 CPUs, 6GB RAM, 32GB HDD
+# Proxmox VM: 2 CPUs, 6GB RAM, 128GB HDD
 
 { config, pkgs, ... }:
 
@@ -10,6 +10,7 @@ let
   keymap = "de";
   timezone = "Europe/Berlin";
   secrets-syncthing = import ./secret/syncthing.nix;
+  secrets-minecraft = import ./secret/minecraft.nix;
 in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
@@ -216,18 +217,63 @@ in
 
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 
-  # minecraft server
+  # Minecraft server
+
+  # since there is no http(s) involved here, access is handled by opening the port on the router
+  # and setting up a SRV record on the domain which forwards to the domain and port
+
   nixpkgs.config.allowUnfree = true;
+
   services.minecraft-server = {
     enable = true;
     eula = true;
-    # jvmOpts = "-Xms4092M -Xmx4092M -XX:+UseG1GC -XX:+CMSIncrementalPacing -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=2 -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10";
+    jvmOpts = "-Xms4096M -Xmx4096M";
     openFirewall = true;
+    declarative = true;
+    serverProperties = {
+      max-players = 8;
+      motd = secrets-minecraft.motd;
+      pvp = false;
+      white-list = true;
+    };
+
+    whitelist = secrets-minecraft.whitelist;
   };
 
+  services.mealie = {
+    enable = true;
+    # port = 9000;
+    settings = {
+      BASE_URL = "http://driftwood:9000";
+      TZ = "${timezone}";
+    };
+  };
+
+  # services.mattermost = {
+  #   enable = true;
+  #   # listenAddress = ":8065";
+  #   plugins = [ ];
+  #   # siteName = "Mattermost";
+  #   siteUrl = "https://chat.example.com";
+  # };
+
+  # services.invidious = {
+  #   enable = true;
+  #   # port = 3000;
+  # };
+
+  # services.freshrss = {
+  #   enable = true;
+  #   baseUrl = "https://freshrss.example.com";
+  # };
+
   networking.firewall.allowedTCPPorts = [
+    # 80 # homepage-dashboard
+    # 3000 # invidious
+    # 8065 # mattermost
     8080 # gollum
     8384 # syncthing
+    9000 # mealie
     # 25565 # minecraft server
   ];
 }
