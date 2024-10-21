@@ -137,6 +137,12 @@ in
         enableACME = true;
       };
 
+      "food.${domain}" = {
+        locations."/".proxyPass = "http://driftwood:9000";
+        forceSSL = true;
+        enableACME = true;
+      };
+
       "wiki.${domain}" = {
         locations."/".proxyPass = "http://driftwood:8080";
         forceSSL = true;

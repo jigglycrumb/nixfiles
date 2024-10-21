@@ -244,10 +244,21 @@ in
     enable = true;
     # port = 9000;
     settings = {
-      BASE_URL = "http://driftwood:9000";
+      BASE_URL = "https://food.mina.kiwi";
       TZ = "${timezone}";
     };
   };
+
+  # services.quake3-server = {
+  #   enable = true;
+  #   port = 27960;
+  #   openFirewall = true;
+  #   baseq3 = "/home/${username}/nixos/secret/baseq3";
+  #   # extraConfig = ''
+  #   #   seta rconPassword "superSecret"      // sets RCON password for remote console
+  #   #   seta sv_hostname "My Quake 3 server"      // name that appears in server list
+  #   # '';
+  # };
 
   # services.mattermost = {
   #   enable = true;
@@ -275,5 +286,6 @@ in
     8384 # syncthing
     9000 # mealie
     # 25565 # minecraft server
+    # 27960 # quake 3 server
   ];
 }

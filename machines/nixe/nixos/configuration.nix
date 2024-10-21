@@ -248,6 +248,17 @@ in
     ];
   };
 
+  fileSystems."/home/${username}/Remote/NAS" = {
+    device = "//siren/nas";
+    fsType = "cifs";
+
+    options = [
+      # this line prevents hanging on network split
+      # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+      "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
+    ];
+  };
+
   # Enable OpenSnitch application firewall
   services.opensnitch.enable = true;
 
@@ -589,12 +600,12 @@ in
     radeontop
     rocmPackages.rocminfo
 
-    samba # de janeiro! *da da da da, dadada, dadada*
+    samba # de janeiro! *da da da da, dadada, dada*
     satty # screenshot annotation tool
     slurp # select region on screen (used in screen recording script)
-    # spice # VM stuff
-    # spice-gtk # VM stuff
-    # spice-protocol # VM stuff
+    spice # VM stuff
+    spice-gtk # VM stuff
+    spice-protocol # VM stuff
     swayimg # image viewer
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
@@ -614,17 +625,6 @@ in
       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
     }))
   ];
-
-  #fileSystems."/home/${username}/Remote/NAS" = {
-  #  device = "//wopr/nas";
-  #  fsType = "cifs";
-
-  #  options = [
-  #    # this line prevents hanging on network split
-  #    # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-  #    "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
-  #  ];
-  #};
 
   qt = {
     enable = true;
