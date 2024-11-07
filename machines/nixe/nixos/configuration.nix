@@ -18,6 +18,29 @@ let
     }
   );
 
+  enable =
+    attrs:
+    builtins.listToAttrs (
+      map (name: {
+        name = name;
+        value.enable = true;
+      }) attrs
+    );
+
+  luaToViml =
+    s:
+    let
+      lines = lib.splitString "\n" s;
+      nonEmptyLines = builtins.filter (line: line != "") lines;
+      processed = map (
+        line: if line == builtins.head nonEmptyLines then "lua " + line else "\\ " + line
+      ) nonEmptyLines;
+    in
+    lib.concatStringsSep "\n" processed;
+
+  mkSources =
+    sources: map (source: if lib.isAttrs source then source else { name = source; }) sources;
+
   # Import secrets
   #
   # !!! WARNING !!!
@@ -45,6 +68,14 @@ in
   programs.nixvim = {
     enable = true;
 
+    extraPackages = with pkgs; [
+      isort
+      ruff
+      stylua
+      typstfmt
+      prettierd
+    ];
+
     extraConfigLua = ''
       -- init transparent.nvim
 
@@ -52,6 +83,9 @@ in
       require('transparent').clear_prefix('BufferLine')
       require('transparent').clear_prefix('NeoTree')
       -- require('transparent').clear_prefix('lualine')
+
+      -- ui things
+      MiniMap.open()
 
       -- pet helpers
       local actions = require('telescope.actions')
@@ -163,6 +197,80 @@ in
     plugins = {
       bufferline.enable = true; # tabs
 
+      cmp = {
+        enable = true;
+        autoEnableSources = true;
+        settings = {
+          window = {
+            completion = {
+              scrollbar = false;
+              scrolloff = 2;
+              border = "rounded";
+              winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None";
+            };
+            documentation.maxHeight = "math.floor(vim.o.lines / 2)";
+          };
+          preselect = "None";
+          snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
+          matching.disallowPartialFuzzyMatching = false;
+          sources = mkSources [
+            "nvim_lsp"
+            "treesitter"
+            "fuzzy-path"
+            "path"
+            "buffer"
+            "copilot"
+          ];
+          # TODO More consistent Tab binds
+          # TODO Better smart indent https://www.reddit.com/r/neovim/comments/101kqds/comment/j2p5xe4
+          # QUESTION Fix binds like the quickfix menu in vscode?
+          mapping = {
+            "<C-d>" = "cmp.mapping.scroll_docs(-4)";
+            "<C-e>" = "cmp.mapping.close()";
+            "<C-f>" = "cmp.mapping.scroll_docs(4)";
+            "<CR>" = "cmp.mapping.confirm({ select = false })";
+            "<C-Space>" = ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.close()
+                else
+                  cmp.complete()
+                end
+              end, { "i", "n", "v" })
+            '';
+            "<Tab>" = ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
+                elseif luasnip.expand_or_jumpable() then
+                  luasnip.expand_or_locally_jumpable()
+                elseif HasWordsBefore() then
+                  cmp.complete()
+                else
+                  ${
+                    if config.programs.nixvim.plugins.intellitab.enable then
+                      "vim.cmd[[silent! lua require('intellitab').indent()]]"
+                    else
+                      "fallback()"
+                  }
+                end
+              end, { "i", "s" })
+            '';
+            "<S-Tab>" = ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item()
+                elseif luasnip.jumpable(-1) then
+                  luasnip.jump(-1)
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+          };
+        };
+      };
+
       # formatting
       conform-nvim = {
         enable = true;
@@ -191,12 +299,6 @@ in
               ]
             ];
             typst = [ "typstfmt" ];
-            cs = [
-              [
-                "uncrustify"
-                "csharpier"
-              ]
-            ];
             html = [ "htmlbeautifier" ];
             css = [ "stylelint" ];
             _ = "trim_whitespace";
@@ -232,8 +334,54 @@ in
       };
 
       lint.enable = true; # lint support
-      lsp.enable = true; # lsp server
+
+      lspkind.enable = true;
+      lsp = {
+        enable = true;
+        inlayHints = true;
+        servers =
+          enable [
+            "ts_ls"
+            "bashls"
+            "clangd"
+            "cssls"
+            "lua_ls"
+            "eslint"
+            "html"
+            "jsonls"
+            "nil_ls"
+            "tailwindcss"
+            "typst_lsp"
+            "yamlls"
+            "docker_compose_language_service"
+          ]
+          // {
+            # FIXME Autostart ruff for files that exist on disk
+            ruff = {
+              enable = true;
+              autostart = false;
+            };
+            rust_analyzer = {
+              enable = false; # Handled by rustacean
+              installCargo = true;
+              installRustc = true;
+            };
+            hls = {
+              enable = true;
+              installGhc = true;
+            };
+          };
+      };
+
       lualine.enable = true; # bottom status line
+
+      luasnip = {
+        enable = true;
+        settings = {
+          enable_autosnippets = false;
+          store_selection_keys = "<Tab>";
+        };
+      };
 
       # file explorer
       neo-tree = {
@@ -259,21 +407,21 @@ in
         mockDevIcons = true;
         modules = {
           icons = { };
-          # clue = { };
-          # map = {
-          #   symbols = {
-          #     scroll_line = "█";
-          #     scroll_view = "┃";
+          map = { };
+          #   map = {
+          #     symbols = {
+          #       scroll_line = "█";
+          #       scroll_view = "┃";
+          #     };
+          #     window = {
+          #       focusable = false;
+          #       side = "right";
+          #       show_integration_count = true;
+          #       width = 10;
+          #       winblend = 25;
+          #       zindex = 10;
+          #     };
           #   };
-          #   window = {
-          #     focusable = false;
-          #     side = "right";
-          #     show_integration_count = true;
-          #     width = 10;
-          #     winblend = 25;
-          #     zindex = 10;
-          #   };
-          # };
         };
       };
 
@@ -411,6 +559,19 @@ in
             };
           }
         );
+      }
+
+      {
+        plugin = pkgs.vimUtils.buildVimPlugin rec {
+          name = "inlay-hints.nvim";
+          src = pkgs.fetchFromGitHub {
+            owner = "MysticalDevil";
+            repo = name;
+            rev = "1d5bd49a43f8423bc56f5c95ebe8fe3f3b96ed58";
+            hash = "sha256-E6+h9YIMRlot0umYchGYRr94bimBosunVyyvhmdwjIo=";
+          };
+        };
+        config = luaToViml ''require("inlay-hints").setup({})'';
       }
 
       # requires nvim compiled with +sound
