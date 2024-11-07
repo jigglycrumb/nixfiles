@@ -79,7 +79,6 @@ tooltip label {
 #workspaces button.active {
   box-shadow: none;
   font-weight: bold;
-  margin-top: 0px;
   padding-bottom: 4px;
 }
 
@@ -114,6 +113,7 @@ tooltip label {
 #custom-wlogout,
 #custom-notification,
 #custom-keyboard,
+#custom-vpn,
 
 #custom-launcher,
 #custom-brave,
@@ -224,6 +224,7 @@ tooltip label {
   animation-direction: alternate;
 }
 
+#custom-vpn.connected,
 #network.disconnected {
   background-color: alpha(@color6, 0.85);
   color: @background;

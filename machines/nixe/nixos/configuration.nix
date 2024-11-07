@@ -4,12 +4,20 @@
 
 {
   config,
-  # lib,
+  lib,
   pkgs,
   ...
 }:
 
 let
+
+  nixvim = import (
+    builtins.fetchGit {
+      url = "https://github.com/nix-community/nixvim";
+      # When using a different channel you can use `ref = "nixos-<version>"` to set it here
+    }
+  );
+
   # Import secrets
   #
   # !!! WARNING !!!
@@ -31,9 +39,401 @@ in
   imports = [
     # Include the results of the hardware scan.
     /etc/nixos/hardware-configuration.nix
+    nixvim.nixosModules.nixvim
   ];
 
-  # Bootloader.
+  programs.nixvim = {
+    enable = true;
+
+    extraConfigLua = ''
+      -- init transparent.nvim
+
+      require('transparent').setup()
+      require('transparent').clear_prefix('BufferLine')
+      require('transparent').clear_prefix('NeoTree')
+      -- require('transparent').clear_prefix('lualine')
+
+      -- pet helpers
+      local actions = require('telescope.actions')
+      local action_state = require('telescope.actions.state')
+
+      function Bird()
+        local birds = { '🦆', '🪿', '🐧', '🐤', '🦢' }
+        local bird_speed = {
+          ['🦆'] = '5',
+          ['🪿'] = '5',
+          ['🐧'] = '3',
+          ['🐤'] = '1',
+          ['🦢'] = '3',
+        }
+        local birdIndex = math.random(1, #birds) -- or short math.random(#birds)
+        local bird = birds[birdIndex]
+        require('duck').hatch(bird, bird_speed[bird])
+      end
+
+      function Pet()
+        local pets = { '🦆', '🪿', '🐧', '🐤', '🦢', '🐈', '🐌', '🐢', '🦑', '🦐', '🦀', '🐟', '🦔', '🦋', '🐞', '🪳', '🐜' }
+        local speed_for = {
+          ['🐌'] = '2',
+          ['🐢'] = '5',
+          ['🦋'] = '7',
+          ['🐜'] = '15',
+          ['🪳'] = '20',
+          ['🦔'] = '30',
+        }
+
+        require('telescope.pickers').new({}, {
+          prompt_title = 'Select Pet',
+          finder = require('telescope.finders').new_table({
+            results = pets,
+          }),
+          sorter = require('telescope.sorters').get_generic_fuzzy_sorter(),
+          attach_mappings = function(prompt_bufnr, map)
+            actions.select_default:replace(function()
+              local selection = action_state.get_selected_entry()
+              actions.close(prompt_bufnr)
+
+              -- Defer the number input to ensure the environment is ready
+              vim.defer_fn(function()
+                local speed = speed_for[selection[1]]
+
+                if speed == nil then
+                  local input_opts = {
+                    prompt = 'Choose speed: ',
+                    default = '7',
+                  }
+
+                  vim.ui.input(input_opts, function(input)
+                    local number = tonumber(input) or 7.0
+                    require('duck').hatch(selection[1], number)
+                  end)
+                else
+                  require('duck').hatch(selection[1], speed)
+                end
+              end, 100)
+            end)
+            return true
+          end
+        }):find()
+      end
+    '';
+
+    extraConfigVim = ''
+      colorscheme pywal
+    '';
+
+    keymaps = [
+
+      # sfx
+      {
+        key = "<leader>fml";
+        action = "<CMD>CellularAutomaton make_it_rain<CR>";
+        options.desc = "Let it rain";
+      }
+      {
+        key = "<leader>brb";
+        action = "<CMD>CellularAutomaton game_of_life<CR>";
+        options.desc = "Game Of Life";
+      }
+
+      # pets
+      {
+        key = "<leader>pb";
+        action = "<CMD>lua Bird()<CR>";
+        options.desc = "Spawn bird :⁾";
+      }
+      {
+        key = "<leader>ps";
+        action = "<CMD>lua Pet()<CR>";
+        options.desc = "Spawn pet :⁾";
+      }
+      {
+        key = "<leader>pk";
+        action = "<CMD>lua require('duck').cook_all()<CR>";
+        options.desc = "Kill pets :⁽";
+      }
+
+    ];
+
+    opts = {
+      number = true; # show line numbers
+      numberwidth = 3; # width of line number column
+    };
+
+    plugins = {
+      bufferline.enable = true; # tabs
+
+      # formatting
+      conform-nvim = {
+        enable = true;
+        settings = {
+          formatters_by_ft = {
+            bash = [ "shellcheck" ];
+            nix = [ "nixfmt" ];
+            lua = [ "stylua" ];
+            c = [ "clang-format" ];
+            cpp = [ "clang-format" ];
+            python = [
+              "isort"
+              "ruff_fix"
+              "ruff_format"
+            ];
+            javascript = [
+              [
+                "prettierd"
+                "prettier"
+              ]
+            ];
+            typescript = [
+              [
+                "prettierd"
+                "prettier"
+              ]
+            ];
+            typst = [ "typstfmt" ];
+            cs = [
+              [
+                "uncrustify"
+                "csharpier"
+              ]
+            ];
+            html = [ "htmlbeautifier" ];
+            css = [ "stylelint" ];
+            _ = "trim_whitespace";
+          };
+          formatters = {
+            shellcheck = {
+              command = lib.getExe pkgs.shellcheck;
+            };
+          };
+        };
+      };
+
+      direnv.enable = true;
+      gitsigns.enable = true; # git markers
+
+      # markdown renderer
+      glow = {
+        enable = true;
+        settings = {
+          border = "rounded";
+          height = 1000;
+          width = 1000;
+          height_ratio = 1.0;
+          width_ratio = 1.0;
+        };
+      };
+
+      # indentation hints
+      indent-blankline = {
+        enable = true;
+        settings.indent.char = "¦";
+        # settings.indent.char = "░";
+      };
+
+      lint.enable = true; # lint support
+      lsp.enable = true; # lsp server
+      lualine.enable = true; # bottom status line
+
+      # file explorer
+      neo-tree = {
+        enable = true;
+        addBlankLineAtTop = true;
+        closeIfLastWindow = true;
+        filesystem.filteredItems.hideDotfiles = false;
+      };
+
+      # notifications
+      notify = {
+        enable = true;
+        render = "minimal";
+        stages = "slide";
+        timeout = 4000;
+        topDown = true;
+        fps = 60;
+      };
+
+      # icons
+      mini = {
+        enable = true;
+        mockDevIcons = true;
+        modules = {
+          icons = { };
+          # clue = { };
+          # map = {
+          #   symbols = {
+          #     scroll_line = "█";
+          #     scroll_view = "┃";
+          #   };
+          #   window = {
+          #     focusable = false;
+          #     side = "right";
+          #     show_integration_count = true;
+          #     width = 10;
+          #     winblend = 25;
+          #     zindex = 10;
+          #   };
+          # };
+        };
+      };
+
+      # file explorer
+      oil = {
+        enable = true;
+        settings = {
+          default_file_explorer = false;
+        };
+      };
+
+      overseer.enable = true; # task runner
+      telescope.enable = true; # fuzzy finder
+
+      todo-comments.enable = true; # highlight TODO and similar comments
+
+      toggleterm = {
+        enable = true;
+        settings = {
+          direction = "float";
+          open_mapping = "[[<M-n>]]";
+          float_opts.border = "curved";
+        };
+      };
+
+      transparent.enable = true; # transparency
+
+      # syntax highlighting
+      treesitter = {
+        enable = true;
+
+        grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+          arduino
+          astro
+          awk
+          bash
+          c
+          css
+          csv
+          cue
+          dockerfile
+          gdscript
+          git_config
+          gitignore
+          gomod
+          gosum
+          javascript
+          jq
+          jsdoc
+          json
+          lua
+          make
+          markdown
+          nix
+          php
+          python
+          regex
+          scss
+          sql
+          svelte
+          toml
+          tsx
+          typescript
+          vim
+          vimdoc
+          vue
+          xml
+          yaml
+        ];
+
+        settings.highlight.enable = true;
+      };
+
+      typescript-tools.enable = true; # something with typescript
+      which-key.enable = true; # key hints
+    };
+
+    extraPlugins = with pkgs.vimPlugins; [
+      pywal-nvim # dynamic color scheme
+
+      # gremlins
+      {
+        plugin = (
+          pkgs.vimUtils.buildVimPlugin rec {
+            name = "vim-unicode-homoglyphs";
+            src = pkgs.fetchFromGitHub {
+              owner = "Konfekt";
+              repo = name;
+              rev = "c52e957edd1dcc679d221903b7e623ba15b155fb";
+              hash = "sha256-zOQ1uAu3EJ8O+WSRtODGkC1WTlOOh13Dmkjg5IkkLqE=";
+            };
+          }
+        );
+      }
+
+      {
+        plugin = (
+          pkgs.vimUtils.buildVimPlugin rec {
+            name = "vim-troll-stopper";
+            src = pkgs.fetchFromGitHub {
+              owner = "vim-utils";
+              repo = name;
+              rev = "24a9db129cd2e3aa2dcd79742b6cb82a53afef6c";
+              hash = "sha256-5Fa/zK5f6CtRL+adQj8x41GnwmPWPV1+nCQta8djfqs=";
+            };
+          }
+        );
+      }
+
+      # pets
+      {
+        plugin = (
+          pkgs.vimUtils.buildVimPlugin rec {
+            name = "duck.nvim";
+            src = pkgs.fetchFromGitHub {
+              owner = "tamton-aquib";
+              repo = name;
+              rev = "d8a6b08af440e5a0e2b3b357e2f78bb1883272cd";
+              hash = "sha256-97QSkZHpHLq1XyLNhPz88i9VuWy6ux7ZFNJx/g44K2A=";
+            };
+          }
+        );
+      }
+
+      # sfx
+      {
+        plugin = (
+          pkgs.vimUtils.buildVimPlugin rec {
+            name = "cellular-automaton.nvim";
+            src = pkgs.fetchFromGitHub {
+              owner = "Eandrju";
+              repo = name;
+              rev = "11aea08aa084f9d523b0142c2cd9441b8ede09ed";
+              hash = "sha256-nIv7ISRk0+yWd1lGEwAV6u1U7EFQj/T9F8pU6O0Wf0s=";
+            };
+          }
+        );
+      }
+
+      # requires nvim compiled with +sound
+      # {
+      #   plugin = (
+      #     pkgs.vimUtils.buildVimPlugin rec {
+      #       name = "typewriter.vim";
+      #       src = pkgs.fetchFromGitHub {
+      #         owner = "AndrewRadev";
+      #         repo = name;
+      #         rev = "514eeb4df6d9ff8926dd535afa8ca3b9514f36f0";
+      #         hash = "sha256-nsqFSG7qel1FM+s7CDceG4IhWgPpnWM1jm/jar0ywiw=";
+      #       };
+      #     }
+      #   );
+      # }
+
+      # hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    ];
+
+  };
+
+  # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 50; # limit boot loader to the last 50 generations
   boot.loader.efi.canTouchEfiVariables = true;
@@ -468,10 +868,12 @@ in
       # mattermost-desktop
       mediathekview # downloader for German public broadcasts
       milkytracker # music tracker
+      nwg-look # GUI to theme GTK apps
       # obsidian # personal knowledge base
       opensnitch-ui # GUI for opensnitch application firewall
       orca # screen reader
       # openxcom
+      pablodraw # ANSI/ASCII art drawing
       pika-backup # a backup thing
       prismlauncher # Minecraft launcher
       protonup-qt # GUI too to manage Steam compatibility tools
@@ -483,6 +885,9 @@ in
       signal-desktop # messenger
       # simplex-chat-desktop # messenger
       sonic-pi # code music
+      soundfont-fluid
+      soundfont-ydp-grand
+      soundfont-generaluser
       sparrow
       theforceengine # dark forces source port
       tor-browser-bundle-bin # browser for the evil dark web
@@ -595,7 +1000,11 @@ in
     powertop # power monitor
     pulseaudio # pactl
 
-    (python3.withPackages (ps: with ps; [ requests ])) # needed for waybar weather script
+    (python3.withPackages (
+      ps: with ps; [
+        requests # needed for waybar weather script
+      ]
+    ))
 
     radeontop
     rocmPackages.rocminfo

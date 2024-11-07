@@ -47,10 +47,12 @@
       "tray",
       // "custom/clipboard",
       "privacy",
+      // "idle_inhibitor",
       "custom/microphone",
       "custom/screen-recording",
-      "custom/notification",
+      "custom/vpn",
       "custom/keyboard",
+      "custom/notification",
       "custom/wlogout"
     ],
 
@@ -158,6 +160,7 @@
       "tooltip": true,
       "interval": 1,
       "exec": "~/.config/waybar/scripts/keyboard-layout.sh",
+      "on-click": "~/.config/waybar/scripts/keyboard-layout.sh --toggle",
       "return-type": "json"
     },
 
@@ -222,6 +225,16 @@
       "on-click": "swaync-client -t -sw",
       "on-click-right": "swaync-client -d -sw",
       "escape": true
+    },
+
+    "custom/vpn":{
+      "format": "{icon}",
+      "exec": "~/.config/waybar/scripts/vpn-status.sh",
+      "return-type": "json",
+      "interval": 1,
+      "tooltip": true,
+      "on-click": "~/.config/waybar/scripts/vpn-status.sh --toggle",
+      "format-icons": ["🔓", "🔒"]
     },
 
     "custom/weather": {
