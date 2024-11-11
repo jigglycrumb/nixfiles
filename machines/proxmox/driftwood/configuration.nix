@@ -1,7 +1,12 @@
 # Nix OS config for a misc use Home server
 # Proxmox VM: 2 CPUs, 6GB RAM, 128GB HDD
 
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   hostname = "driftwood";
@@ -249,6 +254,17 @@ in
     };
   };
 
+  services.teamspeak3 = {
+    enable = true;
+    openFirewall = true;
+
+    # defaultVoicePort = 9987; # UDP
+    # fileTransferPort = 30033; # TCP
+  };
+
+  # automatically accept teamspeak license
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "teamspeak-server" ];
+
   # services.quake3-server = {
   #   enable = true;
   #   port = 27960;
@@ -287,5 +303,10 @@ in
     9000 # mealie
     # 25565 # minecraft server
     # 27960 # quake 3 server
+    # 30033 # teamspeak file transfers
+  ];
+
+  networking.firewall.allowedUDPPorts = [
+    # 9987 # teamspeak voice chat 
   ];
 }
