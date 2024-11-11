@@ -51,6 +51,8 @@ in
 
       -- automatically update pywal colors
       local fwatch = require('fwatch')
+      -- NOTE: using ~ or $HOME instead of the full path doesn't seem to work
+      -- This is a problem porting this config to other platforms like Mac OS
       local colorfile = '/home/${username}/.cache/wal/colors-wal.vim'
       fwatch.watch(colorfile, 'colorscheme pywal')
 
