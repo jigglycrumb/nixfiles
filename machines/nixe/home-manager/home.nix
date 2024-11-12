@@ -110,11 +110,15 @@ in
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
     pywal # color schemes from images
+    # pywalfox-native # style firefox with pywal
     rtorrent # terminal torrent client
     screen
     scope-tui # terminal oscilloscope
     sl # choo choo
     solitaire-tui # terminal card game
+    soundfont-fluid
+    soundfont-ydp-grand
+    soundfont-generaluser
     speedread # read text fast
     sshpass # use ssh password auth within scripts - used for deploying proxmox VM configs
     tasktimer # task timer

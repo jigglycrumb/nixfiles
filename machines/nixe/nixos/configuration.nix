@@ -495,9 +495,6 @@ in
       signal-desktop # messenger
       # simplex-chat-desktop # messenger
       sonic-pi # code music
-      soundfont-fluid
-      soundfont-ydp-grand
-      soundfont-generaluser
       sparrow
       teamspeak_client # voice chat
       theforceengine # dark forces source port

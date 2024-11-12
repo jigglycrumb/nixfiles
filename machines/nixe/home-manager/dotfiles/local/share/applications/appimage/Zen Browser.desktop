@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Zen Browser
+Comment=Web Browser (AppImage)
+Exec=appimage-run zen-specific.AppImage
+Path=/home/jigglycrumb/Applications
+Icon=/home/jigglycrumb/.local/share/applications/appimage/zen-black.png
+Terminal=false
+Type=Application
