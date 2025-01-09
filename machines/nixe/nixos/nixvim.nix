@@ -35,6 +35,9 @@ in
   programs.nixvim = {
     enable = true;
 
+    # We can set the leader key:
+    globals.mapleader = ",";
+
     extraPackages = with pkgs; [
       isort
       ruff
@@ -351,7 +354,7 @@ in
       };
 
       # fix conflict warnings with cmp
-      copilot-lua = {
+      copilot-lua.settings = {
         suggestion.enabled = false;
         panel.enabled = false;
       };

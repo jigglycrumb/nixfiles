@@ -58,7 +58,7 @@ in
     calcure # calendar tui
     caligula # burn/flash images to SD cards from the terminal
     castero # terminal podcast client
-    cava # terminal audio visualizer
+    # cava # terminal audio visualizer
     cbonsai # terminal tree
     cfonts # ansi fonts
     chess-tui # terminal chess
@@ -95,6 +95,7 @@ in
     lazygit # git tui
     lolcat # 🌈
     lynx # terminal web browser, can be scripted for tasks
+    md-tui # markdown renderer
     meld # merge tool
     minesweep-rs # terminal minesweeper
     mprocs # run multiple processes at the same time
@@ -116,13 +117,10 @@ in
     scope-tui # terminal oscilloscope
     sl # choo choo
     solitaire-tui # terminal card game
-    soundfont-fluid
-    soundfont-ydp-grand
-    soundfont-generaluser
     speedread # read text fast
     sshpass # use ssh password auth within scripts - used for deploying proxmox VM configs
     tasktimer # task timer
-    # textual-paint # terminal ms paint - build is currently broken
+    # textual-paint # terminal ms paint
     terminal-parrot # party parrot
     termpdfpy # graphical pdf/ebook reader for kitty
     # termusic # music player - very promising, but crashes a lot currently
@@ -136,7 +134,7 @@ in
     vitetris # terminal tetris
     wiki-tui # terminal wikipedia
     yazi # terminal file manager
-    youtube-dl # terminal downloader for Youtube etc
+    yt-dlp # terminal downloader for Youtube etc
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the

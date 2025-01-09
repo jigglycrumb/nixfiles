@@ -267,13 +267,13 @@ in
 
   # services.quake3-server = {
   #   enable = true;
-  #   port = 27960;
+  #   # port = 27960;
   #   openFirewall = true;
-  #   baseq3 = "/home/${username}/nixos/secret/baseq3";
-  #   # extraConfig = ''
-  #   #   seta rconPassword "superSecret"      // sets RCON password for remote console
-  #   #   seta sv_hostname "My Quake 3 server"      // name that appears in server list
-  #   # '';
+  #   baseq3 = "/home/${username}/nixos/secret/quake3";
+    # extraConfig = ''
+    #   seta rconPassword "superSecret"      // sets RCON password for remote console
+    #   seta sv_hostname "My Quake 3 server"      // name that appears in server list
+    # '';
   # };
 
   # services.mattermost = {

@@ -185,6 +185,13 @@ in
   # Enabled support for rocm
   # nixpkgs.config.rocmSupport = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-runtime-7.0.20"
+    "dotnet-runtime-wrapped-7.0.20"
+    "dotnet-sdk-7.0.410"
+    "dotnet-sdk-wrapped-7.0.410"
+  ];
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
@@ -258,19 +265,19 @@ in
     ];
   };
 
-  fileSystems."/home/${username}/Remote/NAS" = {
-    device = "//siren/nas";
-    fsType = "cifs";
+  # fileSystems."/home/${username}/Remote/NAS" = {
+  #   device = "//siren/nas";
+  #   fsType = "cifs";
 
-    options = [
-      # this line prevents hanging on network split
-      # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-      "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
-    ];
-  };
+  #   options = [
+  #     # this line prevents hanging on network split
+  #     # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+  #     "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
+  #   ];
+  # };
 
   # Enable OpenSnitch application firewall
-  services.opensnitch.enable = true;
+  # services.opensnitch.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -295,7 +302,7 @@ in
   # Enable web GUI for ollama
   services.open-webui = {
     enable = true;
-    # port = 8080;
+    port = 4141; # 8080;
     environment = {
       ANONYMIZED_TELEMETRY = "False";
       DO_NOT_TRACK = "True";
@@ -431,8 +438,7 @@ in
       appflowy
       arduino # code hardware things
       ascii-draw # draw diagrams etc in ASCII
-      # bisq-desktop
-      audacity
+      audacity # audio recorder/editor
       blanket # ambient sounds
       brave # web browser
       bruno # API client/tester/explorer
@@ -449,8 +455,8 @@ in
       discord # (voice)chat
       dosbox-staging # emulates DOS software
       easytag # edit mp3 tags
-      # electrum
-      # ffmpeg # needed for mediathekview
+      fallout-ce # port of Fallout for modern systems
+      ffmpeg # needed for mediathekview
       firefox # web browser
       furnace # multi-system chiptune tracker
       gimp # image manipulation
@@ -459,11 +465,12 @@ in
       seahorse # keyring manager
       simple-scan # scan documents
       godot_4 # game engine
-      # gossip # nostr client
+      gossip # nostr client
       grandorgue # virtual pipe organ
       handbrake # video encoding
       heroic # GUI for GOG & Epic Games
       hydrogen # drum machine
+      ioquake3 # Quake 3 Arena source port
       jstest-gtk # simple joystick testing GUI
       kdenlive # video editor
       keeperrl # roguelike
@@ -471,7 +478,6 @@ in
       kstars # spaaaaaaaaaaace
       letterpress # convert images to ascii art
       lmms # DAW similar to FL Studio
-      localsend # like Airdrop
       losslesscut-bin # cut video fast
       lutris # play games
       makemkv # DVD & Blu-Ray ripper
@@ -480,6 +486,7 @@ in
       milkytracker # music tracker
       nwg-look # GUI to theme GTK apps
       # obsidian # personal knowledge base
+      # oh-my-git # a learning game about git
       opensnitch-ui # GUI for opensnitch application firewall
       orca # screen reader
       # openxcom
@@ -501,10 +508,10 @@ in
       tor-browser-bundle-bin # browser for the evil dark web
       # ungoogled-chromium # chrome without google
       vlc # media player
-      vscode # code editor
-      wasabiwallet
+      wargus # Warcraft 2 port
       wtype # fake keypresses in wayland (bookmarks mgmt)
       yoshimi # software synthesizer
+      zed-editor # editor
     ];
   };
 
@@ -619,6 +626,7 @@ in
 
     samba # de janeiro! *da da da da, dadada, dada*
     satty # screenshot annotation tool
+    slack # chat thing
     slurp # select region on screen (used in screen recording script)
     spice # VM stuff
     spice-gtk # VM stuff
@@ -635,12 +643,12 @@ in
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
     wlsunset # day/night gamma adjustments
-    xboxdrv # X-Box gamepad support, I think
+    waybar
 
     # wayland bar
-    (waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    }))
+    # (waybar.overrideAttrs (oldAttrs: {
+    #   mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    # }))
   ];
 
   qt = {
@@ -692,23 +700,18 @@ in
   # We don't need this, it's enabled via the steam module
   # hardware.steam-hardware.enable = true;
 
-  # Make 8Bitdo Ultimate Controller work as XBox 360 gamepad
   # Udev rules to start or stop systemd service when controller is connected or disconnected
   services.udev.extraRules = ''
+    # Make 8Bitdo Ultimate Controller work as XBox 360 gamepad
     # May vary depending on your controller model, find product id using 'lsusb'
     SUBSYSTEM=="usb", ATTR{idVendor}=="2dc8", ATTR{idProduct}=="3106", ATTR{manufacturer}=="8BitDo", RUN+="${pkgs.systemd}/bin/systemctl start 8bitdo-ultimate-xinput@2dc8:3106"
     # This device (2dc8:3016) is "connected" when the above device disconnects
     SUBSYSTEM=="usb", ATTR{idVendor}=="2dc8", ATTR{idProduct}=="3016", ATTR{manufacturer}=="8BitDo", RUN+="${pkgs.systemd}/bin/systemctl stop 8bitdo-ultimate-xinput@2dc8:3106"
-  '';
 
-  # Systemd service which starts xboxdrv in xbox360 mode
-  systemd.services."8bitdo-ultimate-xinput@" = {
-    unitConfig.Description = "8BitDo Ultimate Controller XInput mode xboxdrv daemon";
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.xboxdrv}/bin/xboxdrv --mimic-xpad --silent --type xbox360 --device-by-id %I --force-feedback";
-    };
-  };
+    # Make Jade Wallet work with Blockstream Green
+    KERNEL=="ttyUSB*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl", SYMLINK+="jade%n"
+    KERNEL=="ttyACM*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d4", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl", SYMLINK+="jade%n"
+  '';
 
   # AMD GPU HIP fix
   systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
