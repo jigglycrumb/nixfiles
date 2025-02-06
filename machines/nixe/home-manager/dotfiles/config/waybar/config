@@ -40,7 +40,7 @@
       "battery",
       "pulseaudio",
       "custom/weather",
-      "custom/discordian-date",
+      // "custom/discordian-date",
       "custom/moon-phase",
       "custom/bitcoin",
       // "bluetooth",

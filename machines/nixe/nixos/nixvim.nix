@@ -60,7 +60,7 @@ in
       fwatch.watch(colorfile, 'colorscheme pywal')
 
       -- ui things
-      MiniMap.open()
+      -- MiniMap.open()
 
       -- highlight patterns
       local hipatterns = require('mini.hipatterns')
@@ -175,6 +175,102 @@ in
     '';
 
     keymaps = [
+      # tabs - ALT + key
+      # commands powered by barbar.nvim
+      # https://vimawesome.com/plugin/barbar-nvim
+
+      {
+        key = "<A-t>";
+        action = "<CMD>enew<CR>";
+        options.desc = "New tab";
+      }
+      {
+        key = "<A-c>";
+        action = "<CMD>BufferClose<CR>";
+        options.desc = "Close tab";
+      }
+      {
+        key = "<A-C>";
+        action = "<CMD>BufferClose!<CR>";
+        options.desc = "Close tab (force)";
+      }
+      {
+        key = "<A-,>";
+        action = "<CMD>BufferPrevious<CR>";
+        options.desc = "Previous tab";
+      }
+      {
+        key = "<A-.>";
+        action = "<CMD>BufferNext<CR>";
+        options.desc = "Next tab";
+      }
+      {
+        key = "<A-<>";
+        action = "<CMD>BufferMovePrevious<CR>";
+        options.desc = "Move tab left";
+      }
+      {
+        key = "<A->>";
+        action = "<CMD>BufferMoveNext<CR>";
+        options.desc = "Move tab right";
+      }
+      {
+        key = "<A-1>";
+        action = "<CMD>BufferGoto 1<CR>";
+        options.desc = "Switch to tab 1";
+      }
+      {
+        key = "<A-2>";
+        action = "<CMD>BufferGoto 2<CR>";
+        options.desc = "Switch to tab 2";
+      }
+      {
+        key = "<A-3>";
+        action = "<CMD>BufferGoto 3<CR>";
+        options.desc = "Switch to tab 3";
+      }
+      {
+        key = "<A-4>";
+        action = "<CMD>BufferGoto 4<CR>";
+        options.desc = "Switch to tab 4";
+      }
+      {
+        key = "<A-5>";
+        action = "<CMD>BufferGoto 5<CR>";
+        options.desc = "Switch to tab 5";
+      }
+      {
+        key = "<A-6>";
+        action = "<CMD>BufferGoto 6<CR>";
+        options.desc = "Switch to tab 6";
+      }
+      {
+        key = "<A-7>";
+        action = "<CMD>BufferGoto 7<CR>";
+        options.desc = "Switch to tab 7";
+      }
+      {
+        key = "<A-8>";
+        action = "<CMD>BufferGoto 8<CR>";
+        options.desc = "Switch to tab 8";
+      }
+      {
+        key = "<A-9>";
+        action = "<CMD>BufferLast<CR>";
+        options.desc = "Switch to last tab";
+      }
+      {
+        key = "<A-p>";
+        action = "<CMD>BufferPin<CR>";
+        options.desc ="Pin/Unpin tab";
+      }
+
+      # tab jump mode - Ctrl+s
+      {
+        key = "<C-s>";
+        action = "<CMD>BufferPick<CR>";
+        options.desc = "Pick tab";
+      }
 
       # sfx
       {
@@ -236,8 +332,6 @@ in
         # keymaps.movePrevious.key = "<C-m>"; # BufferMovePrevious
         # keymaps.moveNext.key = "<C-m>"; # BufferMoveNext
       };
-
-      bufdelete.enable = true; # deletes buffers while keeping the window layout intact
 
       cmp = {
         enable = true;
@@ -403,7 +497,7 @@ in
             "jsonls"
             "nil_ls"
             "tailwindcss"
-            "typst_lsp"
+            # "typst_lsp"
             "yamlls"
             "docker_compose_language_service"
           ]
@@ -452,11 +546,13 @@ in
       # notifications
       notify = {
         enable = true;
-        render = "minimal";
-        stages = "slide";
-        timeout = 4000;
-        topDown = true;
-        fps = 60;
+        settings = {
+          render = "minimal";
+          stages = "slide";
+          timeout = 4000;
+          topDown = true;
+          fps = 60;
+        };
       };
 
       # TODO grug-far = { }; # find and replace
@@ -479,9 +575,9 @@ in
           };
 
           # code minimap
-          map = {
-            window.winblend = 50; # minimap transparency - 0 = opaque, 100 = transparent
-          };
+          # map = {
+          #   window.winblend = 50; # minimap transparency - 0 = opaque, 100 = transparent
+          # };
 
           # move multi-line selection
           move = {
@@ -526,6 +622,7 @@ in
       };
 
       overseer.enable = true; # task runner
+      # snacks.enable = true; # enable snacks (bigfile, notifier, quickfile, statuscolumn, words) - doesn't seem to do anything?
       telescope.enable = true; # fuzzy finder
 
       toggleterm = {
@@ -666,6 +763,7 @@ in
         config = luaToViml ''require("inlay-hints").setup({})'';
       }
 
+      # watch files - needed for pywal to pick up new colors
       {
         plugin = (
           pkgs.vimUtils.buildVimPlugin rec {
@@ -680,15 +778,29 @@ in
         );
       }
 
+      {
+        plugin = (
+          pkgs.vimUtils.buildVimPlugin rec {
+            name = "neominimap.nvim";
+            src = pkgs.fetchFromGitHub {
+              owner = "isrothy";
+              repo = name;
+              rev = "505e756fc96d05a7c372792fe76e346aa0ed9240";
+              hash = "sha256-HQEgVk3xdIihg0kVV83PikOo008DblDhxGGswKryvMo=";
+            };
+          }
+        );
+      }
+
       # {
       #   plugin = (
       #     pkgs.vimUtils.buildVimPlugin rec {
-      #       name = "neominimap.nvim";
+      #       name = "codewindow.nvim;
       #       src = pkgs.fetchFromGitHub {
-      #         owner = "isrothy";
+      #         owner = "gorbit99";
       #         repo = name;
-      #         rev = "65b1f1211086d16020f50f8d650eadf625e405b9";
-      #         hash = "sha256-b+BdomwjuodDM5yBVsYuMR/lsjkAGj16KNMHDqYVuxQ=";
+      #         rev = "dd7017617962943eb1d152fc58940f11c6775a4a";
+      #         hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
       #       };
       #     }
       #   );

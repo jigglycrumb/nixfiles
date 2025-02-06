@@ -307,7 +307,7 @@ in
       ANONYMIZED_TELEMETRY = "False";
       DO_NOT_TRACK = "True";
       SCARF_NO_ANALYTICS = "True";
-      WEBUI_AUTH = "False";
+      # WEBUI_AUTH = "False";
     };
   };
 
@@ -340,7 +340,7 @@ in
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -383,11 +383,25 @@ in
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
+      # swtpm.enable = true;
+      # ovmf.enable = true;
+      # ovmf.packages = [ pkgs.OVMFFull.fd ];
+      # vhostUserPackages = [ pkgs.virtiofsd ];
+
+      package = pkgs.qemu_kvm;
+      # runAsRoot = true;
       swtpm.enable = true;
-      ovmf.enable = true;
-      ovmf.packages = [ pkgs.OVMFFull.fd ];
+      ovmf = {
+        enable = true;
+        packages = [(pkgs.OVMFFull.override {
+          secureBoot = true;
+          tpmSupport = true;
+        }).fd];
+      };
+      vhostUserPackages = [ pkgs.virtiofsd ];
     };
   };
+
   virtualisation.spiceUSBRedirection.enable = true;
   services.spice-vdagentd.enable = true;
   programs.virt-manager.enable = true;
@@ -449,10 +463,11 @@ in
       czkawka # remove useless files
       cryptomator # file encryption
       # davinci-resolve # video editor
-      devilutionx # Diablo
+      # devilutionx # Diablo
       devour # devours your current terminal
       digikam # photo manager
       discord # (voice)chat
+      distrobox # run others distros in containers
       dosbox-staging # emulates DOS software
       easytag # edit mp3 tags
       fallout-ce # port of Fallout for modern systems
@@ -473,11 +488,12 @@ in
       ioquake3 # Quake 3 Arena source port
       jstest-gtk # simple joystick testing GUI
       kdenlive # video editor
-      keeperrl # roguelike
+      # keeperrl # roguelike
       krita # painting software
       kstars # spaaaaaaaaaaace
       letterpress # convert images to ascii art
-      lmms # DAW similar to FL Studio
+      # lmms # DAW similar to FL Studio
+      lmstudio # desktop app to run LLMs
       losslesscut-bin # cut video fast
       lutris # play games
       makemkv # DVD & Blu-Ray ripper
@@ -487,9 +503,9 @@ in
       nwg-look # GUI to theme GTK apps
       # obsidian # personal knowledge base
       # oh-my-git # a learning game about git
-      opensnitch-ui # GUI for opensnitch application firewall
+      # opensnitch-ui # GUI for opensnitch application firewall
       orca # screen reader
-      # openxcom
+      # openxcom # xcom source port
       pablodraw # ANSI/ASCII art drawing
       pika-backup # a backup thing
       prismlauncher # Minecraft launcher
@@ -497,7 +513,7 @@ in
       qsynth # small gui for fluidsynth
       retroarch # multi system emulator
       rhythmbox # music player
-      rosegarden
+      # rosegarden
       scummvm # emulates old adventure games
       signal-desktop # messenger
       # simplex-chat-desktop # messenger
@@ -636,7 +652,7 @@ in
     swww # wayland background image daemon
     system-config-printer # printer configuration UI
     usbutils # provides lsusb
-    # virtiofsd # enables shared folders between host and Windows VM
+    virtiofsd # enables shared folders between host and VM - add <binary path="/run/current-system/sw/bin/virtiofsd"/> to filesystem XML if virtiofsd can't be found
     virt-viewer # VM management GUI
     wget # download stuff
     wf-recorder # screen recording

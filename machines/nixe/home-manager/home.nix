@@ -55,10 +55,9 @@ in
     bluetuith # terminal bluetooth manager
     browsh # terminal web browser
     btop # like top, but better
-    calcure # calendar tui
     caligula # burn/flash images to SD cards from the terminal
     castero # terminal podcast client
-    # cava # terminal audio visualizer
+    cava # terminal audio visualizer
     cbonsai # terminal tree
     cfonts # ansi fonts
     chess-tui # terminal chess
@@ -70,6 +69,8 @@ in
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
+    distrobox # run other distros in containers
+    distrobox-tui # tui for distrobox
     doge # much wow
     dooit # todo tui
     epy # terminal ebook reader
@@ -90,8 +91,9 @@ in
     htop # process monitor
     hyprland-monitor-attached # run scripts when monitors plug
     hyprshot # screenshot utility
-    # hyprlandPlugins.hyprexpo # workspace overview plugin
+    iftop # network monitoring
     jp2a # convert jpg and png to ascii art
+    lazydocker # docker tui
     lazygit # git tui
     lolcat # 🌈
     lynx # terminal web browser, can be scripted for tasks
@@ -107,6 +109,7 @@ in
     nodejs
     npm-check-updates # tool to check package.json for updates
     nyancat # nyan nyan nyan
+    nvtopPackages.amd # GPU monitoring
     oxker # docker container management tui
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
@@ -123,7 +126,7 @@ in
     # textual-paint # terminal ms paint
     terminal-parrot # party parrot
     termpdfpy # graphical pdf/ebook reader for kitty
-    # termusic # music player - very promising, but crashes a lot currently
+    termusic # music player - very promising, but crashes a lot currently
     tldr # man but short
     tmux
     trash-cli # use trash can in the terminal
@@ -132,6 +135,7 @@ in
     unzip # extract zip files
     ventoy # create multi-boot usb sticks
     vitetris # terminal tetris
+    wavemon # Wifi monitoring
     wiki-tui # terminal wikipedia
     yazi # terminal file manager
     yt-dlp # terminal downloader for Youtube etc
@@ -426,17 +430,18 @@ in
   programs.zsh = {
     enable = true;
 
-    history = {
-      ignoreAllDups = true;
-      ignorePatterns = [
-        "ls"
-        "pwd"
-        "date"
-        "* --help"
-        "man"
-        "tldr"
-      ];
-    };
+    # test - probably not needed anymore since atuin is used
+    # history = {
+    #   ignoreAllDups = true;
+    #   ignorePatterns = [
+    #     "ls"
+    #     "pwd"
+    #     "date"
+    #     "* --help"
+    #     "man"
+    #     "tldr"
+    #   ];
+    # };
 
     oh-my-zsh.enable = true;
 
@@ -564,6 +569,14 @@ in
 
     };
   };
+
+  # wayland.windowManager.hyprland = {
+  #   enable = true; # enable Hyprland
+  #   plugins = with pkgs.hyprlandPlugins; [
+  #     hyprspace
+  #     hyprsplit
+  #   ];
+  # };
 
   # do not create ~/Public & ~/Templates
   xdg.userDirs = {
