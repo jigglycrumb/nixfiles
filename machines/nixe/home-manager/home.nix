@@ -92,11 +92,15 @@ in
     hyprland-monitor-attached # run scripts when monitors plug
     hyprshot # screenshot utility
     iftop # network monitoring
+    inetutils # telnet
     jp2a # convert jpg and png to ascii art
+    jq # query JSON
+    killall # Gotta kill 'em all! Currently used in screen recorder script
     lazydocker # docker tui
     lazygit # git tui
     lolcat # 🌈
     lynx # terminal web browser, can be scripted for tasks
+    mc # dual pane terminal file manager
     md-tui # markdown renderer
     meld # merge tool
     minesweep-rs # terminal minesweeper
@@ -104,6 +108,7 @@ in
     mpv # video player
     musikcube # cli music player
     ncdu # show disk usage
+    neofetch # I use nix btw
     nms # decrypting...
     nixfmt-rfc-style # formatter for nix code, used in VSCode
     nodejs
@@ -111,6 +116,7 @@ in
     nyancat # nyan nyan nyan
     nvtopPackages.amd # GPU monitoring
     oxker # docker container management tui
+    pamixer # terminal volume control
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
     pywal # color schemes from images
@@ -136,6 +142,7 @@ in
     ventoy # create multi-boot usb sticks
     vitetris # terminal tetris
     wavemon # Wifi monitoring
+    wget # download stuff
     wiki-tui # terminal wikipedia
     yazi # terminal file manager
     yt-dlp # terminal downloader for Youtube etc

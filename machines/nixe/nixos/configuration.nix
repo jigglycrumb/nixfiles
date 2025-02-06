@@ -383,11 +383,6 @@ in
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
-      # swtpm.enable = true;
-      # ovmf.enable = true;
-      # ovmf.packages = [ pkgs.OVMFFull.fd ];
-      # vhostUserPackages = [ pkgs.virtiofsd ];
-
       package = pkgs.qemu_kvm;
       # runAsRoot = true;
       swtpm.enable = true;
@@ -463,12 +458,15 @@ in
       czkawka # remove useless files
       cryptomator # file encryption
       # davinci-resolve # video editor
-      # devilutionx # Diablo
+      devilutionx # Diablo
       devour # devours your current terminal
       digikam # photo manager
       discord # (voice)chat
       distrobox # run others distros in containers
+      door-knocker # check availability of portals
       dosbox-staging # emulates DOS software
+      drawing # basic image editor, similar to MS Paint
+      easyeffects # effects for pipewire apps
       easytag # edit mp3 tags
       fallout-ce # port of Fallout for modern systems
       ffmpeg # needed for mediathekview
@@ -483,6 +481,7 @@ in
       gossip # nostr client
       grandorgue # virtual pipe organ
       handbrake # video encoding
+      helvum # patchbay for PipeWire
       heroic # GUI for GOG & Epic Games
       hydrogen # drum machine
       ioquake3 # Quake 3 Arena source port
@@ -492,21 +491,26 @@ in
       krita # painting software
       kstars # spaaaaaaaaaaace
       letterpress # convert images to ascii art
+      libreoffice # office suite
       # lmms # DAW similar to FL Studio
-      lmstudio # desktop app to run LLMs
+      # lmstudio # desktop app to run LLMs
       losslesscut-bin # cut video fast
       lutris # play games
       makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
       mediathekview # downloader for German public broadcasts
       milkytracker # music tracker
+      networkmanagerapplet # tray app for network management
       nwg-look # GUI to theme GTK apps
       # obsidian # personal knowledge base
+      oculante # fast image viewer
       # oh-my-git # a learning game about git
       # opensnitch-ui # GUI for opensnitch application firewall
       orca # screen reader
       # openxcom # xcom source port
       pablodraw # ANSI/ASCII art drawing
+      pavucontrol # GUI volume conrol
+      peazip # archive utility
       pika-backup # a backup thing
       prismlauncher # Minecraft launcher
       protonup-qt # GUI too to manage Steam compatibility tools
@@ -516,6 +520,7 @@ in
       # rosegarden
       scummvm # emulates old adventure games
       signal-desktop # messenger
+      slack # chat thing
       # simplex-chat-desktop # messenger
       sonic-pi # code music
       sparrow
@@ -523,6 +528,7 @@ in
       theforceengine # dark forces source port
       tor-browser-bundle-bin # browser for the evil dark web
       # ungoogled-chromium # chrome without google
+      virt-viewer # VM management GUI
       vlc # media player
       wargus # Warcraft 2 port
       wtype # fake keypresses in wayland (bookmarks mgmt)
@@ -589,45 +595,30 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     appimage-run # runs appimage apps
-    # blueman # gtk based bluetooth manager
     brightnessctl # control screen brightness
     cifs-utils # mount samba shares
     clinfo
     cliphist # clipboard history
-    door-knocker # check availability of portals
-    drawing # basic image editor, similar to MS Paint
-    easyeffects # effects for pipewire apps
     exfat # tools for ExFAT formatted disks
     exiftool # read & write exif data - integrates with digikam
     fuzzel # wayland app launcher
     gparted # drive partition manager
-    grimblast # screenshot tool
-    helvum # patchbay for PipeWire
+    grimblast # screenshot tool (used in screenshot script)
     home-manager # manage user configurations
-    htop # like top, but better
     hyprcursor # xcursor replacement
     hyprkeys # print hyprland key bindings
     hyprpicker # pick colors from the screen
-    inetutils # telnet
-    jq # query JSON
-    killall # Gotta kill 'em all! Currently used in screen recorder script
     kitty # terminal
-    libreoffice # office suite
     libnotify # notification basics, includes notify-send
     libsForQt5.ark # KDE archive utility
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
     lxqt.lxqt-policykit
-    mc # dual pane terminal file manager
     micro # terminal editor
-    neofetch # I use nix btw
-    networkmanagerapplet # tray app for network management
+
     # nh # shortcuts for common NixOS/home-manager commands
     # nix-output-monitor # nom nom nom
     # nvd # nix version diff
-    oculante # fast image viewer
-    pamixer # terminal volume control
-    pavucontrol # GUI volume conrol
-    peazip # archive utility - build is broken at the moment
+
     powertop # power monitor
     pulseaudio # pactl
 
@@ -641,8 +632,7 @@ in
     rocmPackages.rocminfo
 
     samba # de janeiro! *da da da da, dadada, dada*
-    satty # screenshot annotation tool
-    slack # chat thing
+    # satty # screenshot annotation tool
     slurp # select region on screen (used in screen recording script)
     spice # VM stuff
     spice-gtk # VM stuff
@@ -653,13 +643,11 @@ in
     system-config-printer # printer configuration UI
     usbutils # provides lsusb
     virtiofsd # enables shared folders between host and VM - add <binary path="/run/current-system/sw/bin/virtiofsd"/> to filesystem XML if virtiofsd can't be found
-    virt-viewer # VM management GUI
-    wget # download stuff
     wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
     wlsunset # day/night gamma adjustments
-    waybar
+    waybar # wayland menu bar
 
     # wayland bar
     # (waybar.overrideAttrs (oldAttrs: {
