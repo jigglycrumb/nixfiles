@@ -62,6 +62,14 @@ in
       -- ui things
       -- MiniMap.open()
 
+      vim.g.neominimap = {
+        layout = 'split',
+        split = {
+          -- Automatically close the split window when it is the last window
+          close_if_last_window = true,
+        },
+      }
+
       -- highlight patterns
       local hipatterns = require('mini.hipatterns')
       hipatterns.setup({
@@ -361,9 +369,9 @@ in
           # TODO Better smart indent https://www.reddit.com/r/neovim/comments/101kqds/comment/j2p5xe4
           # QUESTION Fix binds like the quickfix menu in vscode?
           mapping = {
-            "<C-d>" = "cmp.mapping.scroll_docs(-4)";
+            "<C-j>" = "cmp.mapping.scroll_docs(-4)";
             "<C-e>" = "cmp.mapping.close()";
-            "<C-f>" = "cmp.mapping.scroll_docs(4)";
+            "<C-k>" = "cmp.mapping.scroll_docs(4)";
             "<CR>" = "cmp.mapping.confirm({ select = false })";
             "<C-Space>" = ''
               cmp.mapping(function(fallback)
@@ -791,20 +799,6 @@ in
           }
         );
       }
-
-      # {
-      #   plugin = (
-      #     pkgs.vimUtils.buildVimPlugin rec {
-      #       name = "codewindow.nvim;
-      #       src = pkgs.fetchFromGitHub {
-      #         owner = "gorbit99";
-      #         repo = name;
-      #         rev = "dd7017617962943eb1d152fc58940f11c6775a4a";
-      #         hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-      #       };
-      #     }
-      #   );
-      # }
 
       # requires nvim compiled with +sound
       # {

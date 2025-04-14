@@ -51,12 +51,14 @@ in
     angband # lotr terminal roguelike
     asciicam # webcam in the terminal
     asciiquarium # a fishy app
+    atac # a terminal api client (like postman)
     bat # fancy `cat` replacement
+    bluetui # terminal bluetooth manager
     bluetuith # terminal bluetooth manager
     browsh # terminal web browser
     btop # like top, but better
     caligula # burn/flash images to SD cards from the terminal
-    castero # terminal podcast client
+    # castero # terminal podcast client
     cava # terminal audio visualizer
     cbonsai # terminal tree
     cfonts # ansi fonts
@@ -69,8 +71,8 @@ in
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
-    distrobox # run other distros in containers
-    distrobox-tui # tui for distrobox
+    # distrobox # run other distros in containers
+    # distrobox-tui # tui for distrobox
     doge # much wow
     dooit # todo tui
     epy # terminal ebook reader
@@ -106,7 +108,7 @@ in
     minesweep-rs # terminal minesweeper
     mprocs # run multiple processes at the same time
     mpv # video player
-    musikcube # cli music player
+    # musikcube # cli music player
     ncdu # show disk usage
     neofetch # I use nix btw
     nms # decrypting...
@@ -128,11 +130,13 @@ in
     solitaire-tui # terminal card game
     speedread # read text fast
     sshpass # use ssh password auth within scripts - used for deploying proxmox VM configs
+    sshs # ssh connection manager
     tasktimer # task timer
     # textual-paint # terminal ms paint
     terminal-parrot # party parrot
     termpdfpy # graphical pdf/ebook reader for kitty
-    termusic # music player - very promising, but crashes a lot currently
+    # termusic # music player - very promising, but crashes a lot currently
+    termshark # wireshark for the terminal
     tldr # man but short
     tmux
     trash-cli # use trash can in the terminal

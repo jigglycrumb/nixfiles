@@ -31,6 +31,7 @@ let
 
   hostname = "nixe";
   username = "jigglycrumb";
+  locale = "en_US.UTF-8";
   secrets = import ./secrets.nix;
   secrets-syncthing = import ../../../common/secret/syncthing.nix;
   secrets-wireguard = import ../../../common/secret/wireguard.nix;
@@ -153,18 +154,18 @@ in
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "de_DE.UTF-8";
+  i18n.defaultLocale = "${locale}";
 
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "de_DE.UTF-8";
-    LC_IDENTIFICATION = "de_DE.UTF-8";
-    LC_MEASUREMENT = "de_DE.UTF-8";
-    LC_MONETARY = "de_DE.UTF-8";
-    LC_NAME = "de_DE.UTF-8";
-    LC_NUMERIC = "de_DE.UTF-8";
-    LC_PAPER = "de_DE.UTF-8";
-    LC_TELEPHONE = "de_DE.UTF-8";
-    LC_TIME = "de_DE.UTF-8";
+    LC_ADDRESS = "${locale}";
+    LC_IDENTIFICATION = "${locale}";
+    LC_MEASUREMENT = "${locale}";
+    LC_MONETARY = "${locale}";
+    LC_NAME = "${locale}";
+    LC_NUMERIC = "${locale}";
+    LC_PAPER = "${locale}";
+    LC_TELEPHONE = "${locale}";
+    LC_TIME = "${locale}";
   };
 
   # Configure console keymap
@@ -186,11 +187,14 @@ in
   # nixpkgs.config.rocmSupport = true;
 
   nixpkgs.config.permittedInsecurePackages = [
-    "dotnet-runtime-7.0.20"
-    "dotnet-runtime-wrapped-7.0.20"
-    "dotnet-sdk-7.0.410"
-    "dotnet-sdk-wrapped-7.0.410"
+  "dotnet-runtime-7.0.20"
+  #  "dotnet-runtime-wrapped-7.0.20"
+   "dotnet-sdk-7.0.410"
+  #  "dotnet-sdk-wrapped-7.0.410"
   ];
+
+
+  services.fprintd.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -220,7 +224,7 @@ in
   # Configure keymap in X11
   services.xserver = {
     xkb = {
-      layout = "de";
+      layout = "us";
       variant = "";
     };
 
@@ -265,16 +269,16 @@ in
     ];
   };
 
-  # fileSystems."/home/${username}/Remote/NAS" = {
-  #   device = "//siren/nas";
-  #   fsType = "cifs";
+  fileSystems."/home/${username}/Remote/NAS" = {
+    device = "//siren/nas";
+    fsType = "cifs";
 
-  #   options = [
-  #     # this line prevents hanging on network split
-  #     # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-  #     "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
-  #   ];
-  # };
+    options = [
+      # this line prevents hanging on network split
+      # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+      "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
+    ];
+  };
 
   # Enable OpenSnitch application firewall
   # services.opensnitch.enable = true;
@@ -331,6 +335,7 @@ in
 
       devices = {
         siren = secrets-syncthing.devices.siren;
+        steamdeck = secrets-syncthing.devices.steamdeck;
       };
 
       folders = secrets-syncthing.folders."${hostname}";
@@ -429,6 +434,11 @@ in
   # Enable Gnome disk manager
   programs.gnome-disks.enable = true;
 
+
+  users.groups = {
+    plugdev = { };
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
     isNormalUser = true;
@@ -437,46 +447,46 @@ in
       "docker"
       "libvirtd"
       "networkmanager"
+      "plugdev"
       "wheel" # enables sudo
     ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-      affine # workspace / knowledge space
+      _86Box-with-roms
+      # affine # workspace / knowledge space
       angryipscanner # network scanner
       appeditor # gui to edit app launcher entries (.desktop files)
-      appflowy
-      arduino # code hardware things
+      # appflowy
+      # arduino # code hardware things
       ascii-draw # draw diagrams etc in ASCII
       audacity # audio recorder/editor
       blanket # ambient sounds
       brave # web browser
       bruno # API client/tester/explorer
-      celestia # spaaaaaaaaaaace
+      # celestia # spaaaaaaaaaaace
       nemo-with-extensions # file manager
+      cheese # webcam fun
       clipgrab # youtube downloader
       cool-retro-term # terminal emulator
-      czkawka # remove useless files
+      # czkawka # remove useless files
       cryptomator # file encryption
       # davinci-resolve # video editor
-      devilutionx # Diablo
-      devour # devours your current terminal
+      # devilutionx # Diablo
+      # devour # devours your current terminal
       digikam # photo manager
-      discord # (voice)chat
-      distrobox # run others distros in containers
+      # discord # (voice)chat
+      # distrobox # run others distros in containers
       door-knocker # check availability of portals
       dosbox-staging # emulates DOS software
       drawing # basic image editor, similar to MS Paint
       easyeffects # effects for pipewire apps
       easytag # edit mp3 tags
+      evince # document viewer
       fallout-ce # port of Fallout for modern systems
       ffmpeg # needed for mediathekview
-      firefox # web browser
+      # firefox # web browser
       furnace # multi-system chiptune tracker
       gimp # image manipulation
-      cheese # webcam fun
-      evince # document viewer
-      seahorse # keyring manager
-      simple-scan # scan documents
       godot_4 # game engine
       gossip # nostr client
       grandorgue # virtual pipe organ
@@ -486,16 +496,16 @@ in
       hydrogen # drum machine
       ioquake3 # Quake 3 Arena source port
       jstest-gtk # simple joystick testing GUI
-      kdenlive # video editor
+      kdePackages.kdenlive # video editor
       # keeperrl # roguelike
       krita # painting software
-      kstars # spaaaaaaaaaaace
+      # kstars # spaaaaaaaaaaace
       letterpress # convert images to ascii art
       libreoffice # office suite
-      # lmms # DAW similar to FL Studio
+      lmms # DAW similar to FL Studio
       # lmstudio # desktop app to run LLMs
       losslesscut-bin # cut video fast
-      lutris # play games
+      # lutris # play games
       makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop
       mediathekview # downloader for German public broadcasts
@@ -507,7 +517,8 @@ in
       # oh-my-git # a learning game about git
       # opensnitch-ui # GUI for opensnitch application firewall
       orca # screen reader
-      # openxcom # xcom source port
+      openclonk # game
+      openxcom # xcom source port
       pablodraw # ANSI/ASCII art drawing
       pavucontrol # GUI volume conrol
       peazip # archive utility
@@ -515,19 +526,22 @@ in
       prismlauncher # Minecraft launcher
       protonup-qt # GUI too to manage Steam compatibility tools
       qsynth # small gui for fluidsynth
-      retroarch # multi system emulator
-      rhythmbox # music player
+      # retroarch # multi system emulator
+      # rhythmbox # music player like old school itunes
       # rosegarden
       scummvm # emulates old adventure games
+      seahorse # keyring manager
       signal-desktop # messenger
+      simple-scan # scan documents
       slack # chat thing
       # simplex-chat-desktop # messenger
       sonic-pi # code music
       sparrow
       teamspeak_client # voice chat
-      theforceengine # dark forces source port
+      # theforceengine # dark forces source port
       tor-browser-bundle-bin # browser for the evil dark web
       # ungoogled-chromium # chrome without google
+      # ut1999 # Unreal Tournament
       virt-viewer # VM management GUI
       vlc # media player
       wargus # Warcraft 2 port
@@ -597,23 +611,25 @@ in
     appimage-run # runs appimage apps
     brightnessctl # control screen brightness
     cifs-utils # mount samba shares
-    clinfo
+    clinfo # shows info about OpenCL (GPU things) - TODO I don't recall why this is here, check if it's still needed and remove
     cliphist # clipboard history
     exfat # tools for ExFAT formatted disks
     exiftool # read & write exif data - integrates with digikam
     fuzzel # wayland app launcher
+    gcc # needed to run Watcharr dev server. TODO this should be in a flake devShell but I was lazy
     gparted # drive partition manager
     grimblast # screenshot tool (used in screenshot script)
     home-manager # manage user configurations
     hyprcursor # xcursor replacement
     hyprkeys # print hyprland key bindings
     hyprpicker # pick colors from the screen
+    isd # TUI for systemd services
     kitty # terminal
     libnotify # notification basics, includes notify-send
     libsForQt5.ark # KDE archive utility
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
     lxqt.lxqt-policykit
-    micro # terminal editor
+    micro # simple terminal editor
 
     # nh # shortcuts for common NixOS/home-manager commands
     # nix-output-monitor # nom nom nom
@@ -642,6 +658,7 @@ in
     swww # wayland background image daemon
     system-config-printer # printer configuration UI
     usbutils # provides lsusb
+    vim # editor
     virtiofsd # enables shared folders between host and VM - add <binary path="/run/current-system/sw/bin/virtiofsd"/> to filesystem XML if virtiofsd can't be found
     wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
@@ -715,6 +732,11 @@ in
     # Make Jade Wallet work with Blockstream Green
     KERNEL=="ttyUSB*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl", SYMLINK+="jade%n"
     KERNEL=="ttyACM*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d4", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl", SYMLINK+="jade%n"
+
+    # Rules for BitBox02 hardware wallet
+    SUBSYSTEM=="usb", TAG+="uaccess", TAG+="udev-acl", SYMLINK+="bitbox02_%%n", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2403"
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2403", TAG+="uaccess", TAG+="udev-acl", SYMLINK+="bitbox02-%%n"
+
   '';
 
   # AMD GPU HIP fix
