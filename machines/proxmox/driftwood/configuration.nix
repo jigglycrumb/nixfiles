@@ -17,6 +17,7 @@ let
   homepage-public = import ./secret/homepage-public.nix;
   secrets-syncthing = import ./secret/syncthing.nix;
   secrets-minecraft = import ./secret/minecraft.nix;
+  mealie-url = import ./secret/mealie-url.nix;
 in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
@@ -241,7 +242,7 @@ in
     enable = true;
     # port = 9000;
     settings = {
-      BASE_URL = "https://food.mina.kiwi";
+      BASE_URL = mealie-url;
       TZ = "${timezone}";
     };
   };
