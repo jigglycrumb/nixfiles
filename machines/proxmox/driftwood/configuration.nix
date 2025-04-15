@@ -14,6 +14,7 @@ let
   locale = "de_DE.UTF-8";
   keymap = "de";
   timezone = "Europe/Berlin";
+  homepage-public = import ./secret/homepage-public.nix;
   secrets-syncthing = import ./secret/syncthing.nix;
   secrets-minecraft = import ./secret/minecraft.nix;
 in
@@ -120,18 +121,6 @@ in
             };
           }
           {
-            "Jellyfin" = {
-              description = "Media Server";
-              href = "http://siren:8096";
-            };
-          }
-          {
-            "Gollum" = {
-              description = "Wiki";
-              href = "http://driftwood:8080";
-            };
-          }
-          {
             "Syncthing" = {
               description = "driftwood";
               href = "http://driftwood:8384";
@@ -156,6 +145,9 @@ in
             };
           }
         ];
+      }
+      {
+        "Public" = homepage-public; 
       }
       {
         "Hosts" = [
@@ -307,6 +299,6 @@ in
   ];
 
   networking.firewall.allowedUDPPorts = [
-    # 9987 # teamspeak voice chat 
+    # 9987 # teamspeak voice chat
   ];
 }
