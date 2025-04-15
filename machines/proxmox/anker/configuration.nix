@@ -1,4 +1,4 @@
-# Nix OS config for an nginx (proxy) annd wireguard vpn server
+# Nix OS config for an nginx (proxy) and wireguard vpn server
 # Proxmox VM: 1 CPU, 2GB RAM, 16GB HDD
 
 # To create a wireguard keypair run these commands
@@ -18,9 +18,10 @@ let
   locale = "de_DE.UTF-8";
   keymap = "de";
   timezone = "Europe/Berlin";
-  domain = "mina.kiwi";
-  email = "mina@${domain}";
+  domain = import ./secret/domain.nix; # contains just a string, like "example.com"
+  email = import ./secret/email.nix { inherit domain; };
   secrets-wireguard = import ./secret/wireguard.nix;
+  nginx-virtualHosts = import ./secret/nginx-virtualHosts.nix;
 in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
@@ -120,39 +121,7 @@ in
     recommendedGzipSettings = true;
     recommendedProxySettings = true;
 
-    virtualHosts = {
-      "${hostname}" = {
-        root = "/www/${domain}";
-      };
-
-      "${domain}" = {
-        root = "/www/${domain}";
-        forceSSL = true;
-        enableACME = true;
-      };
-
-      "sofa.${domain}" = {
-        locations."/".proxyPass = "http://siren:8096";
-        forceSSL = true;
-        enableACME = true;
-      };
-
-      "food.${domain}" = {
-        locations."/".proxyPass = "http://driftwood:9000";
-        forceSSL = true;
-        enableACME = true;
-      };
-
-      "wiki.${domain}" = {
-        locations."/".proxyPass = "http://driftwood:8080";
-        forceSSL = true;
-        enableACME = true;
-        # To create the auth file, SSH into VM, then:
-        # nix-shell -p apacheHttpd
-        # sudo htpasswd - c /www/htpasswd-credentials <username>
-        basicAuthFile = /www/htpasswd-credentials;
-      };
-    };
+    virtualHosts = nginx-virtualHosts { inherit hostname; inherit domain; };
   };
 
   # SSL certs
