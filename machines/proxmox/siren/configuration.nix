@@ -32,6 +32,7 @@ let
   timezone = "Europe/Berlin";
   secrets-samba = import ./secret/samba.nix;
   secrets-syncthing = import ./secret/syncthing.nix;
+  nextcloud-admin-pass = import ./secret/nextcloud-admin-pass.nix;
 in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
@@ -123,11 +124,14 @@ in
 
   # SERVICES
 
-  services.immich = {
+  environment.etc."nextcloud-admin-pass".text = nextcloud-admin-pass;
+
+  services.nextcloud = {
     enable = true;
-    host = "0.0.0.0";
-    # port = 2283;
-    openFirewall = true;
+    hostName = "${hostname}";
+
+    config.adminpassFile = "/etc/nextcloud-admin-pass";
+    config.dbtype = "sqlite";
   };
 
   services.samba = {
@@ -224,7 +228,7 @@ in
     enable = true;
     allowPing = true;
     allowedTCPPorts = [
-      # 2283 # immich
+      80 # nextcloud
       8384 # syncthing
     ];
   };

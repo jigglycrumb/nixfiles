@@ -16,7 +16,7 @@ For further deployments, run `./deploy.sh <hostname>`
 
 VMs:
 
-- `anker`: Nginx server/proxy
+- `anker`: Nginx server/proxy and Wireguard VPN endpoint
 - `driftwood`: Playground server for miscellaneous things
 - `kraken`: AdGuard Home server
 - `nautilus`: Home Assistant server
