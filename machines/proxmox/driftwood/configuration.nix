@@ -122,6 +122,18 @@ in
             };
           }
           {
+            "Home Assistant" = {
+              description = "Home automation";
+              href = "http://nautilus:8123";
+            };
+          }
+          {
+            "Nextcloud" = {
+              description = "Cloud service";
+              href = "http://siren";
+            };
+          }
+          {
             "Syncthing" = {
               description = "driftwood";
               href = "http://driftwood:8384";

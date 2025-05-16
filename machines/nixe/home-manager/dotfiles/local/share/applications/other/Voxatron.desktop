@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Voxatron
+Comment=Fantasy Console
+Exec=bash run.sh
+Path=/home/jigglycrumb/Applications/voxatron
+Icon=/home/jigglycrumb/.local/share/applications/other/voxatron.png
+Terminal=false
+Type=Application
+Categories=Development;
+StartupNotify=false

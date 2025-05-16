@@ -129,6 +129,7 @@ in
   services.nextcloud = {
     enable = true;
     hostName = "${hostname}";
+    package = pkgs.nextcloud30;
 
     config.adminpassFile = "/etc/nextcloud-admin-pass";
     config.dbtype = "sqlite";
@@ -136,7 +137,6 @@ in
 
   services.samba = {
     enable = true;
-    securityType = "user";
     openFirewall = true;
 
     settings = {
@@ -144,11 +144,11 @@ in
         workgroup = "WORKGROUP";
         "server string" = "${hostname}";
         "netbios name" = "${hostname}";
-        security = "user";
         "hosts allow" = "192.168.0. 127.0.0.1 localhost";
         "hosts deny" = "0.0.0.0/0";
         "guest account" = "nobody";
         "map to guest" = "bad user";
+        security = "user";
       };
     };
 

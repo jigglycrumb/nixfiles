@@ -75,6 +75,7 @@ in
     # distrobox-tui # tui for distrobox
     doge # much wow
     dooit # todo tui
+    dysk # shows info for mounted drives - a better 'df'
     epy # terminal ebook reader
     eza # ls replacement
     fast-ssh # ssh connection manager
@@ -127,6 +128,7 @@ in
     screen
     scope-tui # terminal oscilloscope
     sl # choo choo
+    sniffnet # GUI to monitor network traffic
     solitaire-tui # terminal card game
     speedread # read text fast
     sshpass # use ssh password auth within scripts - used for deploying proxmox VM configs
@@ -137,6 +139,7 @@ in
     termpdfpy # graphical pdf/ebook reader for kitty
     # termusic # music player - very promising, but crashes a lot currently
     termshark # wireshark for the terminal
+    # tickrs # realtime stock tickers in the terminal
     tldr # man but short
     tmux
     trash-cli # use trash can in the terminal
@@ -176,6 +179,9 @@ in
     "Applications/pico-8/pico8.nix".source = ./home/Applications/pico-8/pico8.nix;
     "Applications/pico-8/run.sh".source = ./home/Applications/pico-8/run.sh;
 
+    "Applications/voxatron/voxatron.nix".source = ./home/Applications/voxatron/voxatron.nix;
+    "Applications/voxatron/run.sh".source = ./home/Applications/voxatron/run.sh;
+    
     "Pictures/digiKam/digikamrc.template".source = ./home/Pictures/digiKam/digikamrc.template;
 
     ".cache/weather-location".text = ''
@@ -235,19 +241,6 @@ in
     ".wgetrc".source = ./dotfiles/wgetrc;
     ".local/share/applications/appimage".source = ./dotfiles/local/share/applications/appimage;
     ".local/share/applications/other".source = ./dotfiles/local/share/applications/other;
-
-    # ".local/share/applications/other/pico8.png".source = ./dotfiles/local/share/applications/other/pico8.png;
-    # ".local/share/applications/other/Pico-8.desktop".text = ''
-    #   [Desktop Entry]
-    #   Name=pico-8
-    #   Comment=Fantasy Console
-    #   Exec=bash run.sh
-    #   Path=/home/${username}/Applications/pico-8
-    #   Icon=/home/${username}/.local/share/applications/other/pico8.png
-    #   Terminal=false
-    #   Type=Application
-    #   Categories=Development;
-    # '';
 
     ".local/share/applications/secret".source = ./dotfiles/local/share/applications/secret;
 

@@ -1,0 +1,1 @@
+nix-shell voxatron.nix
