@@ -526,6 +526,7 @@ in
       prismlauncher # Minecraft launcher
       protonup-qt # GUI too to manage Steam compatibility tools
       qsynth # small gui for fluidsynth
+      qutebrowser # keyboard focused web browser
       # retroarch # multi system emulator
       # rhythmbox # music player like old school itunes
       # rosegarden

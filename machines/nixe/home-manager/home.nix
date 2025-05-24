@@ -116,14 +116,16 @@ in
     nixfmt-rfc-style # formatter for nix code, used in VSCode
     nodejs
     npm-check-updates # tool to check package.json for updates
+    nsxiv # new suckless X image viewer
     nyancat # nyan nyan nyan
     nvtopPackages.amd # GPU monitoring
     oxker # docker container management tui
     pamixer # terminal volume control
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
-    pywal # color schemes from images
+    pywal16 # color schemes from images
     # pywalfox-native # style firefox with pywal
+    rmpc # terminal music player
     rtorrent # terminal torrent client
     screen
     scope-tui # terminal oscilloscope
