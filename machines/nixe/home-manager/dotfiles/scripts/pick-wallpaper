@@ -14,7 +14,7 @@ WALLPAPER_DIR=$(cat $CONFIG_FILE | cut -d ":" -f 1)
 echo "folder: $WALLPAPER_DIR"
 
 # get wallpaper from picker
-WALLPAPER=$(nsxiv -btor $WALLPAPER_DIR/)
+WALLPAPER=$(nsxiv -btora $WALLPAPER_DIR/)
 
 # set new wallpaper
 if [[ "$WALLPAPER" != "" ]]; then
