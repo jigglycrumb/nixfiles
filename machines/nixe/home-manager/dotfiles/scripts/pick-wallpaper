@@ -17,6 +17,8 @@ echo "folder: $WALLPAPER_DIR"
 WALLPAPER=$(nsxiv -btor $WALLPAPER_DIR/)
 
 # set new wallpaper
-$HOME/.scripts/wallpaper "$WALLPAPER"
+if [[ "$WALLPAPER" != "" ]]; then
+  $HOME/.scripts/wallpaper "$WALLPAPER"
+fi
 
 exit 0
