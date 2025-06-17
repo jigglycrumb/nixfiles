@@ -1,8 +1,7 @@
 { pkgs ? import <nixpkgs> { } }:
 let
-  args = "-root_path $HOME/Projects/Github/Private/pico8-carts";
   fhs = pkgs.buildFHSEnv {
-    name = "pico8";
+    name = "picocad";
     targetPkgs = pkgs: (with pkgs; [
       xorg.libX11
       xorg.libXext
@@ -19,14 +18,15 @@ let
       xorg.libXdmcp
       alsa-lib
       udev
+      SDL2
     ]);
-    runScript = "bash -c ./pico8";
+    runScript = "bash -c ./picocad";
   };
 in
 pkgs.stdenv.mkDerivation {
-  name = "pico8-shell";
+  name = "picocad-shell";
   nativeBuildInputs = [ fhs ];
   shellHook = ''
-    exec pico8
+    exec picocad
   '';
 }

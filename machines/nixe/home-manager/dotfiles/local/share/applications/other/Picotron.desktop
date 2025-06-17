@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=picotron
+Comment=Fantasy Workstation
+Exec=bash run.sh
+Path=/home/jigglycrumb/Applications/picotron
+Icon=/home/jigglycrumb/.local/share/applications/other/picotron.png
+Terminal=false
+Type=Application
+Categories=Development;

@@ -51,6 +51,7 @@ in
     angband # lotr terminal roguelike
     asciicam # webcam in the terminal
     asciiquarium # a fishy app
+    astroterm # watch the sky from your terminal
     atac # a terminal api client (like postman)
     bat # fancy `cat` replacement
     bluetui # terminal bluetooth manager
@@ -58,7 +59,7 @@ in
     browsh # terminal web browser
     btop # like top, but better
     caligula # burn/flash images to SD cards from the terminal
-    # castero # terminal podcast client
+    castero # terminal podcast client
     cava # terminal audio visualizer
     cbonsai # terminal tree
     cfonts # ansi fonts
@@ -101,7 +102,7 @@ in
     killall # Gotta kill 'em all! Currently used in screen recorder script
     lazydocker # docker tui
     lazygit # git tui
-    lolcat # 🌈
+    clolcat # 🌈
     lynx # terminal web browser, can be scripted for tasks
     mc # dual pane terminal file manager
     md-tui # markdown renderer
@@ -121,6 +122,7 @@ in
     nvtopPackages.amd # GPU monitoring
     oxker # docker container management tui
     pamixer # terminal volume control
+    pastel # terminal color palette tool
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
     pywal16 # color schemes from images
@@ -137,22 +139,23 @@ in
     sshs # ssh connection manager
     tasktimer # task timer
     # textual-paint # terminal ms paint
+    tealdeer # man pages but short
     terminal-parrot # party parrot
     termpdfpy # graphical pdf/ebook reader for kitty
     # termusic # music player - very promising, but crashes a lot currently
     termshark # wireshark for the terminal
     # tickrs # realtime stock tickers in the terminal
-    tldr # man but short
     tmux
     trash-cli # use trash can in the terminal
     tui-journal # terminal journal app
     tuifeed # terminal feed reader
     unzip # extract zip files
-    ventoy # create multi-boot usb sticks
+    # ventoy # create multi-boot usb sticks (unfree license, needs flag)
     vitetris # terminal tetris
     wavemon # Wifi monitoring
     wget # download stuff
     wiki-tui # terminal wikipedia
+    wikiman # offline reader for arch wiki
     yazi # terminal file manager
     yt-dlp # terminal downloader for Youtube etc
 
@@ -181,6 +184,15 @@ in
     "Applications/pico-8/pico8.nix".source = ./home/Applications/pico-8/pico8.nix;
     "Applications/pico-8/run.sh".source = ./home/Applications/pico-8/run.sh;
 
+    "Applications/picocad/picocad.nix".source = ./home/Applications/picocad/picocad.nix;
+    "Applications/picocad/run.sh".source = ./home/Applications/picocad/run.sh;
+
+    "Applications/picocad/picocad-toolbox.nix".source = ./home/Applications/picocad/picocad-toolbox.nix;
+    "Applications/picocad/run-toolbox.sh".source = ./home/Applications/picocad/run-toolbox.sh;
+    
+    "Applications/picotron/picotron.nix".source = ./home/Applications/picotron/picotron.nix;
+    "Applications/picotron/run.sh".source = ./home/Applications/picotron/run.sh;
+    
     "Applications/voxatron/voxatron.nix".source = ./home/Applications/voxatron/voxatron.nix;
     "Applications/voxatron/run.sh".source = ./home/Applications/voxatron/run.sh;
     
@@ -463,7 +475,7 @@ in
       }
     ];
 
-    initExtra = ''
+    initContent = ''
       autoload -U compinit && compinit
       autoload zmv
 
@@ -485,11 +497,11 @@ in
       cat ~/.cache/wal/sequences
 
       echo ""
-      echo " It's $(ddate +'%{%A, the %e of %B%}, %Y. %N%nCelebrate %H ')" | lolcat
+      echo " It's $(ddate +'%{%A, the %e of %B%}, %Y. %N%nCelebrate %H ')" | clolcat
       echo ""
-      echo " Wise llama says:" | lolcat
+      echo " Wise llama says:" | clolcat
       echo ""
-      fortune | cowsay -f llama | lolcat
+      fortune | cowsay -f llama | clolcat
       echo ""
     '';
 
@@ -504,6 +516,7 @@ in
       g = "git";
       icat = "kitty +kitten icat";
       pico8 = "cd ~/Applications/pico-8 && ./run.sh";
+      lolcat = "clolcat";
 
       # Mass rename utility, usage: mmv lolcat_<1-100>.jpg lolcat_*_thumb.jpg
       mmv = "noglob zmv -W";
@@ -573,6 +586,9 @@ in
       diablo = "(cd ~/Games/Diablo && devilutionx) &";
       diablo-hellfire = "(cd ~/Games/Diablo && devilutionx --hellfire) &";
 
+      # downloads
+      download = "yt-dlp -t mp4";
+      downloadmp3 = "yt-dlp -t mp3";
     };
   };
 
