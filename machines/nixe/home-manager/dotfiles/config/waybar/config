@@ -18,13 +18,16 @@
 
     // module slots
     "modules-left": [
-      "hyprland/workspaces",
+      // "hyprland/workspaces",
+      "niri/workspaces",
       // "custom/launcher",
       "custom/kitty",
-      "custom/thunar",
+      // "custom/thunar",
+      "custom/nemo",
       "custom/brave",
       "wlr/taskbar",
-      "hyprland/window"
+      "niri/window"
+      // "hyprland/window"
     ],
 
     "modules-center": [
@@ -47,13 +50,13 @@
       "tray",
       // "custom/clipboard",
       "privacy",
-      // "idle_inhibitor",
+      "idle_inhibitor",
       "custom/microphone",
       "custom/screen-recording",
       "custom/vpn",
       "custom/keyboard",
-      "custom/notification",
-      "custom/wlogout"
+      "custom/notification"
+      // "custom/wlogout"
     ],
 
     // module settings
@@ -138,7 +141,7 @@
     "custom/brave": {
       "format": "",
       "tooltip": false,
-      "on-click": "brave"
+      "on-click": "niri msg action spawn -- brave"
     },
 
     "custom/clipboard": {
@@ -167,15 +170,14 @@
     "custom/kitty": {
       "format": "",
       "tooltip": false,
-      "on-click": "kitty"
+      "on-click": "niri msg action spawn -- kitty"
     },
 
     "custom/launcher": {
       "format": "",
       "tooltip": false,
-      "on-click": "nwggrid -client -layer-shell-exclusive-zone -1"
+      "on-click": "fuzzel"
     },
-
 
     "custom/microphone": {
       "format": "{}",
@@ -183,6 +185,12 @@
       "interval": 1,
       "exec": "~/.config/waybar/scripts/microphone.sh",
       "return-type": "json"
+    },
+
+    "custom/nemo": {
+      "format": "",
+      "tooltip": false,
+      "on-click": "niri msg action spawn -- nemo"
     },
 
     "custom/screen-recording": {
@@ -262,6 +270,14 @@
       "sort-by-number": true
     },
 
+    "idle_inhibitor": {
+      "format": "{icon}",
+      "format-icons": {
+          "activated": "",
+          "deactivated": ""
+      }
+    },
+
     "memory": {
       "interval": 30,
       "format": " {}%",
@@ -282,6 +298,30 @@
       "tooltip-format-ethernet": " {ifname}",
       "tooltip-format-disconnected": "Disconnected",
       "max-length": 50
+    },
+
+    "niri/window": {
+      "format": "{title}",
+      "separate-outputs": true,
+      // "rewrite": {
+      // "(.*) - Brave": "🌎 $1",
+      // "(.*) - zsh": "> [$1]"
+      // }
+    },
+
+    "niri/workspaces": {
+      "format": "{index}",
+      "format-icons": {
+	// Named workspaces
+	// (you need to configure them in niri)
+	// "browser": "",
+	// "discord": "",
+	// "chat": "<b></b>",
+
+	// Icons by state
+	"active": "",
+	"default": ""
+      }
     },
 
     "privacy": {
@@ -341,8 +381,8 @@
       "tooltip-format": "{title}",
       "on-click": "activate",
       "on-click-middle": "close",
-      "all-outputs": true,
-      "sort-by-app-id": true
+      // "all-outputs": true,
+      "sort-by-app-id": true,
       // "ignore-list": [
       //   "Alacritty"
       // ],

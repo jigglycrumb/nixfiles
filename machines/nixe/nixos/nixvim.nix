@@ -629,7 +629,7 @@ in
         };
       };
 
-      overseer.enable = true; # task runner
+      # overseer.enable = true; # task runner
       # snacks.enable = true; # enable snacks (bigfile, notifier, quickfile, statuscolumn, words) - doesn't seem to do anything?
       telescope.enable = true; # fuzzy finder
 

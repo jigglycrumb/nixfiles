@@ -14,7 +14,7 @@ in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
 
-  imports = [ /etc/nixos/hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
@@ -39,6 +39,11 @@ in
   };
 
   console.keyMap = "${keymap}";
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   nix.optimise.automatic = true;
   nix.gc = {

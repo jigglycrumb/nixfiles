@@ -68,6 +68,8 @@ tooltip label {
   padding-bottom: 12px;
   box-shadow: inset 0px -8px 0px 0px @color1;
   border: 1px solid @background-alpha;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 #taskbar button:hover,
@@ -118,10 +120,11 @@ tooltip label {
 #custom-launcher,
 #custom-brave,
 #custom-kitty,
+#custom-nemo,
 #custom-thunar,
 
 #disk,
-/* #idle_inhibitor, */
+#idle_inhibitor,
 #memory,
 #mode,
 #mpd,
@@ -139,12 +142,13 @@ tooltip label {
 
 #custom-launcher,
 #custom-kitty,
+#custom-nemo,
 #custom-thunar,
 #custom-brave {
   color: @color6;
   margin-bottom: 4px;
   margin-top: 4px;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 #custom-launcher:hover,
@@ -180,8 +184,9 @@ tooltip label {
 }
 
 /* battery module */
-#battery {
-  border-radius: 6px;
+#battery,
+#idle_inhibitor {
+  border-radius: 8px;
   margin-top: 4px;
   margin-bottom: 4px;
 }
@@ -238,8 +243,8 @@ tooltip label {
 }
 
 #idle_inhibitor.activated {
-  background-color: #ecf0f1;
-  color: #2d3436;
+  background-color: @icon-red;
+  color: @background;
 }
 
 #tray>.passive {

@@ -22,7 +22,7 @@ in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
 
-  imports = [ /etc/nixos/hardware-configuration.nix ];
+  imports = [];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
@@ -47,6 +47,11 @@ in
   };
 
   console.keyMap = "${keymap}";
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   nix.optimise.automatic = true;
   nix.gc = {
@@ -104,17 +109,31 @@ in
     git
     htop
     micro
+    # searxng
   ];
 
   # SERVICES
 
   services.homepage-dashboard = {
     enable = true;
-    listenPort = 80; # 8082;
+    listenPort = 8082;
     openFirewall = true;
+    allowedHosts = "*";
     services = [
       {
         "Services" = [
+          {
+            "SearXNG" = {
+              description = "Search Engine";
+              href = "http://driftwood:8888";
+            };
+          }
+          {
+            "NetAlertX" = {
+              description = "Network Alerts";
+              href = "http://hafen:20211";
+            };
+          }
           {
             "AdGuard Home" = {
               description = "Ad Blocker";
@@ -123,13 +142,13 @@ in
           }
           {
             "Home Assistant" = {
-              description = "Home automation";
+              description = "Home Automation";
               href = "http://nautilus:8123";
             };
           }
           {
             "Nextcloud" = {
-              description = "Cloud service";
+              description = "Cloud Service";
               href = "http://siren";
             };
           }
@@ -188,7 +207,7 @@ in
   };
 
   # allow homepage to run on port 80
-  systemd.services.homepage-dashboard.serviceConfig.AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+  # systemd.services.homepage-dashboard.serviceConfig.AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
 
   # wiki
   services.gollum = {
@@ -299,12 +318,28 @@ in
   #   baseUrl = "https://freshrss.example.com";
   # };
 
+  services.searx = {
+    enable = true;
+    redisCreateLocally = true;
+    settings = {
+      server = {
+        bind_address = "0.0.0.0";
+        port = 8888;
+        secret_key = "secret key";
+      };
+    };
+  };
+
+  # services.searx.settings.search.formats = ["html" "json" "rss"];
+
   networking.firewall.allowedTCPPorts = [
     # 80 # homepage-dashboard
     # 3000 # invidious
     # 8065 # mattermost
     8080 # gollum
+    8082 # homepage-dashboard
     8384 # syncthing
+    8888 # SearXNG
     9000 # mealie
     # 25565 # minecraft server
     # 27960 # quake 3 server

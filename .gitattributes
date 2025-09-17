@@ -1,0 +1,5 @@
+*secrets* filter=git-crypt diff=git-crypt
+**/secret/** filter=git-crypt diff=git-crypt
+**/ssh/** filter=git-crypt diff=git-crypt
+**/wireguard-keys/** filter=git-crypt diff=git-crypt
+machines/proxmox/hafen/apps/karakeep/.env filter=git-crypt diff=git-crypt
