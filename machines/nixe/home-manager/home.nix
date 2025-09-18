@@ -64,6 +64,7 @@ in
     cbonsai # terminal tree
     cfonts # ansi fonts
     chess-tui # terminal chess
+    clolcat # 🌈
     cmatrix # there is no spoon
     confetty # 🎊
     cowsay # moo
@@ -72,14 +73,15 @@ in
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
-    # distrobox # run other distros in containers
-    # distrobox-tui # tui for distrobox
+    distrobox # run other distros in containers
+    distrobox-tui # tui for distrobox
     doge # much wow
     dooit # todo tui
     dysk # shows info for mounted drives - a better 'df'
     epy # terminal ebook reader
     eza # ls replacement
     fast-ssh # ssh connection manager
+    fd # a better find
     file # identify file types
     fluidsynth # software synthesizer
     font-awesome # icons for waybar (does not work in environment.systemPackages)
@@ -91,6 +93,7 @@ in
     glow # markdown reader
     go # go programming language
     gum # various little helpers
+    gurk-rs # terminal client for Signal messenger
     hollywood # hacking...
     htop # process monitor
     hyprland-monitor-attached # run scripts when monitors plug
@@ -102,8 +105,8 @@ in
     killall # Gotta kill 'em all! Currently used in screen recorder script
     lazydocker # docker tui
     lazygit # git tui
-    clolcat # 🌈
     lynx # terminal web browser, can be scripted for tasks
+    mame-tools # contains chdman
     mc # dual pane terminal file manager
     md-tui # markdown renderer
     meld # merge tool
@@ -125,8 +128,10 @@ in
     pastel # terminal color palette tool
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
+    posting # terminal HTTP API client
     pywal16 # color schemes from images
     # pywalfox-native # style firefox with pywal
+    ripgrep # rg, a better grep
     rmpc # terminal music player
     rtorrent # terminal torrent client
     screen
@@ -137,6 +142,7 @@ in
     speedread # read text fast
     sshpass # use ssh password auth within scripts - used for deploying proxmox VM configs
     sshs # ssh connection manager
+    superfile # terminal file manager
     tasktimer # task timer
     # textual-paint # terminal ms paint
     tealdeer # man pages but short
@@ -280,7 +286,7 @@ in
 
   home.pointerCursor = {
     gtk.enable = true;
-    x11.enable = true;
+    # x11.enable = true;
 
     package = pkgs.bibata-cursors;
     # name = "Bibata-Modern-Classic";
@@ -296,6 +302,10 @@ in
 
   # Enable atuin for shell history
   programs.atuin.enable = true;
+
+
+  # Enable kitty for default Hyprland config
+  # programs.kitty.enable = true;
 
   # Enable starship shell prompt
   programs.starship = {
@@ -322,28 +332,24 @@ in
     };
   };
 
-  # Use dark theme in GTK apps
   gtk = {
     enable = true;
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
+
+    theme = {
+      package = pkgs.flat-remix-gtk;
+      name = "Flat-Remix-GTK-Grey-Darkest";
     };
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
+
+    iconTheme = {
+      package = pkgs.adwaita-icon-theme;
+      name = "Adwaita";
+    };
+
+    font = {
+      name = "Sans";
+      size = 11;
     };
   };
-
-  # gtk = {
-  #   enable = true;
-  #   # iconTheme = {
-  #   #   name = "elementary-Xfce-dark";
-  #   #   package = pkgs.elementary-xfce-icon-theme;
-  #   # };
-  #   # theme = {
-  #   #   name = "zukitre-dark";
-  #   #   package = pkgs.zuki-themes;
-  #   # };
-  # };
 
   programs.gpg.enable = true;
 
@@ -511,6 +517,7 @@ in
 
       "n" = "nvim";
       "n." = "nvim .";
+      "nn" = "nvim .";
 
       # cat = "bat";
       g = "git";
@@ -582,10 +589,6 @@ in
       sl = "aplay -q ~/.sounds/train.wav & sl";
       space-opera = "telnet towel.blinkenlights.nl";
 
-      # games
-      diablo = "(cd ~/Games/Diablo && devilutionx) &";
-      diablo-hellfire = "(cd ~/Games/Diablo && devilutionx --hellfire) &";
-
       # downloads
       download = "yt-dlp -t mp4";
       downloadmp3 = "yt-dlp -t mp3";
@@ -593,11 +596,16 @@ in
   };
 
   # wayland.windowManager.hyprland = {
-  #   enable = true; # enable Hyprland
-  #   plugins = with pkgs.hyprlandPlugins; [
-  #     hyprspace
-  #     hyprsplit
-  #   ];
+    # enable = true; # enable Hyprland
+    # extraConfig = ''
+    #   exec-once = hyprctl plugin load ${pkgs.hyprlandPlugins.hyprscrolling}/lib/libhyprscrolling.so
+    # '';
+    # plugins = with pkgs.hyprlandPlugins; [
+    #  hyprexpo
+    #  hyprscrolling
+    #  hyprspace
+    #  hyprsplit
+    # ];
   # };
 
   # do not create ~/Public & ~/Templates

@@ -1,0 +1,1 @@
+../../../../common/secret/syncthing.nix

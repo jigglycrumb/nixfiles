@@ -13,7 +13,7 @@ in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
 
-  imports = [ /etc/nixos/hardware-configuration.nix ];
+  imports = [];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
@@ -38,6 +38,11 @@ in
   };
 
   console.keyMap = "${keymap}";
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   nix.optimise.automatic = true;
   nix.gc = {
@@ -81,6 +86,7 @@ in
     ".." = "cd ..";
     "..." = "cd ../..";
     "...." = "cd ../../..";
+    "docker-update-app" = "docker compose pull && docker compose down && docker compose up -d";
   };
 
   environment.sessionVariables = {
@@ -112,6 +118,7 @@ in
     allowedTCPPorts = [
       3000 # karakeep
       3080 # watcharr
+      20211 # netalertx
     ];
     allowedUDPPorts = [
     ];

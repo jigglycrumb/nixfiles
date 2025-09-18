@@ -169,7 +169,7 @@ in
   };
 
   # Configure console keymap
-  console.keyMap = "de";
+  console.keyMap = "us";
 
   # Enable flakes
   nix.settings.experimental-features = [
@@ -181,75 +181,90 @@ in
   nixpkgs.config.allowUnfree = true;
 
   # Allow broken packages
-  # nixpkgs.config.allowBroken = true;
+  # nixpkgs.config.allowBroken = true; # needed for 3D printing stuff
 
   # Enabled support for rocm
   # nixpkgs.config.rocmSupport = true;
 
   nixpkgs.config.permittedInsecurePackages = [
-  "dotnet-runtime-7.0.20"
-  #  "dotnet-runtime-wrapped-7.0.20"
-   "dotnet-sdk-7.0.410"
-  #  "dotnet-sdk-wrapped-7.0.410"
+    "dotnet-runtime-7.0.20"
+    "dotnet-sdk-7.0.410"
+    "qtwebengine-5.15.19"
   ];
 
 
-  services.fprintd.enable = true;
+  # services.fprintd.enable = true;
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "amdgpu" ];
-  services.xserver.excludePackages = [ pkgs.xterm ]; # don't install xterm
+  # services.xserver.enable = true;
+  # services.xserver.videoDrivers = [ "amdgpu" ];
+  # services.xserver.excludePackages = [ pkgs.xterm ]; # don't install xterm
 
   # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
 
-  # TODO: finish this: enable tuigreet from wlogout, disable autologin
   services.greetd = {
     enable = true;
-    package = pkgs.greetd.tuigreet;
-    settings = rec {
-      initial_session = {
-        command = "${pkgs.hyprland}/bin/Hyprland";
+    settings = {
+      default_session = {
+        command = ''
+          ${pkgs.tuigreet}/bin/tuigreet \
+          --time \
+          --asterisks \
+          --user-menu
+        '';
         user = "${username}";
       };
-      default_session = initial_session;
     };
   };
 
-  #environment.etc."greetd/environments".text = ''
-  #  Hyprland
-  #'';
+  services.below.enable = true;
+
+  # environment.etc."greetd/environments".text = ''
+  #   niri
+  # '';
+
+  systemd.services.greetd = {
+    serviceConfig = {
+      Type = "idle";
+      StandardInput = "tty";
+      StandardOuput = "tty";
+      StandardError = "journal";
+      TTYReset = true;
+      TTYHangup = true;
+      TTYVTDisallocate = true;
+    };
+
+    # unitConfig.After = [ "docker.service" ];
+  };
 
   # Configure keymap in X11
-  services.xserver = {
-    xkb = {
-      layout = "us";
-      variant = "";
-    };
+  # services.xserver = {
+  #  xkb = {
+  #    layout = "us";
+  #    variant = "";
+  #  };
+  # };
 
-    displayManager.gdm = {
-      enable = true;
-      wayland = true;
-    };
-  };
+  # services.displayManager.gdm = {
+  #  enable = true;
+  #  wayland = true;
+  # };
 
-  services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
+  services.desktopManager.gnome.extraGSettingsOverrides = ''
     [org.gnome.desktop.interface]
     gtk-theme='Arc-Dark'
   '';
 
   services.openssh.enable = true;
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
+  # programs.hyprland.enable = true;
 
   environment.sessionVariables = {
     # NIXOS_OZONE_WL = "1";
-    XDG_CURRENT_DESKTOP = "Hyprland";
-    XDG_SESSION_DESKTOP = "Hyprland";
+    # XDG_DESKTOP_PORTAL = "xdg-desktop-portal-xapp";
+    XDG_CURRENT_DESKTOP = "niri";
+    XDG_SESSION_DESKTOP = "niri";
     XDG_SESSION_TYPE = "wayland";
     CLUTTER_BACKEND = "wayland";
     SDL_VIDEODRIVER = "x11";
@@ -257,16 +272,19 @@ in
     # QT_QPA_PLATFORM = "wayland";
     # QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     # QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    # DISPLAY = ":0";
   };
 
   xdg.portal = {
     enable = true;
     # wlr.enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
-    ];
+    # xdgOpenUsePortal = true;
+    # extraPortals = [
+      # pkgs.xdg-desktop-portal-xapp
+      # pkgs.xdg-desktop-portal-gnome
+      # pkgs.xdg-desktop-portal-gtk
+      # pkgs.xdg-desktop-portal-hyprland
+    # ];
   };
 
   fileSystems."/home/${username}/Remote/NAS" = {
@@ -276,7 +294,7 @@ in
     options = [
       # this line prevents hanging on network split
       # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-      "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
+      "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto,noserverino"
     ];
   };
 
@@ -304,16 +322,16 @@ in
   };
 
   # Enable web GUI for ollama
-  services.open-webui = {
-    enable = true;
-    port = 4141; # 8080;
-    environment = {
-      ANONYMIZED_TELEMETRY = "False";
-      DO_NOT_TRACK = "True";
-      SCARF_NO_ANALYTICS = "True";
-      # WEBUI_AUTH = "False";
-    };
-  };
+  # services.open-webui = {
+  #  enable = true;
+  #  port = 4141; # 8080;
+  #  environment = {
+  #    ANONYMIZED_TELEMETRY = "False";
+  #    DO_NOT_TRACK = "True";
+  #    SCARF_NO_ANALYTICS = "True";
+  #    # WEBUI_AUTH = "False";
+  #  };
+  # };
 
   services.syncthing = {
     enable = true;
@@ -384,7 +402,7 @@ in
   # Enable Docker
   virtualisation.docker.enable = true;
 
-  # Enable Virt-manager
+  # Enable Virt-Manager
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
@@ -454,22 +472,25 @@ in
     packages = with pkgs; [
       _86Box-with-roms
       # affine # workspace / knowledge space
+      # alacritty # terminal
       angryipscanner # network scanner
-      appeditor # gui to edit app launcher entries (.desktop files)
+      # appeditor # gui to edit app launcher entries (.desktop files)
       # appflowy
       # arduino # code hardware things
       ascii-draw # draw diagrams etc in ASCII
       audacity # audio recorder/editor
       blanket # ambient sounds
+      blender # 3D modeling
       brave # web browser
       bruno # API client/tester/explorer
       # celestia # spaaaaaaaaaaace
-      nemo-with-extensions # file manager
       cheese # webcam fun
-      clipgrab # youtube downloader
+      # clipgrab # youtube downloader
       cool-retro-term # terminal emulator
       # czkawka # remove useless files
       cryptomator # file encryption
+      # cura # 3D printing software
+      # cura-appimage # 3D printing software
       # davinci-resolve # video editor
       # devilutionx # Diablo
       # devour # devours your current terminal
@@ -478,38 +499,41 @@ in
       # distrobox # run others distros in containers
       door-knocker # check availability of portals
       dosbox-staging # emulates DOS software
-      drawing # basic image editor, similar to MS Paint
+      # drawing # basic image editor, similar to MS Paint
       easyeffects # effects for pipewire apps
       easytag # edit mp3 tags
       evince # document viewer
-      fallout-ce # port of Fallout for modern systems
+      # fallout-ce # port of Fallout for modern systems
       ffmpeg # needed for mediathekview
       # firefox # web browser
+      freecad # CAD modeler 
       furnace # multi-system chiptune tracker
       gimp # image manipulation
       godot_4 # game engine
-      gossip # nostr client
+      # gossip # nostr client
       grandorgue # virtual pipe organ
-      handbrake # video encoding
+      # handbrake # video encoding
       helvum # patchbay for PipeWire
       heroic # GUI for GOG & Epic Games
       hydrogen # drum machine
       ioquake3 # Quake 3 Arena source port
       jstest-gtk # simple joystick testing GUI
-      kdePackages.kdenlive # video editor
+      # kdePackages.kdenlive # video editor
       # keeperrl # roguelike
       krita # painting software
       # kstars # spaaaaaaaaaaace
       letterpress # convert images to ascii art
       libreoffice # office suite
-      lmms # DAW similar to FL Studio
+      # lmms # DAW similar to FL Studio
       # lmstudio # desktop app to run LLMs
       losslesscut-bin # cut video fast
       # lutris # play games
-      makemkv # DVD & Blu-Ray ripper
-      # mattermost-desktop
+      # makemkv # DVD & Blu-Ray ripper
+      # mattermost-desktop # Slack alternative
       mediathekview # downloader for German public broadcasts
+      meshlab # edit 3D model files
       milkytracker # music tracker
+      nemo-with-extensions # file manager
       networkmanagerapplet # tray app for network management
       nwg-look # GUI to theme GTK apps
       # obsidian # personal knowledge base
@@ -517,16 +541,19 @@ in
       # oh-my-git # a learning game about git
       # opensnitch-ui # GUI for opensnitch application firewall
       orca # screen reader
+      orca-slicer # slicer for 3D printers
       openclonk # game
-      openxcom # xcom source port
+      # openxcom # xcom source port
+      overskride # bluetooth management GUI
       pablodraw # ANSI/ASCII art drawing
       pavucontrol # GUI volume conrol
       peazip # archive utility
       pika-backup # a backup thing
+      plasticity # CAD modeler
       prismlauncher # Minecraft launcher
-      protonup-qt # GUI too to manage Steam compatibility tools
+      protonup-qt # GUI to manage Steam compatibility tools
       qsynth # small gui for fluidsynth
-      qutebrowser # keyboard focused web browser
+      # qutebrowser # keyboard focused web browser
       # retroarch # multi system emulator
       # rhythmbox # music player like old school itunes
       # rosegarden
@@ -534,7 +561,7 @@ in
       seahorse # keyring manager
       signal-desktop # messenger
       simple-scan # scan documents
-      slack # chat thing
+      # slack # chat thing
       # simplex-chat-desktop # messenger
       sonic-pi # code music
       sparrow
@@ -545,8 +572,8 @@ in
       # ut1999 # Unreal Tournament
       virt-viewer # VM management GUI
       vlc # media player
-      wargus # Warcraft 2 port
-      wtype # fake keypresses in wayland (bookmarks mgmt)
+      # wargus # Warcraft 2 port
+      # wtype # fake keypresses in wayland (bookmarks mgmt)
       yoshimi # software synthesizer
       zed-editor # editor
     ];
@@ -559,11 +586,13 @@ in
   programs.appimage.binfmt = true;
 
   # Enable automatic login for the user.
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "${username}";
+  # services.displayManager.autoLogin.enable = true;
+  # services.displayManager.autoLogin.user = "${username}";
 
-  services.hypridle.enable = true; # enable hyprland idle daemon
-  programs.hyprlock.enable = true; # enable hyprland screen lock
+  # services.hypridle.enable = true; # enable hyprland idle daemon
+  # programs.hyprlock.enable = true; # enable hyprland screen lock
+
+  programs.niri.enable = true; # a scrolling window manager
 
   # better ttys
   services.kmscon = {
@@ -575,7 +604,10 @@ in
         package = pkgs.hack-font;
       }
     ];
-    extraConfig = "font-size=18\nxkb-layout=de";
+    extraConfig = ''
+      font-size=18
+      xkb-layout=us
+    '';
   };
 
   # Enable keyd to remap keyboard keys
@@ -618,24 +650,25 @@ in
     exiftool # read & write exif data - integrates with digikam
     fuzzel # wayland app launcher
     gcc # needed to run Watcharr dev server. TODO this should be in a flake devShell but I was lazy
+    git
+    git-crypt # transparent file encryption for git
     gparted # drive partition manager
     grimblast # screenshot tool (used in screenshot script)
     home-manager # manage user configurations
     hyprcursor # xcursor replacement
-    hyprkeys # print hyprland key bindings
     hyprpicker # pick colors from the screen
+    hyprsunset # gamma filter for hyprland
     isd # TUI for systemd services
     kitty # terminal
     libnotify # notification basics, includes notify-send
-    libsForQt5.ark # KDE archive utility
+    # libsForQt5.ark # KDE archive utility
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
     lxqt.lxqt-policykit
     micro # simple terminal editor
-
     # nh # shortcuts for common NixOS/home-manager commands
     # nix-output-monitor # nom nom nom
     # nvd # nix version diff
-
+    pass-wayland # local password manager
     powertop # power monitor
     pulseaudio # pactl
 
@@ -647,7 +680,6 @@ in
 
     radeontop
     rocmPackages.rocminfo
-
     samba # de janeiro! *da da da da, dadada, dada*
     # satty # screenshot annotation tool
     slurp # select region on screen (used in screen recording script)
@@ -664,13 +696,8 @@ in
     wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
     wlogout # wayland logout,lock,etc screen
-    wlsunset # day/night gamma adjustments
     waybar # wayland menu bar
-
-    # wayland bar
-    # (waybar.overrideAttrs (oldAttrs: {
-    #   mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    # }))
+    xwayland-satellite # runs X apps on wayland
   ];
 
   qt = {
@@ -716,11 +743,6 @@ in
   system.stateVersion = "23.05"; # Did you read the comment?
 
   # Hardware specific stuff --------------------------------------------------
-
-  # Game controller settings
-
-  # We don't need this, it's enabled via the steam module
-  # hardware.steam-hardware.enable = true;
 
   # Udev rules to start or stop systemd service when controller is connected or disconnected
   services.udev.extraRules = ''

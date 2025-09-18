@@ -63,6 +63,11 @@ in
 
   console.keyMap = "${keymap}";
 
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   nix.optimise.automatic = true;
   nix.gc = {
     automatic = true;
@@ -70,12 +75,18 @@ in
     options = "--delete-older-than 30d";
   };
 
+  # programs.zsh.enable = true;
+
   users.users."${username}" = {
     isNormalUser = true;
     description = "${username}";
     extraGroups = [
       "networkmanager"
       "wheel"
+    ];
+    # shell = pkgs.zsh;
+    packages = with pkgs; [
+      mame-tools
     ];
   };
 
@@ -129,7 +140,7 @@ in
   services.nextcloud = {
     enable = true;
     hostName = "${hostname}";
-    package = pkgs.nextcloud30;
+    package = pkgs.nextcloud31;
 
     config.adminpassFile = "/etc/nextcloud-admin-pass";
     config.dbtype = "sqlite";
@@ -211,6 +222,7 @@ in
 
       devices = {
         driftwood = secrets-syncthing.devices.driftwood;
+        knulli = secrets-syncthing.devices.knulli;
         megabox = secrets-syncthing.devices.megabox;
         nixe = secrets-syncthing.devices.nixe;
         phone = secrets-syncthing.devices.phone;
