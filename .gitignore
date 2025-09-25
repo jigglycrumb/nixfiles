@@ -1,4 +1,3 @@
 result
-hardware-configuration.nix
 machines/proxmox/driftwood/secret/quake3
 machines/proxmox/hafen/apps/watcharr/data

@@ -97,7 +97,6 @@ in
     hollywood # hacking...
     htop # process monitor
     hyprland-monitor-attached # run scripts when monitors plug
-    hyprshot # screenshot utility
     iftop # network monitoring
     inetutils # telnet
     jp2a # convert jpg and png to ascii art
@@ -118,6 +117,7 @@ in
     neofetch # I use nix btw
     nms # decrypting...
     nixfmt-rfc-style # formatter for nix code, used in VSCode
+    nix-tree # browse the dependency graph of nix configs
     nodejs
     npm-check-updates # tool to check package.json for updates
     nsxiv # new suckless X image viewer
@@ -239,7 +239,9 @@ in
       font_size 12.0
       font_family Hack
     '';
+    ".config/niri".source = ./dotfiles/config/niri;
     ".config/starship.toml".source = ./dotfiles/config/starship.toml;
+    ".config/sunsetr".source = ./dotfiles/config/sunsetr;
     ".config/swaync".source = ./dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = ./dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = ./dotfiles/config/wal/templates;

@@ -39,7 +39,7 @@ in
 {
   imports = [
     # Include the results of the hardware scan.
-    /etc/nixos/hardware-configuration.nix
+    # /etc/nixos/hardware-configuration.nix
     nixvim.nixosModules.nixvim
     (import ./nixvim.nix { inherit username; })
   ];
@@ -61,7 +61,6 @@ in
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
-  # hardware.bluetooth.powerOnBoot = true;reboot
 
   # Enable Vulkan
   hardware.graphics.enable = true;
@@ -106,27 +105,6 @@ in
   };
 
   # Enable WireGuard
-  # systemd.services.wireguard-wg0.wantedBy = [ ]; # lib.mkForce [ ]; # dont connect automatically # TODO doesnt seem to work, investigate
-
-  # networking.wireguard.interfaces = {
-  #   # "wg0" is the network interface name. You can name the interface arbitrarily.
-  #   wg0 = {
-  #     # Determines the IP address and subnet of the client's end of the tunnel interface.
-  #     ips = secrets-wireguard.hosts.${hostname}.ips;
-
-  #     listenPort = secrets-wireguard.port; # to match firewall allowedUDPPorts (without this wg uses random port numbers)
-
-  #     # Path to the private key file.
-  #     #
-  #     # Note: The private key can also be included inline via the privateKey option,
-  #     # but this makes the private key world-readable; thus, using privateKeyFile is
-  #     # recommended.
-  #     privateKeyFile = "/home/${username}/.wireguard-keys/${hostname}-wireguard.private";
-
-  #     peers = secrets-wireguard.hosts.${hostname}.peers;
-  #   };
-  # };
-
   networking.wg-quick.interfaces = {
     home = {
       # Determines the IP address and subnet of the client's end of the tunnel interface.
@@ -181,24 +159,12 @@ in
   nixpkgs.config.allowUnfree = true;
 
   # Allow broken packages
-  # nixpkgs.config.allowBroken = true; # needed for 3D printing stuff
-
-  # Enabled support for rocm
+  # nixpkgs.config.allowBroken = true; 
+  
+  # Enable support for rocm
   # nixpkgs.config.rocmSupport = true;
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "dotnet-runtime-7.0.20"
-    "dotnet-sdk-7.0.410"
-    "qtwebengine-5.15.19"
-  ];
-
-
-  # services.fprintd.enable = true;
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-  # services.xserver.videoDrivers = [ "amdgpu" ];
-  # services.xserver.excludePackages = [ pkgs.xterm ]; # don't install xterm
+  # nixpkgs.config.permittedInsecurePackages = [];
 
   # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
@@ -220,10 +186,6 @@ in
 
   services.below.enable = true;
 
-  # environment.etc."greetd/environments".text = ''
-  #   niri
-  # '';
-
   systemd.services.greetd = {
     serviceConfig = {
       Type = "idle";
@@ -234,22 +196,7 @@ in
       TTYHangup = true;
       TTYVTDisallocate = true;
     };
-
-    # unitConfig.After = [ "docker.service" ];
   };
-
-  # Configure keymap in X11
-  # services.xserver = {
-  #  xkb = {
-  #    layout = "us";
-  #    variant = "";
-  #  };
-  # };
-
-  # services.displayManager.gdm = {
-  #  enable = true;
-  #  wayland = true;
-  # };
 
   services.desktopManager.gnome.extraGSettingsOverrides = ''
     [org.gnome.desktop.interface]
@@ -257,8 +204,6 @@ in
   '';
 
   services.openssh.enable = true;
-
-  # programs.hyprland.enable = true;
 
   environment.sessionVariables = {
     # NIXOS_OZONE_WL = "1";
@@ -279,12 +224,12 @@ in
     enable = true;
     # wlr.enable = true;
     # xdgOpenUsePortal = true;
-    # extraPortals = [
+    extraPortals = [
       # pkgs.xdg-desktop-portal-xapp
-      # pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gnome
       # pkgs.xdg-desktop-portal-gtk
       # pkgs.xdg-desktop-portal-hyprland
-    # ];
+    ];
   };
 
   fileSystems."/home/${username}/Remote/NAS" = {
@@ -322,16 +267,16 @@ in
   };
 
   # Enable web GUI for ollama
-  # services.open-webui = {
-  #  enable = true;
-  #  port = 4141; # 8080;
-  #  environment = {
-  #    ANONYMIZED_TELEMETRY = "False";
-  #    DO_NOT_TRACK = "True";
-  #    SCARF_NO_ANALYTICS = "True";
-  #    # WEBUI_AUTH = "False";
-  #  };
-  # };
+  services.open-webui = {
+    enable = true;
+    port = 4141; # 8080;
+    environment = {
+      ANONYMIZED_TELEMETRY = "False";
+      DO_NOT_TRACK = "True";
+      SCARF_NO_ANALYTICS = "True";
+      # WEBUI_AUTH = "False";
+    };
+  };
 
   services.syncthing = {
     enable = true;
@@ -407,7 +352,6 @@ in
     enable = true;
     qemu = {
       package = pkgs.qemu_kvm;
-      # runAsRoot = true;
       swtpm.enable = true;
       ovmf = {
         enable = true;
@@ -491,14 +435,13 @@ in
       cryptomator # file encryption
       # cura # 3D printing software
       # cura-appimage # 3D printing software
-      # davinci-resolve # video editor
+      davinci-resolve # video editor
       # devilutionx # Diablo
       # devour # devours your current terminal
       digikam # photo manager
       # discord # (voice)chat
-      # distrobox # run others distros in containers
       door-knocker # check availability of portals
-      dosbox-staging # emulates DOS software
+      # dosbox-staging # emulates DOS software
       # drawing # basic image editor, similar to MS Paint
       easyeffects # effects for pipewire apps
       easytag # edit mp3 tags
@@ -565,7 +508,7 @@ in
       # simplex-chat-desktop # messenger
       sonic-pi # code music
       sparrow
-      teamspeak_client # voice chat
+      # teamspeak_client # voice chat
       # theforceengine # dark forces source port
       tor-browser-bundle-bin # browser for the evil dark web
       # ungoogled-chromium # chrome without google
@@ -585,14 +528,14 @@ in
   # Enable AppImages to run directly
   programs.appimage.binfmt = true;
 
-  # Enable automatic login for the user.
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.autoLogin.user = "${username}";
-
   # services.hypridle.enable = true; # enable hyprland idle daemon
-  # programs.hyprlock.enable = true; # enable hyprland screen lock
+  programs.hyprlock.enable = true; # enable hyprland screen lock
 
   programs.niri.enable = true; # a scrolling window manager
+
+  programs.wshowkeys.enable = true; # show keypresses on screen
+
+  security.soteria.enable = true;
 
   # better ttys
   services.kmscon = {
@@ -641,6 +584,7 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    abduco # detachable terminal sessions
     appimage-run # runs appimage apps
     brightnessctl # control screen brightness
     cifs-utils # mount samba shares
@@ -653,17 +597,15 @@ in
     git
     git-crypt # transparent file encryption for git
     gparted # drive partition manager
-    grimblast # screenshot tool (used in screenshot script)
     home-manager # manage user configurations
     hyprcursor # xcursor replacement
     hyprpicker # pick colors from the screen
-    hyprsunset # gamma filter for hyprland
     isd # TUI for systemd services
     kitty # terminal
     libnotify # notification basics, includes notify-send
     # libsForQt5.ark # KDE archive utility
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
-    lxqt.lxqt-policykit
+    # lxqt.lxqt-policykit
     micro # simple terminal editor
     # nh # shortcuts for common NixOS/home-manager commands
     # nix-output-monitor # nom nom nom
@@ -679,14 +621,16 @@ in
     ))
 
     radeontop
+    raffi
     rocmPackages.rocminfo
     samba # de janeiro! *da da da da, dadada, dada*
-    # satty # screenshot annotation tool
     slurp # select region on screen (used in screen recording script)
     spice # VM stuff
     spice-gtk # VM stuff
     spice-protocol # VM stuff
+    sunsetr # blue light filter for wayland
     swayimg # image viewer
+    swaylock-effects # wayland screen locker
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     system-config-printer # printer configuration UI
@@ -695,7 +639,6 @@ in
     virtiofsd # enables shared folders between host and VM - add <binary path="/run/current-system/sw/bin/virtiofsd"/> to filesystem XML if virtiofsd can't be found
     wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
-    wlogout # wayland logout,lock,etc screen
     waybar # wayland menu bar
     xwayland-satellite # runs X apps on wayland
   ];
