@@ -33,12 +33,13 @@ function deploy_target() {
 
   # Copy config to target host
   echo "Copying system configuration"
-  sshpass -p $pass scp -r $target/* $user@$target:~/nixos
+  sshpass -p $pass scp -r flake.* $user@$target:~
+  sshpass -p $pass scp -r $target/* $user@$target:~/$target
 
   if [ "$2" != "--copy" ]; then
     # Rebuild system
     echo "Rebuilding system"
-    sshpass -p $pass ssh -t $user@$target "echo $pass | sudo -p '' -S nixos-rebuild switch"
+    sshpass -p $pass ssh -t $user@$target "echo $pass | sudo -p '' -S nixos-rebuild switch --impure --flake ~" # TODO impure needed for anker /www absolute path
   fi
 }
 

@@ -416,10 +416,9 @@ in
     packages = with pkgs; [
       _86Box-with-roms
       # affine # workspace / knowledge space
-      # alacritty # terminal
       angryipscanner # network scanner
       # appeditor # gui to edit app launcher entries (.desktop files)
-      # appflowy
+      appflowy
       # arduino # code hardware things
       ascii-draw # draw diagrams etc in ASCII
       audacity # audio recorder/editor
@@ -436,7 +435,7 @@ in
       # cura # 3D printing software
       # cura-appimage # 3D printing software
       davinci-resolve # video editor
-      # devilutionx # Diablo
+      devilutionx # Diablo
       # devour # devours your current terminal
       digikam # photo manager
       # discord # (voice)chat
@@ -496,7 +495,7 @@ in
       prismlauncher # Minecraft launcher
       protonup-qt # GUI to manage Steam compatibility tools
       qsynth # small gui for fluidsynth
-      # qutebrowser # keyboard focused web browser
+      qutebrowser # keyboard focused web browser
       # retroarch # multi system emulator
       # rhythmbox # music player like old school itunes
       # rosegarden

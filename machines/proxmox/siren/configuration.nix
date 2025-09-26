@@ -37,7 +37,7 @@ in
 {
   # COMMON - DEFAULT CONFIG FOR ALL VMS
 
-  imports = [ /etc/nixos/hardware-configuration.nix ];
+  imports = [];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";

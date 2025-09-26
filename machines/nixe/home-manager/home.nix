@@ -144,7 +144,6 @@ in
     sshs # ssh connection manager
     superfile # terminal file manager
     tasktimer # task timer
-    # textual-paint # terminal ms paint
     tealdeer # man pages but short
     terminal-parrot # party parrot
     termpdfpy # graphical pdf/ebook reader for kitty
@@ -305,10 +304,6 @@ in
   # Enable atuin for shell history
   programs.atuin.enable = true;
 
-
-  # Enable kitty for default Hyprland config
-  # programs.kitty.enable = true;
-
   # Enable starship shell prompt
   programs.starship = {
     enable = true;
@@ -354,10 +349,7 @@ in
   };
 
   programs.gpg.enable = true;
-
   services.gpg-agent.enable = true;
-
-  # services.swaync # todo check
 
   programs.direnv = {
     enable = true;
@@ -455,20 +447,6 @@ in
 
   programs.zsh = {
     enable = true;
-
-    # test - probably not needed anymore since atuin is used
-    # history = {
-    #   ignoreAllDups = true;
-    #   ignorePatterns = [
-    #     "ls"
-    #     "pwd"
-    #     "date"
-    #     "* --help"
-    #     "man"
-    #     "tldr"
-    #   ];
-    # };
-
     oh-my-zsh.enable = true;
 
     plugins = [
@@ -562,18 +540,15 @@ in
       load = "git stash apply";
 
       # Nix the planet
-      run-msdos = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#msdos622 && cd $WD";
-      run-win311 = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#wfwg311&& cd $WD";
-      run-win98 = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#win98 && cd $WD";
+      run-msdos = "(cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#msdos622)";
+      run-win311 = "(cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#wfwg311)";
+      run-win98 = "(cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#win98)";
 
       # NixOS specific things
       boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
-      nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 14d";
-      nixos-update = "sudo nix-channel --update nixos";
-
-      # Home manager
-      home-manager-update = "cd ~/.config/home-manager && nix flake update";
-      home-manager-cleanup = "home-manager expire-generations '-14 days'";
+      nixos-cleanup = "home-manager expire-generations '-7 days' && sudo nix-collect-garbage --delete-older-than 7d"; 
+      nixos-update = "(~/nixfiles/machines/nixe && nix flake update)";
+      rebuild = "sudo nixos-rebuild switch --flake ~/nixfiles/machines/nixe --impure";
 
       # VPN
       vpn-up = "sudo systemctl start wg-quick-home.service";
@@ -596,19 +571,6 @@ in
       downloadmp3 = "yt-dlp -t mp3";
     };
   };
-
-  # wayland.windowManager.hyprland = {
-    # enable = true; # enable Hyprland
-    # extraConfig = ''
-    #   exec-once = hyprctl plugin load ${pkgs.hyprlandPlugins.hyprscrolling}/lib/libhyprscrolling.so
-    # '';
-    # plugins = with pkgs.hyprlandPlugins; [
-    #  hyprexpo
-    #  hyprscrolling
-    #  hyprspace
-    #  hyprsplit
-    # ];
-  # };
 
   # do not create ~/Public & ~/Templates
   xdg.userDirs = {
