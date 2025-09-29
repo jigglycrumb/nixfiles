@@ -22,14 +22,17 @@ function deploy_target() {
     user="adguard"
   fi
 
+  echo "--------------------------------------------------"
   echo "Updating $target"
+  echo "--------------------------------------------------"
+  
   echo ""
   echo "User: $user"
 
   read -s -p "Password: " pass
 
   echo ""
-  # exit
+  echo ""
 
   # Copy config to target host
   echo "Copying system configuration"
@@ -41,6 +44,8 @@ function deploy_target() {
     echo "Rebuilding system"
     sshpass -p $pass ssh -t $user@$target "echo $pass | sudo -p '' -S nixos-rebuild switch --impure --flake ~" # TODO impure needed for anker /www absolute path
   fi
+
+  echo ""
 }
 
 if [ "$1" = "--all" ]; then

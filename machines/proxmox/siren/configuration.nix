@@ -209,8 +209,8 @@ in
     group = "users";
     guiAddress = "0.0.0.0:8384";
 
-    cert = "/home/${username}/nixos/secret/syncthing/cert.pem";
-    key = "/home/${username}/nixos/secret/syncthing/key.pem";
+    cert = "/home/${username}/siren/secret/syncthing/cert.pem";
+    key = "/home/${username}/siren/secret/syncthing/key.pem";
 
     overrideDevices = true; # overrides any devices added or deleted through the WebUI
     overrideFolders = true; # overrides any folders added or deleted through the WebUI
