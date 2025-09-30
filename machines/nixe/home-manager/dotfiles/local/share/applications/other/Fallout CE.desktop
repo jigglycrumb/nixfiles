@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Fallout CE
+Comment=Fallout Source Port
+Exec=fallout-ce
+Path=~
+Icon=/home/jigglycrumb/.local/share/applications/other/Fallout.png
+Terminal=false
+Type=Application
+Categories=Games;
+StartupNotify=false

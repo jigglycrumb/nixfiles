@@ -179,9 +179,11 @@ tooltip label {
   padding: 0;
 }
 
+/*
 #clock {
   margin: 0 12px;
 }
+*/
 
 /* battery module */
 #battery,

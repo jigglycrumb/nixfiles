@@ -262,7 +262,6 @@ in
     ".wgetrc".source = ./dotfiles/wgetrc;
     ".local/share/applications/appimage".source = ./dotfiles/local/share/applications/appimage;
     ".local/share/applications/other".source = ./dotfiles/local/share/applications/other;
-
     ".local/share/applications/secret".source = ./dotfiles/local/share/applications/secret;
 
     ".screenrc".text = ''

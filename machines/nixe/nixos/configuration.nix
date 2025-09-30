@@ -222,13 +222,13 @@ in
 
   xdg.portal = {
     enable = true;
-    # wlr.enable = true;
+    wlr.enable = true;
     # xdgOpenUsePortal = true;
     extraPortals = [
-      # pkgs.xdg-desktop-portal-xapp
+      pkgs.xdg-desktop-portal-xapp
       pkgs.xdg-desktop-portal-gnome
       # pkgs.xdg-desktop-portal-gtk
-      # pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-hyprland
     ];
   };
 
@@ -396,7 +396,6 @@ in
   # Enable Gnome disk manager
   programs.gnome-disks.enable = true;
 
-
   users.groups = {
     plugdev = { };
   };
@@ -425,7 +424,7 @@ in
       blanket # ambient sounds
       blender # 3D modeling
       brave # web browser
-      bruno # API client/tester/explorer
+      # bruno # API client/tester/explorer
       # celestia # spaaaaaaaaaaace
       cheese # webcam fun
       # clipgrab # youtube downloader
@@ -436,19 +435,18 @@ in
       # cura-appimage # 3D printing software
       davinci-resolve # video editor
       devilutionx # Diablo
-      # devour # devours your current terminal
       digikam # photo manager
       # discord # (voice)chat
       door-knocker # check availability of portals
-      # dosbox-staging # emulates DOS software
+      dosbox-staging # emulates DOS software
       # drawing # basic image editor, similar to MS Paint
       easyeffects # effects for pipewire apps
       easytag # edit mp3 tags
       evince # document viewer
-      # fallout-ce # port of Fallout for modern systems
+      fallout-ce # port of Fallout for modern systems
       ffmpeg # needed for mediathekview
       # firefox # web browser
-      freecad # CAD modeler 
+      # freecad # CAD modeler 
       furnace # multi-system chiptune tracker
       gimp # image manipulation
       godot_4 # game engine
@@ -466,7 +464,7 @@ in
       # kstars # spaaaaaaaaaaace
       letterpress # convert images to ascii art
       libreoffice # office suite
-      # lmms # DAW similar to FL Studio
+      lmms # DAW similar to FL Studio
       # lmstudio # desktop app to run LLMs
       losslesscut-bin # cut video fast
       # lutris # play games
@@ -508,10 +506,10 @@ in
       sonic-pi # code music
       sparrow
       # teamspeak_client # voice chat
-      # theforceengine # dark forces source port
+      theforceengine # dark forces source port
       tor-browser-bundle-bin # browser for the evil dark web
       # ungoogled-chromium # chrome without google
-      # ut1999 # Unreal Tournament
+      ut1999 # Unreal Tournament
       virt-viewer # VM management GUI
       vlc # media player
       # wargus # Warcraft 2 port
@@ -592,7 +590,6 @@ in
     exfat # tools for ExFAT formatted disks
     exiftool # read & write exif data - integrates with digikam
     fuzzel # wayland app launcher
-    gcc # needed to run Watcharr dev server. TODO this should be in a flake devShell but I was lazy
     git
     git-crypt # transparent file encryption for git
     gparted # drive partition manager
@@ -602,11 +599,8 @@ in
     isd # TUI for systemd services
     kitty # terminal
     libnotify # notification basics, includes notify-send
-    # libsForQt5.ark # KDE archive utility
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
-    # lxqt.lxqt-policykit
     micro # simple terminal editor
-    # nh # shortcuts for common NixOS/home-manager commands
     # nix-output-monitor # nom nom nom
     # nvd # nix version diff
     pass-wayland # local password manager
@@ -629,12 +623,10 @@ in
     spice-protocol # VM stuff
     sunsetr # blue light filter for wayland
     swayimg # image viewer
-    swaylock-effects # wayland screen locker
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     system-config-printer # printer configuration UI
     usbutils # provides lsusb
-    vim # editor
     virtiofsd # enables shared folders between host and VM - add <binary path="/run/current-system/sw/bin/virtiofsd"/> to filesystem XML if virtiofsd can't be found
     wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
