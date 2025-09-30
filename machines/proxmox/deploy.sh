@@ -22,6 +22,8 @@ function deploy_target() {
     user="adguard"
   fi
 
+  target_folder=/home/$user/nixfiles
+
   echo "--------------------------------------------------"
   echo "Updating $target"
   echo "--------------------------------------------------"
@@ -36,13 +38,14 @@ function deploy_target() {
 
   # Copy config to target host
   echo "Copying system configuration"
-  sshpass -p $pass scp -r flake.* $user@$target:~
-  sshpass -p $pass scp -r $target/* $user@$target:~/$target
+  sshpass -p $pass scp -r flake.* $user@$target:$target_folder
+  sshpass -p $pass scp -r vm-base.nix $user@$target:$target_folder
+  sshpass -p $pass scp -r $target/* $user@$target:$target_folder/$target
 
   if [ "$2" != "--copy" ]; then
     # Rebuild system
     echo "Rebuilding system"
-    sshpass -p $pass ssh -t $user@$target "echo $pass | sudo -p '' -S nixos-rebuild switch --impure --flake ~" # TODO impure needed for anker /www absolute path
+    sshpass -p $pass ssh -t $user@$target "echo $pass | sudo -p '' -S nixos-rebuild switch --impure --flake $target_folder" # TODO impure needed for anker /www absolute path
   fi
 
   echo ""

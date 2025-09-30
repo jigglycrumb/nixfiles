@@ -11,8 +11,6 @@
 let
   hostname = "driftwood";
   username = "jigglycrumb";
-  locale = "de_DE.UTF-8";
-  keymap = "de";
   timezone = "Europe/Berlin";
   homepage-public = import ./secret/homepage-public.nix;
   secrets-syncthing = import ./secret/syncthing.nix;
@@ -20,45 +18,7 @@ let
   mealie-url = import ./secret/mealie-url.nix;
 in
 {
-  # COMMON - DEFAULT CONFIG FOR ALL VMS
-
-  imports = [];
-
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
-
   networking.hostName = "${hostname}";
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "${timezone}";
-
-  i18n.defaultLocale = "${locale}";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "${locale}";
-    LC_IDENTIFICATION = "${locale}";
-    LC_MEASUREMENT = "${locale}";
-    LC_MONETARY = "${locale}";
-    LC_NAME = "${locale}";
-    LC_NUMERIC = "${locale}";
-    LC_PAPER = "${locale}";
-    LC_TELEPHONE = "${locale}";
-    LC_TIME = "${locale}";
-  };
-
-  console.keyMap = "${keymap}";
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
-  nix.optimise.automatic = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
 
   users.users."${username}" = {
     isNormalUser = true;
@@ -69,47 +29,12 @@ in
     ];
   };
 
-  services.openssh.enable = true;
-
-  services.kmscon = {
-    enable = true;
-    hwRender = true;
-    autologinUser = "${username}";
-    fonts = [
-      {
-        name = "Hack";
-        package = pkgs.hack-font;
-      }
-    ];
-    extraConfig = ''
-      font-size=14
-      xkb-layout=de
-    '';
-  };
-
-  system.stateVersion = "24.05";
-
-  environment.shellAliases = {
-    c = "clear";
-    ".." = "cd ..";
-    "..." = "cd ../..";
-    "...." = "cd ../../..";
-  };
-
-  environment.sessionVariables = {
-    EDITOR = "micro";
-    TERM = "xterm"; # prevent problems when SSHing in with kitty
-  };
+  services.kmscon.autologinUser = "${username}";
 
   # SOFTWARE
 
   environment.systemPackages = with pkgs; [
-    bat
-    btop
     git
-    htop
-    micro
-    # searxng
   ];
 
   # SERVICES
@@ -225,8 +150,8 @@ in
     group = "users";
     guiAddress = "0.0.0.0:8384";
 
-    cert = "/home/${username}/nixos/secret/syncthing/cert.pem";
-    key = "/home/${username}/nixos/secret/syncthing/key.pem";
+    cert = "/home/${username}/nixfiles/${hostname}/secret/syncthing/cert.pem";
+    key = "/home/${username}/nixfiles/${hostname}/secret/syncthing/key.pem";
 
     overrideDevices = true; # overrides any devices added or deleted through the WebUI
     overrideFolders = true; # overrides any folders added or deleted through the WebUI
@@ -278,16 +203,16 @@ in
     };
   };
 
-  services.teamspeak3 = {
-    enable = true;
-    openFirewall = true;
+  # services.teamspeak3 = {
+  #   enable = true;
+  #   openFirewall = true;
 
     # defaultVoicePort = 9987; # UDP
     # fileTransferPort = 30033; # TCP
-  };
+  # };
 
   # automatically accept teamspeak license
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "teamspeak-server" ];
+  # nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "teamspeak-server" ];
 
   # services.quake3-server = {
   #   enable = true;
