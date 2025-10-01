@@ -501,7 +501,7 @@ in
       # cat = "bat";
       g = "git";
       icat = "kitty +kitten icat";
-      pico8 = "cd ~/Applications/pico-8 && ./run.sh";
+      pico8 = "(cd ~/Applications/pico-8 && ./run.sh)";
       lolcat = "clolcat";
 
       # Mass rename utility, usage: mmv lolcat_<1-100>.jpg lolcat_*_thumb.jpg
@@ -546,8 +546,8 @@ in
       # NixOS specific things
       boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
       nixos-cleanup = "home-manager expire-generations '-7 days' && sudo nix-collect-garbage --delete-older-than 7d"; 
-      nixos-update = "(~/nixfiles/machines/nixe && nix flake update)";
-      rebuild = "sudo nixos-rebuild switch --flake ~/nixfiles/machines/nixe --impure";
+      nixos-update = "(~/nixfiles/machines/$(hostname) && nix flake update)";
+      rebuild = "sudo nixos-rebuild switch --flake ~/nixfiles/machines/$(hostname) --impure";
 
       # VPN
       vpn-up = "sudo systemctl start wg-quick-home.service";
