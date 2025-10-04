@@ -6,10 +6,19 @@
 environment {
   // DISPLAY ":0"
   SUDO_ASKPASS "~/.config/fuzzel/scripts/askpass"
+  // ELECTRON_OZONE_PLATFORM_HINT "auto"
 }
 
 xwayland-satellite {
   path "xwayland-satellite"
+}
+
+cursor {
+  // xcursor-theme "breeze_cursors"
+  // xcursor-size 48
+
+  hide-when-typing
+  hide-after-inactive-ms 2000
 }
 
 // Input device configuration.
@@ -273,8 +282,8 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        left 2
-        right 2
+        left 4 
+        right 4
         // top 64
         // bottom 64
     }
@@ -409,6 +418,8 @@ binds {
     Super+Alt+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
     Mod+V { spawn "bash" "-c" "cliphist list | fuzzel --dmenu -p 'Clipboard search: ' | cliphist decode | wl-copy"; }
     Mod+Escape { spawn "bash" "-c" "raffi -c ~/.config/raffi/power.yaml"; }
+    Mod+P { spawn "~/.scripts/pick-wallpaper"; }
+    Mod+Shift+C { spawn "~/.config/fuzzel/scripts/switch-cpu-profile"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.

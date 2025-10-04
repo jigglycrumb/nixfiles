@@ -206,17 +206,18 @@ in
   services.openssh.enable = true;
 
   environment.sessionVariables = {
-    # NIXOS_OZONE_WL = "1";
+    NIXOS_OZONE_WL = "1";
+    ELECTRON_OZONE_PLATFORM_HINT = "wayland"; 
     # XDG_DESKTOP_PORTAL = "xdg-desktop-portal-xapp";
     XDG_CURRENT_DESKTOP = "niri";
     XDG_SESSION_DESKTOP = "niri";
     XDG_SESSION_TYPE = "wayland";
     CLUTTER_BACKEND = "wayland";
-    SDL_VIDEODRIVER = "x11";
+    # SDL_VIDEODRIVER = "x11";
     MOZ_ENABLE_WAYLAND = "1";
-    # QT_QPA_PLATFORM = "wayland";
-    # QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    # QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_QPA_PLATFORM = "wayland";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     # DISPLAY = ":0";
   };
 
@@ -225,11 +226,35 @@ in
     wlr.enable = true;
     # xdgOpenUsePortal = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-xapp
+      # pkgs.xdg-desktop-portal-xapp
       pkgs.xdg-desktop-portal-gnome
-      # pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+      # pkgs.xdg-desktop-portal-hyprland
     ];
+    # config = {
+      # niri = {
+      #   "org.freedesktop.impl.portal.FileChooser" = "gtk";
+      # };
+      # niri = {
+      #   default = [
+      #     "wlr"
+      #     "gtk"
+      #   ];
+      #   "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+      #   "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+      #   "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      #};
+      # gnome = {
+      #   default = [
+      #     "gnome"
+      #     "gtk"
+      #   ];
+      #   "org.freedesktop.impl.portal.Secret" = [
+      #     "gnome-keyring"
+      #   ];
+      #   "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      # };  
+    #};
   };
 
   fileSystems."/home/${username}/Remote/NAS" = {
@@ -276,6 +301,12 @@ in
       SCARF_NO_ANALYTICS = "True";
       # WEBUI_AUTH = "False";
     };
+    # Temporary fix
+    package = pkgs.open-webui.overridePythonAttrs (old: {
+      dependencies = old.dependencies ++ [
+        pkgs.python3Packages.itsdangerous
+      ];
+    });
   };
 
   services.syncthing = {
@@ -530,6 +561,9 @@ in
 
   programs.niri.enable = true; # a scrolling window manager
 
+  # File previews for nautilus
+  services.gnome.sushi.enable = true;
+
   programs.wshowkeys.enable = true; # show keypresses on screen
 
   security.soteria.enable = true;
@@ -601,6 +635,7 @@ in
     libnotify # notification basics, includes notify-send
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
     micro # simple terminal editor
+    nautilus # GNOME file manager, needed for niri file picker portal
     # nix-output-monitor # nom nom nom
     # nvd # nix version diff
     pass-wayland # local password manager

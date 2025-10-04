@@ -88,6 +88,7 @@ in
     fortune # mmh cookies
     frotz # infocom game interpreter
     fzf # fuzzy finder (zoxide)
+    gh # github cli
     gifgen # jen jifs from video files
     gitui # git tui
     glow # markdown reader
@@ -123,6 +124,7 @@ in
     nsxiv # new suckless X image viewer
     nyancat # nyan nyan nyan
     nvtopPackages.amd # GPU monitoring
+    oterm # ollama terminal client
     oxker # docker container management tui
     pamixer # terminal volume control
     pastel # terminal color palette tool
