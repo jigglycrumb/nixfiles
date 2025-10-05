@@ -183,6 +183,15 @@ in
     '';
 
     keymaps = [
+      # Fuzzy file picker - ALT + f
+      {
+        key = "<A-f>";
+        action = "<CMD>Telescope fd<CR>";
+        options.desc = "Jump to file";
+      }
+
+
+
       # tabs - ALT + key
       # commands powered by barbar.nvim
       # https://vimawesome.com/plugin/barbar-nvim
@@ -354,8 +363,8 @@ in
             };
             documentation.maxHeight = "math.floor(vim.o.lines / 2)";
           };
-          preselect = "None";
-          snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
+          # preselect = "None";
+          # snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
           matching.disallowPartialFuzzyMatching = false;
           sources = mkSources [
             "nvim_lsp"
@@ -368,50 +377,61 @@ in
           # TODO More consistent Tab binds
           # TODO Better smart indent https://www.reddit.com/r/neovim/comments/101kqds/comment/j2p5xe4
           # QUESTION Fix binds like the quickfix menu in vscode?
+
           mapping = {
-            "<C-j>" = "cmp.mapping.scroll_docs(-4)";
-            "<C-e>" = "cmp.mapping.close()";
-            "<C-k>" = "cmp.mapping.scroll_docs(4)";
-            "<CR>" = "cmp.mapping.confirm({ select = false })";
-            "<C-Space>" = ''
-              cmp.mapping(function(fallback)
-                if cmp.visible() then
-                  cmp.close()
-                else
-                  cmp.complete()
-                end
-              end, { "i", "n", "v" })
-            '';
-            "<C-Tab>" = ''
-              cmp.mapping(function(fallback)
-                if cmp.visible() then
-                  cmp.select_next_item()
-                elseif luasnip.expand_or_jumpable() then
-                  luasnip.expand_or_locally_jumpable()
-                elseif HasWordsBefore() then
-                  cmp.complete()
-                else
-                  ${
-                    if config.programs.nixvim.plugins.intellitab.enable then
-                      "vim.cmd[[silent! lua require('intellitab').indent()]]"
-                    else
-                      "fallback()"
-                  }
-                end
-              end, { "i", "s" })
-            '';
-            "<S-Tab>" = ''
-              cmp.mapping(function(fallback)
-                if cmp.visible() then
-                  cmp.select_prev_item()
-                elseif luasnip.jumpable(-1) then
-                  luasnip.jump(-1)
-                else
-                  fallback()
-                end
-              end, { "i", "s" })
-            '';
+            "<C-Space>" = "cmp.mapping.complete()";
+            # "<C-d>" = "cmp.mapping.scroll_docs(-4)";
+            # "<C-e>" = "cmp.mapping.close()";
+            # "<C-f>" = "cmp.mapping.scroll_docs(4)";
+            "<CR>" = "cmp.mapping.confirm({ select = true })";
+            "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+            "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
           };
+
+          # mapping = {
+          #   "<C-j>" = "cmp.mapping.scroll_docs(-4)";
+          #   "<C-e>" = "cmp.mapping.close()";
+          #   "<C-k>" = "cmp.mapping.scroll_docs(4)";
+          #   "<CR>" = "cmp.mapping.confirm({ select = false })";
+          #   "<C-Space>" = ''
+          #     cmp.mapping(function(fallback)
+          #       if cmp.visible() then
+          #         cmp.close()
+          #       else
+          #         cmp.complete()
+          #       end
+          #     end, { "i", "n", "v" })
+          #   '';
+          #   "<C-Tab>" = ''
+          #     cmp.mapping(function(fallback)
+          #       if cmp.visible() then
+          #         cmp.select_next_item()
+          #       elseif luasnip.expand_or_jumpable() then
+          #         luasnip.expand_or_locally_jumpable()
+          #       elseif HasWordsBefore() then
+          #         cmp.complete()
+          #       else
+          #         ${
+          #           if config.programs.nixvim.plugins.intellitab.enable then
+          #             "vim.cmd[[silent! lua require('intellitab').indent()]]"
+          #           else
+          #             "fallback()"
+          #         }
+          #       end
+          #     end, { "i", "s" })
+          #   '';
+          #   "<S-Tab>" = ''
+          #     cmp.mapping(function(fallback)
+          #       if cmp.visible() then
+          #         cmp.select_prev_item()
+          #       elseif luasnip.jumpable(-1) then
+          #         luasnip.jump(-1)
+          #       else
+          #         fallback()
+          #       end
+          #     end, { "i", "s" })
+          #   '';
+          # };
         };
       };
 
@@ -464,7 +484,7 @@ in
       direnv.enable = true;
 
       flash.enable = true; # search labels
-      floaterm.enable = true; # terminal
+      # floaterm.enable = true; # terminal
       gitsigns.enable = true; # git markers
 
       # markdown renderer
@@ -786,6 +806,7 @@ in
         );
       }
 
+      # code mini map
       {
         plugin = (
           pkgs.vimUtils.buildVimPlugin rec {

@@ -481,7 +481,7 @@ in
 
       # this makes kitty use the current pywal colors instantly
       # on launch, not just after refresh
-      cat ~/.cache/wal/sequences
+      (cat ~/.cache/wal/sequences &)
 
       echo ""
       echo " It's $(ddate +'%{%A, the %e of %B%}, %Y. %N%nCelebrate %H ')" | clolcat
