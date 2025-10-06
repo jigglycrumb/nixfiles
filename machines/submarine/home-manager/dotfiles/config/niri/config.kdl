@@ -93,7 +93,9 @@ gestures {
 }
 
 output "Virtual-1" {
-  mode "1920x1200@60"
+  // mode "1920x1200@60"
+  // scale 1
+  mode "3024x1890@60"
   scale 1
 }
 
