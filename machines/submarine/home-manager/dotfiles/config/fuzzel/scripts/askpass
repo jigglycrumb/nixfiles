@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# ask for password via fuzzel
+# set SUDO_ASKPASS to this script and use with `sudo -A`
+
+fuzzel --password --dmenu --lines 0 -p "Password: "

@@ -1,0 +1,17 @@
+My day job work machine.
+
+The machine runs inside a Parallels Desktop VM on a Macbook with Apple Silicon Chip.
+
+Configuration uses flakes, home-manager is used for the user configuration.
+
+The desktop is niri window manager
+
+Styling is done via `pywal` whenever possible to make it dynamic depending on the background image.
+
+Currently these are:
+
+- Taskbar (waybar)
+- Terminal colors (kitty)
+- Launcher (fuzzel)
+- Notification center (sway-notification-center)
+- Lock screen (hyprlock)
