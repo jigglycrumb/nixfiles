@@ -419,7 +419,6 @@ binds {
     Mod+S hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+A hotkey-overlay-title="Open File Manager: nemo" { spawn "nemo"; }
     Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
     Mod+V { spawn "bash" "-c" "cliphist list | fuzzel --dmenu -p 'Clipboard search: ' | cliphist decode | wl-copy"; }
     Mod+Escape { spawn "bash" "-c" "raffi -c ~/.config/raffi/power.yaml"; }
     Mod+P { spawn "~/.scripts/pick-wallpaper"; }
