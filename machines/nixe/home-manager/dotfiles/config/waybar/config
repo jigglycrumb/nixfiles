@@ -51,7 +51,7 @@
       "idle_inhibitor",
       "custom/microphone",
       "custom/screen-recording",
-      "custom/keyboard",
+      // "custom/keyboard",
       // "custom/wlogout",
       "custom/vpn",
       "pulseaudio",
