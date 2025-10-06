@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+wshowkeys -F 'hack 36' -a bottom -f '#ff66ff'

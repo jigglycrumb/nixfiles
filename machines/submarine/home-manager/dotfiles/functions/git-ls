@@ -1,0 +1,70 @@
+GIT_LS_REPO_CLEAN="$fg_bold[green]✔${reset_color}"
+GIT_LS_REPO_DIRTY="$fg_bold[red]✘${reset_color}"
+GIT_LS_REPO_NEW="$fg_no_bold[green]✚${reset_color}"
+GIT_LS_REPO_CHANGED="$fg_no_bold[yellow]●${reset_color}"
+
+function ls_git_dirty {
+  STATUS="⦗"
+  if [[ $(git diff --shortstat 2>/dev/null | tail -n1) != "" ]]; then
+    STATUS="${STATUS}${GIT_LS_REPO_DIRTY}"
+
+    NEW=$(evil_git_num_untracked_files)
+    if [[ $NEW -gt 0 ]]; then
+      STATUS="${STATUS} ${GIT_LS_REPO_NEW}${NEW}"
+    fi
+
+    CHANGED=$(evil_git_num_uncommited_files)
+    if [[ $CHANGED -gt 0 ]]; then
+      STATUS="${STATUS} ${GIT_LS_REPO_CHANGED}${CHANGED}"
+    fi
+
+  else
+    STATUS="${STATUS}${GIT_LS_REPO_CLEAN}"
+  fi
+
+  STATUS="${STATUS}⦘"
+  echo $STATUS
+}
+
+# Returns "*" if the current git branch is dirty.
+function evil_git_dirty {
+  [[ $(git diff --shortstat 2>/dev/null | tail -n1) != "" ]] && echo "*"
+}
+
+# Returns the number of untracked files
+function evil_git_num_untracked_files {
+  expr $(git status --porcelain 2>/dev/null | grep "^??" | wc -l)
+}
+
+# Get number of files added to the index (but uncommitted)
+function evil_git_num_index_files {
+  expr $(git status --porcelain 2>/dev/null | grep "^M" | wc -l)
+}
+
+# Get number of files that are uncommitted and not added
+function evil_git_num_uncommited_and_not_added_files {
+  expr $(git status --porcelain 2>/dev/null | grep "^ M" | wc -l)
+}
+
+# Get number of total uncommited files
+function evil_git_num_uncommited_files {
+  expr $(git status --porcelain 2>/dev/null | egrep "^(M| M)" | wc -l)
+}
+
+function get_longest_filename_length {
+  ls | awk '{ print length }' | sort -rn | head -1
+}
+
+# git-ls
+function git-ls {
+  DIRENV_DISABLE=1
+  PRINT_STRING="%-$(get_longest_filename_length)s\t%s\n"
+  for d in *; do
+    if [[ -d "$d" && -e "$d/.git" ]]; then
+      printf $PRINT_STRING "$d" "$(cd "$d" && ls_git_dirty)"
+    else
+      printf $PRINT_STRING "$d" ""
+    fi
+  done
+  unset DIRENV_DISABLE
+}
