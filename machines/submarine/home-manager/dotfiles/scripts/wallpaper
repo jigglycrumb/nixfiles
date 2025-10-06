@@ -17,7 +17,7 @@ echo $WALLPAPER
 echo "\$wallpaper = $WALLPAPER" >$HOME/.cache/hyprland/hyprlock-wallpaper
 
 # create new color scheme
-wal --saturate $THEME_SATURATION -i "$WALLPAPER" >/dev/null 2>&1
+wal -n --saturate $THEME_SATURATION -i "$WALLPAPER" >/dev/null 2>&1
 
 # change wallpaper
 swww img "$WALLPAPER" \
