@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=heynote
+Comment=Note taking (AppImage)
+Exec=appimage-run Heynote_2.1.1_x86_64.AppImage
+Path=/home/jigglycrumb/Applications
+Icon=/home/jigglycrumb/.local/share/applications/appimage/heynote.png
+Terminal=false
+Type=Application
+Categories=Utility;

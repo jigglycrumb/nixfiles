@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+WALLPAPER=$1
+
+# Script config
+# TRANSITION_TYPE="random"
+TRANSITION_TYPE="simple"
+TRANSITION_FPS=12
+TRANSITION_STEP=20
+THEME_SATURATION=0.55 # 0.0-1.0
+
+echo "setting new wallpaper..."
+echo $WALLPAPER
+
+# write wallpaper image path to cache for hyprlock - warning: spaces in the filename will break hyprlock background
+# check hyprlock.conf for more details
+echo "\$wallpaper = $WALLPAPER" >$HOME/.cache/hyprland/hyprlock-wallpaper
+
+# create new color scheme
+wal --saturate $THEME_SATURATION -i "$WALLPAPER" >/dev/null 2>&1
+
+# change wallpaper
+swww img "$WALLPAPER" \
+  --transition-step $TRANSITION_STEP \
+  --transition-fps $TRANSITION_FPS \
+  --transition-type $TRANSITION_TYPE >/dev/null 2>&1
+
+# update fuzzel config - this is hacky, but it works :D
+cp -f $HOME/nixfiles/machines/$(hostname)/home-manager/dotfiles/config/fuzzel/fuzzel.ini.template $HOME/.config/fuzzel/fuzzel.ini
+cat $HOME/.cache/wal/colors-fuzzel.ini >>$HOME/.config/fuzzel/fuzzel.ini
+
+# these would be better methods for reloading waybar
+# but other apps crash randomly when using these
+# i don't know why
+
+# hyprctl dispatch exec pkill -SIGUSR2 waybar
+
+# pkill -SIGUSR2 waybar      # reload waybar config
+# kill -s USR2 $(pgrep -f waybar)
+
+# pkill -USR2 waybar
+
+kill -9 $(pidof waybar)  # kill waybar
+waybar >/dev/null 2>&1 & # start waybar
+
+swaync-client --reload-css # reload notification center
+
+exit 0
