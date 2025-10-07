@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# read wallpaper config
+CONFIG_FILE=$HOME/.cache/wallpaper-config
+
+# if file isnt found, fall back to default folder + interval
+if [ ! -f "$CONFIG_FILE" ]; then
+  # echo "no wallpaper config found, enabling default wallpapers..."
+  $HOME/.scripts/switch-wallpapers default 60
+fi
+
+# read wallpaper interval from config file
+INTERVAL=$(cat $CONFIG_FILE | cut -d ":" -f 2)
+
+# if interval isnt found, fall back to default interval
+if [ -z $INTERVAL ]; then
+  # echo "INTERVAL is unset, defaulting..."
+  INTERVAL=60
+fi
+
+# if interval is not a number, fall back to default interval
+case $INTERVAL in
+'' | *[!0-9]*)
+  # echo "INTERVAL is not a number, defaulting..."
+  INTERVAL=60
+  ;;
+esac
+
+echo $INTERVAL # this is the output used by scripts
+exit 0
