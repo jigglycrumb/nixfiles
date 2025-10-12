@@ -18,27 +18,15 @@ let
     }
   );
 
-  # Import secrets
-  #
-  # !!! WARNING !!!
-  # This approach is far from ideal since the secrets will end up in the locally readable /nix/store
-  # It is however, an easy way for keeping the secrets out of the repo until I've learned enough nix to implement a better solution
-  # The secrets.nix file is just a simple set lik e this:
-  #
-  # {
-  #   github-token = "<insert token here>";
-  # }
-
   hostname = "seegurke";
   username = "jigglycrumb";
-  secrets = import ./secrets.nix;
 in
 {
   imports = [
     # Include the results of the hardware scan.
     # ./hardware-configuration.nix
     nixvim.nixosModules.nixvim
-    (import ./nixvim.nix { inherit username; })
+    (import ../../../common/modules/nixvim.nix { inherit username; })
   ];
 
   # Bootloader
@@ -79,7 +67,6 @@ in
     ];
     allowedUDPPorts = [
       # 50000 # rtorrent
-      # secrets-wireguard.port # wireguard
     ];
   };
 
@@ -203,17 +190,6 @@ in
       pkgs.xdg-desktop-portal-hyprland
     ];
   };
-
-  # fileSystems."/home/${username}/Remote/NAS" = {
-  #   device = "//siren/nas";
-  #   fsType = "cifs";
-
-  #   options = [
-  #     # this line prevents hanging on network split
-  #     # automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-  #     "user,uid=1000,gid=100,username=${secrets.nas-username},password=${secrets.nas-password},x-systemd.automount,noauto"
-  #   ];
-  # };
 
   # Enable OpenSnitch application firewall
   # services.opensnitch.enable = true;

@@ -21,6 +21,7 @@ let
 
   secrets = import ./secrets.nix;
   username = "jigglycrumb";
+  common = ../../../common;
 
 in
 {
@@ -167,10 +168,8 @@ in
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
 
-    "Applications/pico-8/pico8.nix".source = ./home/Applications/pico-8/pico8.nix;
-    "Applications/pico-8/run.sh".source = ./home/Applications/pico-8/run.sh;
-
-    # "Pictures/digiKam/digikamrc.template".source = ./home/Pictures/digiKam/digikamrc.template;
+    "Applications/pico-8/pico8.nix".source = common + /home/Applications/pico-8/pico8.nix;
+    "Applications/pico-8/run.sh".source = common + /home/Applications/pico-8/run.sh;
 
     ".cache/weather-location".text = ''
       ${secrets.weather-location}
@@ -201,50 +200,29 @@ in
     ".config/fuzzel/scripts".source = ./dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = ./dotfiles/config/hypr;
     ".config/kitty/kitty.conf".text = ''
-      background_opacity 0.97
+      background_opacity 0.9
       confirm_os_window_close 0
       window_padding_width 4 6
       font_size 12.0
       font_family Hack
     '';
-    ".config/starship.toml".source = ./dotfiles/config/starship.toml;
+    ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
     ".config/swaync".source = ./dotfiles/config/swaync;
-    ".config/Thunar/uca.xml".source = ./dotfiles/config/Thunar/uca.xml;
+    ".config/Thunar/uca.xml".source = common + /dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = ./dotfiles/config/wal/templates;
     ".config/waybar".source = ./dotfiles/config/waybar;
     ".config/wlogout".source = ./dotfiles/config/wlogout;
 
-    ".functions".source = ./dotfiles/functions;
-    ".scripts".source = ./dotfiles/scripts;
-    ".sounds".source = ./dotfiles/sounds;
+    ".functions".source = common + /dotfiles/functions;
+    ".scripts".source = common + /dotfiles/scripts;
+    ".sounds".source = common + /dotfiles/sounds;
 
-    ".vscode/argv.json".text = ''
-      {
-        "enable-crash-reporter": false,
-        "password-store": "gnome"
-      }
-    '';
+    ".rtorrent.rc".source = common + /dotfiles/rtorrent.rc;
+    ".wgetrc".source = common + /dotfiles/wgetrc;
 
-    ".rtorrent.rc".source = ./dotfiles/rtorrent.rc;
-    ".wgetrc".source = ./dotfiles/wgetrc;
     ".local/share/applications/appimage".source = ./dotfiles/local/share/applications/appimage;
-    ".local/share/applications/other".source = ./dotfiles/local/share/applications/other;
-
-    # ".local/share/applications/other/pico8.png".source = ./dotfiles/local/share/applications/other/pico8.png;
-    # ".local/share/applications/other/Pico-8.desktop".text = ''
-    #   [Desktop Entry]
-    #   Name=pico-8
-    #   Comment=Fantasy Console
-    #   Exec=bash run.sh
-    #   Path=/home/${username}/Applications/pico-8
-    #   Icon=/home/${username}/.local/share/applications/other/pico8.png
-    #   Terminal=false
-    #   Type=Application
-    #   Categories=Development;
-    # '';
-
-    # ".local/share/applications/secret".source = ./dotfiles/local/share/applications/secret;
-
+    ".local/share/applications/other".source = common + /dotfiles/local/share/applications/other;
+    
     ".screenrc".text = ''
       # Disable the startup message
       startup_message off
@@ -262,7 +240,7 @@ in
   #
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
-    EDITOR = "micro";
+    EDITOR = "nvim";
   };
 
   home.pointerCursor = {
@@ -497,7 +475,7 @@ in
       "c." = "code .";
 
       "n" = "nvim";
-      "n." = "nvim .";
+      "nn" = "nvim .";
 
       # cat = "bat";
       g = "git";
@@ -547,12 +525,9 @@ in
 
       # NixOS specific things
       boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
-      nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 14d";
-      nixos-update = "sudo nix-channel --update nixos";
-
-      # Home manager
-      home-manager-update = "cd ~/.config/home-manager && nix flake update";
-      home-manager-cleanup = "home-manager expire-generations '-14 days'";
+      nixos-cleanup = "home-manager expire-generations '-7 days' && sudo nix-collect-garbage --delete-older-than 7d"; 
+      nixos-update = "(~/nixfiles/machines/$(hostname) && nix flake update)";
+      rebuild = "sudo nixos-rebuild switch --flake ~/nixfiles/machines/$(hostname) --impure";
 
       # VPN
       vpn-up = "sudo systemctl start wg-quick-home.service";

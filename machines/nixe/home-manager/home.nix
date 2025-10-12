@@ -492,7 +492,6 @@ in
       "c." = "code .";
 
       "n" = "nvim";
-      "n." = "nvim .";
       "nn" = "nvim .";
 
       # cat = "bat";

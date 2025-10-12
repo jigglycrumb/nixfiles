@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# launcher for infocom game collection
-
-GAME_DIR="$HOME/Games/Infocom/Games"
-
-frotz "$(gum file $GAME_DIR)"
-exit 0
