@@ -35,13 +35,14 @@ let
   secrets = import ./secrets.nix;
   secrets-syncthing = import ../../../common/secret/syncthing.nix;
   secrets-wireguard = import ../../../common/secret/wireguard.nix;
+  # modules = ../../../common/modules;
 in
 {
   imports = [
     # Include the results of the hardware scan.
     # /etc/nixos/hardware-configuration.nix
     nixvim.nixosModules.nixvim
-    (import ./nixvim.nix { inherit username; })
+    (import ../../../common/modules/nixvim.nix { inherit username; })
   ];
 
   # Bootloader

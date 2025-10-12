@@ -33,11 +33,11 @@ cat $HOME/.cache/wal/colors-fuzzel.ini >>$HOME/.config/fuzzel/fuzzel.ini
 swaync-client --reload-css 
 
 # reload waybar config
-sleep 1
-pkill -SIGUSR2 waybar
-
 # sleep 1
-# kill -9 $(pidof waybar)  # kill waybar
-# waybar >/dev/null 2>&1 & # start waybar
+# pkill -SIGUSR2 waybar
+
+sleep 1
+kill -9 $(pidof waybar)  # kill waybar
+waybar >/dev/null 2>&1 & # start waybar
 
 exit 0

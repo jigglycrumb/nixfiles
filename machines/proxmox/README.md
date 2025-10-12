@@ -8,7 +8,7 @@ The `deploy.sh` script copies it over to the VM.
 
 VMs:
 
-- `anker`: Nginx server/proxy and Wireguard VPN endpoint
+- `anker`: Nginx server/proxy and Wireguard VPN server
 - `driftwood`: Playground server for miscellaneous things
 - `hafen`: Docker server
 - `kraken`: AdGuard Home server

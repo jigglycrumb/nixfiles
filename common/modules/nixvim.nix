@@ -341,6 +341,7 @@ in
     ];
 
     opts = {
+      autoread = true; # automatically reload buffers
       number = true; # show line numbers
       numberwidth = 3; # width of line number column
       shiftwidth = 2; # tab width

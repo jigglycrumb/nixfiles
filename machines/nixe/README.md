@@ -10,7 +10,6 @@ Currently these are:
 
 - Taskbar (waybar)
 - Terminal colors (kitty)
-- Editor colors (VSCode)
 - Launcher (fuzzel)
 - Notification center (sway-notification-center)
 - Lock screen (hyprlock)

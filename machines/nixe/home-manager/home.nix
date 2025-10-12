@@ -21,6 +21,7 @@ let
 
   secrets = import ./secrets.nix;
   username = "jigglycrumb";
+  common = ../../../common;
 
 in
 {
@@ -188,22 +189,22 @@ in
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
 
-    "Applications/pico-8/pico8.nix".source = ./home/Applications/pico-8/pico8.nix;
-    "Applications/pico-8/run.sh".source = ./home/Applications/pico-8/run.sh;
+    "Applications/pico-8/pico8.nix".source = common + /home/Applications/pico-8/pico8.nix;
+    "Applications/pico-8/run.sh".source = common + /home/Applications/pico-8/run.sh;
 
-    "Applications/picocad/picocad.nix".source = ./home/Applications/picocad/picocad.nix;
-    "Applications/picocad/run.sh".source = ./home/Applications/picocad/run.sh;
+    "Applications/picocad/picocad.nix".source = common + /home/Applications/picocad/picocad.nix;
+    "Applications/picocad/run.sh".source = common + /home/Applications/picocad/run.sh;
 
-    "Applications/picocad/picocad-toolbox.nix".source = ./home/Applications/picocad/picocad-toolbox.nix;
-    "Applications/picocad/run-toolbox.sh".source = ./home/Applications/picocad/run-toolbox.sh;
+    "Applications/picocad/picocad-toolbox.nix".source = common + /home/Applications/picocad/picocad-toolbox.nix;
+    "Applications/picocad/run-toolbox.sh".source = common + /home/Applications/picocad/run-toolbox.sh;
     
-    "Applications/picotron/picotron.nix".source = ./home/Applications/picotron/picotron.nix;
-    "Applications/picotron/run.sh".source = ./home/Applications/picotron/run.sh;
+    "Applications/picotron/picotron.nix".source = common + /home/Applications/picotron/picotron.nix;
+    "Applications/picotron/run.sh".source = common + /home/Applications/picotron/run.sh;
     
-    "Applications/voxatron/voxatron.nix".source = ./home/Applications/voxatron/voxatron.nix;
-    "Applications/voxatron/run.sh".source = ./home/Applications/voxatron/run.sh;
+    "Applications/voxatron/voxatron.nix".source = common + /home/Applications/voxatron/voxatron.nix;
+    "Applications/voxatron/run.sh".source = common + /home/Applications/voxatron/run.sh;
     
-    "Pictures/digiKam/digikamrc.template".source = ./home/Pictures/digiKam/digikamrc.template;
+    "Pictures/digiKam/digikamrc.template".source = common + /home/Pictures/digiKam/digikamrc.template;
 
     ".cache/weather-location".text = ''
       ${secrets.weather-location}
@@ -234,35 +235,29 @@ in
     ".config/fuzzel/scripts".source = ./dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = ./dotfiles/config/hypr;
     ".config/kitty/kitty.conf".text = ''
-      background_opacity 0.97
+      background_opacity 0.9
       confirm_os_window_close 0
       window_padding_width 4 6
       font_size 12.0
       font_family Hack
     '';
     ".config/niri".source = ./dotfiles/config/niri;
-    ".config/starship.toml".source = ./dotfiles/config/starship.toml;
+    ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
     ".config/sunsetr".source = ./dotfiles/config/sunsetr;
     ".config/swaync".source = ./dotfiles/config/swaync;
-    ".config/Thunar/uca.xml".source = ./dotfiles/config/Thunar/uca.xml;
+    ".config/Thunar/uca.xml".source = common + /dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = ./dotfiles/config/wal/templates;
     ".config/waybar".source = ./dotfiles/config/waybar;
 
-    ".functions".source = ./dotfiles/functions;
-    ".scripts".source = ./dotfiles/scripts;
-    ".sounds".source = ./dotfiles/sounds;
+    ".functions".source = common + /dotfiles/functions;
+    ".scripts".source = common + /dotfiles/scripts;
+    ".sounds".source = common + /dotfiles/sounds;
 
-    ".vscode/argv.json".text = ''
-      {
-        "enable-crash-reporter": false,
-        "password-store": "gnome"
-      }
-    '';
+    ".rtorrent.rc".source = common + /dotfiles/rtorrent.rc;
+    ".wgetrc".source = common + /dotfiles/wgetrc;
 
-    ".rtorrent.rc".source = ./dotfiles/rtorrent.rc;
-    ".wgetrc".source = ./dotfiles/wgetrc;
     ".local/share/applications/appimage".source = ./dotfiles/local/share/applications/appimage;
-    ".local/share/applications/other".source = ./dotfiles/local/share/applications/other;
+    ".local/share/applications/other".source = common + /dotfiles/local/share/applications/other;
     ".local/share/applications/secret".source = ./dotfiles/local/share/applications/secret;
 
     ".screenrc".text = ''
