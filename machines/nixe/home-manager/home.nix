@@ -94,6 +94,7 @@ in
     gitui # git tui
     glow # markdown reader
     go # go programming language
+    # goose-cli # a local AI agent
     gum # various little helpers
     gurk-rs # terminal client for Signal messenger
     hollywood # hacking...

@@ -572,11 +572,17 @@ in
         settings = {
           add_blank_line_at_top = true;
           close_if_last_window = true;
-          filesystem.filtered_items = {
-            hide_dotfiles = false;
-            hide_gitignored = false;
-            hide_by_pattern = [ ".git" ];
+          filesystem = {
+            filtered_items = {
+              hide_dotfiles = false;
+              hide_gitignored = false;
+              hide_by_pattern = [ ".git" ];
+            };
+            follow_current_file.enabled = true;
+            use_libuv_file_watcher = true;
           };
+          # source_selector.statusline = true;
+          source_selector.winbar = true;
         };
       };
 
