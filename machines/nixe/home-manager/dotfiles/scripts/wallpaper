@@ -29,13 +29,15 @@ swww img "$WALLPAPER" \
 cp -f $HOME/nixfiles/machines/$(hostname)/home-manager/dotfiles/config/fuzzel/fuzzel.ini.template $HOME/.config/fuzzel/fuzzel.ini
 cat $HOME/.cache/wal/colors-fuzzel.ini >>$HOME/.config/fuzzel/fuzzel.ini
 
-# reload waybar config
-# pkill -USR2 waybar    
-
-kill -9 $(pidof waybar)  # kill waybar
-waybar >/dev/null 2>&1 & # start waybar
-
 # reload notification center
 swaync-client --reload-css 
+
+# reload waybar config
+sleep 1
+pkill -SIGUSR2 waybar
+
+# sleep 1
+# kill -9 $(pidof waybar)  # kill waybar
+# waybar >/dev/null 2>&1 & # start waybar
 
 exit 0

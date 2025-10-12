@@ -247,7 +247,6 @@ in
     ".config/Thunar/uca.xml".source = ./dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = ./dotfiles/config/wal/templates;
     ".config/waybar".source = ./dotfiles/config/waybar;
-    ".config/wlogout".source = ./dotfiles/config/wlogout;
 
     ".functions".source = ./dotfiles/functions;
     ".scripts".source = ./dotfiles/scripts;
@@ -568,8 +567,8 @@ in
       space-opera = "telnet towel.blinkenlights.nl";
 
       # downloads
-      download = "yt-dlp -t mp4";
-      downloadmp3 = "yt-dlp -t mp3";
+      download = "yt-dlp -t mp4 --cookies-from-browser brave";
+      downloadmp3 = "yt-dlp -t mp3 --cookies-from-browser brave";
     };
   };
 

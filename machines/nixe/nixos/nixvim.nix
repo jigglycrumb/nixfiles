@@ -183,14 +183,19 @@ in
     '';
 
     keymaps = [
-      # Fuzzy file picker - ALT + f
+      # fuzzy file picker - ALT + f
       {
         key = "<A-f>";
         action = "<CMD>Telescope fd<CR>";
         options.desc = "Jump to file";
       }
 
-
+      # live grep - SHIFT + ALT + f
+      {
+        key = "<A-F>";
+        action = "<CMD>Telescope live_grep<CR>";
+        options.desc = "Search files";
+      }
 
       # tabs - ALT + key
       # commands powered by barbar.nvim
@@ -344,12 +349,15 @@ in
     };
 
     plugins = {
+
+      # tabs
       barbar = {
         enable = true;
         # keymaps.movePrevious.key = "<C-m>"; # BufferMovePrevious
         # keymaps.moveNext.key = "<C-m>"; # BufferMoveNext
       };
 
+      # autocompletion
       cmp = {
         enable = true;
         autoEnableSources = true;
@@ -488,16 +496,16 @@ in
       gitsigns.enable = true; # git markers
 
       # markdown renderer
-      glow = {
-        enable = true;
-        settings = {
-          border = "rounded";
-          height = 1000;
-          width = 1000;
-          height_ratio = 1.0;
-          width_ratio = 1.0;
-        };
-      };
+      # glow = {
+      #   enable = true;
+      #   settings = {
+      #     border = "rounded";
+      #     height = 1000;
+      #     width = 1000;
+      #     height_ratio = 1.0;
+      #     width_ratio = 1.0;
+      #   };
+      # };
 
       godot.enable = true;
 
@@ -549,25 +557,25 @@ in
 
       lualine.enable = true; # bottom status line
 
-      luasnip = {
-        enable = true;
-        settings = {
-          enable_autosnippets = false;
-          store_selection_keys = "<Tab>";
-        };
-      };
+      # luasnip = {
+      #   enable = true;
+      #   settings = {
+      #     enable_autosnippets = false;
+      #     store_selection_keys = "<Tab>";
+      #   };
+      # };
 
       # file explorer
       neo-tree = {
         enable = true;
-        addBlankLineAtTop = true;
-        closeIfLastWindow = true;
-        filesystem.filteredItems = {
-          hideDotfiles = false;
-          hideGitignored = false;
-          # visible = true;
-
-          hideByPattern = [ ".git" ];
+        settings = {
+          add_blank_line_at_top = true;
+          close_if_last_window = true;
+          filesystem.filtered_items = {
+            hide_dotfiles = false;
+            hide_gitignored = false;
+            hide_by_pattern = [ ".git" ];
+          };
         };
       };
 
@@ -637,9 +645,9 @@ in
         };
       };
 
-      ollama = {
-        enable = true;
-      };
+      # ollama = {
+      #   enable = true;
+      # };
 
       # file explorer
       oil = {
@@ -653,6 +661,7 @@ in
       # snacks.enable = true; # enable snacks (bigfile, notifier, quickfile, statuscolumn, words) - doesn't seem to do anything?
       telescope.enable = true; # fuzzy finder
 
+      # floating terminal, ALT + n
       toggleterm = {
         enable = true;
         settings = {
