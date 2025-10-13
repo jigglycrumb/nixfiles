@@ -217,6 +217,7 @@ in
     ".config/hypr".source = common + /dotfiles/config/hypr;
     ".config/kitty/kitty.conf".source = common + /dotfiles/config/kitty/kitty.conf;
     ".config/niri".source = ./dotfiles/config/niri;
+    ".config/raffi".source = common + /dotfiles/config/raffi;
     ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
     ".config/sunsetr".source = common + /dotfiles/config/sunsetr;
     ".config/swaync".source = common + /dotfiles/config/swaync;

@@ -1,0 +1,22 @@
+lock-screen:
+  binary: hyprlock
+  # args: [--marionette]
+  # icon: /home/jigglycrumb/.local/share/icons/power/lock.png
+  description: Lock screen
+
+sleep:
+  binary: systemctl
+  args: [suspend]
+  description: Sleep
+
+power-off:
+  binary: systemctl
+  args: [poweroff]
+  description: Power off
+
+reboot:
+  binary: systemctl
+  args: [reboot]
+  description: Reboot
+
+
