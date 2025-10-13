@@ -211,44 +211,18 @@ in
       ${secrets.weather-location}
     '';
 
-    ".config/atuin/config.toml".text = ''
-      ## exec command on enter, edit on tab
-      enter_accept = true
-
-      ## use history of current shell when invoked with up arrow
-      filter_mode_shell_up_key_binding = "session"
-
-      ## date format used, either "us" or "uk"
-      dialect = "uk"
-
-      ## disable automatic sync
-      auto_sync = false
-
-      ## disable automatic update checks
-      update_check = false
-    '';
-
-    ".config/direnv/direnv.toml".text = ''
-      [global]
-      hide_env_diff = true
-    '';
-
+    ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml;
+    ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
     ".config/fuzzel/scripts".source = ./dotfiles/config/fuzzel/scripts;
-    ".config/hypr".source = ./dotfiles/config/hypr;
-    ".config/kitty/kitty.conf".text = ''
-      background_opacity 0.9
-      confirm_os_window_close 0
-      window_padding_width 4 6
-      font_size 12.0
-      font_family Hack
-    '';
+    ".config/hypr".source = common + /dotfiles/config/hypr;
+    ".config/kitty/kitty.conf".source = common + /dotfiles/config/kitty/kitty.conf;
     ".config/niri".source = ./dotfiles/config/niri;
     ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
-    ".config/sunsetr".source = ./dotfiles/config/sunsetr;
-    ".config/swaync".source = ./dotfiles/config/swaync;
+    ".config/sunsetr".source = common + /dotfiles/config/sunsetr;
+    ".config/swaync".source = common + /dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = common + /dotfiles/config/Thunar/uca.xml;
-    ".config/wal/templates".source = ./dotfiles/config/wal/templates;
-    ".config/waybar".source = ./dotfiles/config/waybar;
+    ".config/wal/templates".source = common + /dotfiles/config/wal/templates;
+    ".config/waybar".source = common + /dotfiles/config/waybar;
 
     ".functions".source = common + /dotfiles/functions;
     ".scripts".source = common + /dotfiles/scripts;
@@ -261,10 +235,7 @@ in
     ".local/share/applications/other".source = common + /dotfiles/local/share/applications/other;
     ".local/share/applications/secret".source = ./dotfiles/local/share/applications/secret;
 
-    ".screenrc".text = ''
-      # Disable the startup message
-      startup_message off
-    '';
+    ".screenrc".source = common + /dotfiles/screenrc;
   };
 
   # You can also manage environment variables but you will have to manually

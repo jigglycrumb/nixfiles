@@ -1,0 +1,15 @@
+
+      ## exec command on enter, edit on tab
+      enter_accept = true
+
+      ## use history of current shell when invoked with up arrow
+      filter_mode_shell_up_key_binding = "session"
+
+      ## date format used, either "us" or "uk"
+      dialect = "uk"
+
+      ## disable automatic sync
+      auto_sync = false
+
+      ## disable automatic update checks
+      update_check = false
