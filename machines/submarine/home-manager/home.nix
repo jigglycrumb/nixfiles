@@ -19,7 +19,7 @@ let
   #   weather-location = "<city>";
   # }
 
-  secrets = import ./secrets.nix;
+  secrets = import ../../../common/secret/home.nix;
   username = "jigglycrumb";
   common = ../../../common;
 
@@ -213,23 +213,13 @@ in
 
     ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml; 
     ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
-    ".config/fuzzel/scripts".source = ./dotfiles/config/fuzzel/scripts;
+    ".config/fuzzel/scripts".source = common + /dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = common + /dotfiles/config/hypr;
-
-    ".config/kitty/kitty.conf".text = ''
-      background_opacity 0.9
-      confirm_os_window_close 0
-      window_padding_width 4 6
-      font_size 12.0
-      font_family Hack
-      scrollback_lines 100000
-      tab_bar_edge bottom
-      tab_bar_style slant
-      map ctrl+f launch --type=overlay --stdin-source=@screen_scrollback fzf --no-sort --no-mouse --exact -i --tac
-      map ctrl+/ launch --allow-remote-control kitty +kitten kitty_search/search.py @active-kitty-window-id
-    '';
-
-    ".config/niri".source = ./dotfiles/config/niri;
+    ".config/kitty/kitty.conf".source = common + /dotfiles/config/kitty/kitty.conf;
+    
+    ".config/niri/config.kdl".source = ./dotfiles/config/niri/config.kdl;
+    ".config/niri/scripts".source = common + /dotfiles/config/niri/scripts;
+    
     ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
     ".config/sunsetr".source = common + /dotfiles/config/sunsetr;
     ".config/swaync".source = common + /dotfiles/config/swaync;
@@ -246,7 +236,6 @@ in
     ".sounds".source = common + /dotfiles/sounds;
     ".wgetrc".source = common + /dotfiles/wgetrc;
     ".local/share/applications/other".source = ./dotfiles/local/share/applications/other;
-
   };
 
   # You can also manage environment variables but you will have to manually

@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# choose a CPU governor through fuzzel
-
-governors=("powersave" "performance")
-governor=$(printf "%s\n" "${governors[@]}" | fuzzel --dmenu -p "CPU profile: ")
-sudo -A cpupower frequency-set -g "$governor"

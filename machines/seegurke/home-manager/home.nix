@@ -19,7 +19,7 @@ let
   #   weather-location = "<city>";
   # }
 
-  secrets = import ./secrets.nix;
+  secrets = import ../../../common/secret/home.nix;
   username = "jigglycrumb";
   common = ../../../common;
 
@@ -177,7 +177,7 @@ in
 
     ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml; 
     ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
-    ".config/fuzzel/scripts".source = ./dotfiles/config/fuzzel/scripts;
+    ".config/fuzzel/scripts".source = common + /dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = common + /dotfiles/config/hypr;
     ".config/kitty/kitty.conf".source = common + /dotfiles/config/kitty/kitty.conf;
     # ".config/niri".source = ./dotfiles/config/niri;

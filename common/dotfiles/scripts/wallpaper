@@ -26,7 +26,7 @@ swww img "$WALLPAPER" \
   --transition-type $TRANSITION_TYPE >/dev/null 2>&1
 
 # update fuzzel config - this is hacky, but it works :D
-cp -f $HOME/nixfiles/machines/$(hostname)/home-manager/dotfiles/config/fuzzel/fuzzel.ini.template $HOME/.config/fuzzel/fuzzel.ini
+cp -f $HOME/nixfiles/common/dotfiles/config/fuzzel/fuzzel.ini.template $HOME/.config/fuzzel/fuzzel.ini
 cat $HOME/.cache/wal/colors-fuzzel.ini >>$HOME/.config/fuzzel/fuzzel.ini
 
 # reload notification center
