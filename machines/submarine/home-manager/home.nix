@@ -212,11 +212,10 @@ in
     '';
 
     ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml; 
-
     ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
-
     ".config/fuzzel/scripts".source = ./dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = common + /dotfiles/config/hypr;
+
     ".config/kitty/kitty.conf".text = ''
       background_opacity 0.9
       confirm_os_window_close 0
@@ -236,7 +235,10 @@ in
     ".config/swaync".source = common + /dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = common + /dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = common + /dotfiles/config/wal/templates;
-    ".config/waybar".source = ./dotfiles/config/waybar;
+
+    ".config/waybar/config".source = ./dotfiles/config/waybar/config;
+    ".config/waybar/scripts".source = common + /dotfiles/config/waybar/scripts;
+    ".config/waybar/style.css".source = common + /dotfiles/config/waybar/style.css;
 
     ".functions".source = common + /dotfiles/functions;
     ".screenrc".source = common + /dotfiles/screenrc;

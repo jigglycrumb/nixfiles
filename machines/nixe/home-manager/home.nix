@@ -223,7 +223,10 @@ in
     ".config/swaync".source = common + /dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = common + /dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = common + /dotfiles/config/wal/templates;
-    ".config/waybar".source = common + /dotfiles/config/waybar;
+
+    ".config/waybar/config".source = ./dotfiles/config/waybar/config;
+    ".config/waybar/scripts".source = common + /dotfiles/config/waybar/scripts;
+    ".config/waybar/style.css".source = common + /dotfiles/config/waybar/style.css;
 
     ".functions".source = common + /dotfiles/functions;
     ".scripts".source = common + /dotfiles/scripts;
