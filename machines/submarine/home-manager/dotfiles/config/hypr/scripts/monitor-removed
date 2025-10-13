@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# runs when a external monitor is detached
-
-# TODO: more :D actually use this
-
-notify-send "Screen" "External screen removed: $1" --icon=dialog-information

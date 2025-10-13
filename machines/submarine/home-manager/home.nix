@@ -21,6 +21,7 @@ let
 
   secrets = import ./secrets.nix;
   username = "jigglycrumb";
+  common = ../../../common;
 
 in
 {
@@ -192,8 +193,8 @@ in
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
 
-    "Applications/pico-8/pico8.nix".source = ./home/Applications/pico-8/pico8.nix;
-    "Applications/pico-8/run.sh".source = ./home/Applications/pico-8/run.sh;
+    "Applications/pico-8/pico8.nix".source = common + /home/Applications/pico-8/pico8.nix;
+    "Applications/pico-8/run.sh".source = common + /home/Applications/pico-8/run.sh;
 
     ".cache/weather-location".text = ''
       ${secrets.weather-location}
@@ -210,32 +211,14 @@ in
       }
     '';
 
-    ".config/atuin/config.toml".text = ''
-      ## exec command on enter, edit on tab
-      enter_accept = true
+    ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml; 
 
-      ## use history of current shell when invoked with up arrow
-      filter_mode_shell_up_key_binding = "session"
-
-      ## date format used, either "us" or "uk"
-      dialect = "uk"
-
-      ## disable automatic sync
-      auto_sync = false
-
-      ## disable automatic update checks
-      update_check = false
-    '';
-
-    ".config/direnv/direnv.toml".text = ''
-      [global]
-      hide_env_diff = true
-    '';
+    ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
 
     ".config/fuzzel/scripts".source = ./dotfiles/config/fuzzel/scripts;
-    ".config/hypr".source = ./dotfiles/config/hypr;
+    ".config/hypr".source = common + /dotfiles/config/hypr;
     ".config/kitty/kitty.conf".text = ''
-      background_opacity 0.97
+      background_opacity 0.9
       confirm_os_window_close 0
       window_padding_width 4 6
       font_size 12.0
@@ -246,32 +229,22 @@ in
       map ctrl+f launch --type=overlay --stdin-source=@screen_scrollback fzf --no-sort --no-mouse --exact -i --tac
       map ctrl+/ launch --allow-remote-control kitty +kitten kitty_search/search.py @active-kitty-window-id
     '';
+
     ".config/niri".source = ./dotfiles/config/niri;
-    ".config/starship.toml".source = ./dotfiles/config/starship.toml;
-    ".config/sunsetr".source = ./dotfiles/config/sunsetr;
-    ".config/swaync".source = ./dotfiles/config/swaync;
-    ".config/Thunar/uca.xml".source = ./dotfiles/config/Thunar/uca.xml;
-    ".config/wal/templates".source = ./dotfiles/config/wal/templates;
+    ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
+    ".config/sunsetr".source = common + /dotfiles/config/sunsetr;
+    ".config/swaync".source = common + /dotfiles/config/swaync;
+    ".config/Thunar/uca.xml".source = common + /dotfiles/config/Thunar/uca.xml;
+    ".config/wal/templates".source = common + /dotfiles/config/wal/templates;
     ".config/waybar".source = ./dotfiles/config/waybar;
 
-    ".functions".source = ./dotfiles/functions;
-    ".scripts".source = ./dotfiles/scripts;
-    ".sounds".source = ./dotfiles/sounds;
-
-    ".vscode/argv.json".text = ''
-      {
-        "enable-crash-reporter": false,
-        "password-store": "gnome"
-      }
-    '';
-
-    ".wgetrc".source = ./dotfiles/wgetrc;
+    ".functions".source = common + /dotfiles/functions;
+    ".screenrc".source = common + /dotfiles/screenrc;
+    ".scripts".source = common + /dotfiles/scripts;
+    ".sounds".source = common + /dotfiles/sounds;
+    ".wgetrc".source = common + /dotfiles/wgetrc;
     ".local/share/applications/other".source = ./dotfiles/local/share/applications/other;
 
-    ".screenrc".text = ''
-      # Disable the startup message
-      startup_message off
-    '';
   };
 
   # You can also manage environment variables but you will have to manually
