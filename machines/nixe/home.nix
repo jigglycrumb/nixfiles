@@ -19,9 +19,9 @@ let
   #   weather-location = "<city>";
   # }
 
-  secrets = import ../../../common/secret/home.nix;
+  secrets = import ../../common/secret/home.nix;
   username = "jigglycrumb";
-  common = ../../../common;
+  common = ../../common;
 
 in
 {
@@ -54,8 +54,6 @@ in
     asciiquarium # a fishy app
     astroterm # watch the sky from your terminal
     atac # a terminal api client (like postman)
-    aws-sso-cli # work related
-    awscli2 # work related
     bat # fancy `cat` replacement
     bluetui # terminal bluetooth manager
     bluetuith # terminal bluetooth manager
@@ -67,7 +65,6 @@ in
     cbonsai # terminal tree
     cfonts # ansi fonts
     chess-tui # terminal chess
-    claude-code # work related
     clolcat # 🌈
     cmatrix # there is no spoon
     confetty # 🎊
@@ -97,6 +94,7 @@ in
     gitui # git tui
     glow # markdown reader
     go # go programming language
+    # goose-cli # a local AI agent
     gum # various little helpers
     gurk-rs # terminal client for Signal messenger
     hollywood # hacking...
@@ -143,7 +141,6 @@ in
     screen
     scope-tui # terminal oscilloscope
     sl # choo choo
-    slack-term # terminal slack client
     sniffnet # GUI to monitor network traffic
     solitaire-tui # terminal card game
     speedread # read text fast
@@ -196,22 +193,25 @@ in
     "Applications/pico-8/pico8.nix".source = common + /home/Applications/pico-8/pico8.nix;
     "Applications/pico-8/run.sh".source = common + /home/Applications/pico-8/run.sh;
 
+    "Applications/picocad/picocad.nix".source = common + /home/Applications/picocad/picocad.nix;
+    "Applications/picocad/run.sh".source = common + /home/Applications/picocad/run.sh;
+
+    "Applications/picocad/picocad-toolbox.nix".source = common + /home/Applications/picocad/picocad-toolbox.nix;
+    "Applications/picocad/run-toolbox.sh".source = common + /home/Applications/picocad/run-toolbox.sh;
+    
+    "Applications/picotron/picotron.nix".source = common + /home/Applications/picotron/picotron.nix;
+    "Applications/picotron/run.sh".source = common + /home/Applications/picotron/run.sh;
+    
+    "Applications/voxatron/voxatron.nix".source = common + /home/Applications/voxatron/voxatron.nix;
+    "Applications/voxatron/run.sh".source = common + /home/Applications/voxatron/run.sh;
+    
+    "Pictures/digiKam/digikamrc.template".source = common + /home/Pictures/digiKam/digikamrc.template;
+
     ".cache/weather-location".text = ''
       ${secrets.weather-location}
     '';
 
-    ".claude/settings.json".text = ''
-      {
-        "env": {
-          "CLAUDE_CODE_USE_BEDROCK": "1",
-          "AWS_REGION": "eu-central-1",
-          "ANTHROPIC_MODEL": "eu.anthropic.claude-3-7-sonnet-20250219-v1:0",
-          "ANTHROPIC_SMALL_FAST_MODEL": "eu.anthropic.claude-3-5-haiku-20241022-v1:0"
-        }
-      }
-    '';
-
-    ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml; 
+    ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml;
     ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
     ".config/fuzzel/scripts".source = common + /dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = common + /dotfiles/config/hypr;
@@ -219,7 +219,8 @@ in
     
     ".config/niri/config.kdl".source = ./dotfiles/config/niri/config.kdl;
     ".config/niri/scripts".source = common + /dotfiles/config/niri/scripts;
-    
+
+    ".config/raffi".source = common + /dotfiles/config/raffi;
     ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
     ".config/sunsetr".source = common + /dotfiles/config/sunsetr;
     ".config/swaync".source = common + /dotfiles/config/swaync;
@@ -231,11 +232,17 @@ in
     ".config/waybar/style.css".source = common + /dotfiles/config/waybar/style.css;
 
     ".functions".source = common + /dotfiles/functions;
-    ".screenrc".source = common + /dotfiles/screenrc;
     ".scripts".source = common + /dotfiles/scripts;
     ".sounds".source = common + /dotfiles/sounds;
+
+    ".rtorrent.rc".source = common + /dotfiles/rtorrent.rc;
     ".wgetrc".source = common + /dotfiles/wgetrc;
-    ".local/share/applications/other".source = ./dotfiles/local/share/applications/other;
+
+    ".local/share/applications/appimage".source = ./dotfiles/local/share/applications/appimage;
+    ".local/share/applications/other".source = common + /dotfiles/local/share/applications/other;
+    ".local/share/applications/secret".source = ./dotfiles/local/share/applications/secret;
+
+    ".screenrc".source = common + /dotfiles/screenrc;
   };
 
   # You can also manage environment variables but you will have to manually
@@ -249,7 +256,7 @@ in
   #
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
-    EDITOR = "nvim";
+    EDITOR = "micro";
   };
 
   home.pointerCursor = {
@@ -271,8 +278,6 @@ in
   # Enable atuin for shell history
   programs.atuin.enable = true;
 
-  programs.pay-respects.enable = true; # type "fuck" to correct your last command
-
   # Enable starship shell prompt
   programs.starship = {
     enable = true;
@@ -289,6 +294,14 @@ in
     "secrets"
     "ssh"
   ];
+
+  # Let virt-manager connect to KVM
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = [ "qemu:///system" ];
+      uris = [ "qemu:///system" ];
+    };
+  };
 
   gtk = {
     enable = true;
@@ -441,7 +454,7 @@ in
 
       # this makes kitty use the current pywal colors instantly
       # on launch, not just after refresh
-      cat ~/.cache/wal/sequences
+      (cat ~/.cache/wal/sequences &)
 
       echo ""
       echo " It's $(ddate +'%{%A, the %e of %B%}, %Y. %N%nCelebrate %H ')" | clolcat
@@ -457,17 +470,13 @@ in
       "c." = "code .";
 
       "n" = "nvim";
-      "n." = "nvim .";
       "nn" = "nvim .";
 
       # cat = "bat";
       g = "git";
-      pico8 = "(cd ~/Applications/pico-8 && ./run.sh)";
       icat = "kitty +kitten icat";
+      pico8 = "(cd ~/Applications/pico-8 && ./run.sh)";
       lolcat = "clolcat";
-
-      p = "pnpm";
-      vibe = "aws-sso exec -p ai-coding.tools -- claude";
 
       # Mass rename utility, usage: mmv lolcat_<1-100>.jpg lolcat_*_thumb.jpg
       mmv = "noglob zmv -W";
@@ -502,6 +511,7 @@ in
       gs = "git status";
       save = "git stash";
       load = "git stash apply";
+      gcs = "git-crypt status";
 
       # Nix the planet
       run-msdos = "(cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#msdos622)";
@@ -513,6 +523,10 @@ in
       nixos-cleanup = "home-manager expire-generations '-7 days' && sudo nix-collect-garbage --delete-older-than 7d"; 
       nixos-update = "(~/nixfiles/machines/$(hostname) && nix flake update)";
       rebuild = "sudo nixos-rebuild switch --flake ~/nixfiles/machines/$(hostname) --impure";
+
+      # VPN
+      vpn-up = "sudo systemctl start wg-quick-home.service";
+      vpn-down = "sudo systemctl stop wg-quick-home.service";
 
       # OSX debris
 
@@ -527,8 +541,8 @@ in
       space-opera = "telnet towel.blinkenlights.nl";
 
       # downloads
-      download = "yt-dlp -t mp4";
-      downloadmp3 = "yt-dlp -t mp3";
+      download = "yt-dlp -t mp4 --cookies-from-browser brave";
+      downloadmp3 = "yt-dlp -t mp3 --cookies-from-browser brave";
     };
   };
 

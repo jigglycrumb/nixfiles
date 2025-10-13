@@ -20,8 +20,8 @@
       seegurke = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixos/configuration.nix
-          ./nixos/hardware-configuration.nix
+          ./configuration.nix
+          ./hardware-configuration.nix
 
           # make home-manager as a module of nixos
           # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
@@ -30,7 +30,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.users.jigglycrumb = import ./home-manager/home.nix;
+            home-manager.users.jigglycrumb = import ./home.nix;
 
             # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
           }

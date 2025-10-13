@@ -26,7 +26,7 @@ in
     # Include the results of the hardware scan.
     # ./hardware-configuration.nix
     nixvim.nixosModules.nixvim
-    (import ../../../common/modules/nixvim.nix { inherit username; })
+    (import ../../common/modules/nixvim.nix { inherit username; })
   ];
 
   # Bootloader
