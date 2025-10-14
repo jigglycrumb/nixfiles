@@ -190,9 +190,15 @@ in
         options.desc = "Jump to file";
       }
 
-      # live grep - SHIFT + ALT + f
+      # live grep - ALT + g
+      # {
+      #   key = "<A-F>";
+      #   action = "<CMD>Telescope live_grep<CR>";
+      #   options.desc = "Search files";
+      # }
+
       {
-        key = "<A-F>";
+        key = "<A-g>";
         action = "<CMD>Telescope live_grep<CR>";
         options.desc = "Search files";
       }
