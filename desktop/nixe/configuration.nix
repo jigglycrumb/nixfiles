@@ -635,7 +635,6 @@ in
     kitty # terminal
     libnotify # notification basics, includes notify-send
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
-    micro # simple terminal editor
     nautilus # GNOME file manager, needed for niri file picker portal
     # nix-output-monitor # nom nom nom
     # nvd # nix version diff

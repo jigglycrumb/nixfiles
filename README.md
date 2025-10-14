@@ -2,7 +2,7 @@
 
 My NixOS configurations
 
-- `machines/nixe` is my private laptop
-- `machines/seegurke` is an old netbook
-- `machines/submarine` is my work laptop
-- `machines/proxmox` contains configurations for different Proxmox VMs
+- `common` contains shared files, like dotfiles and the nixvim module
+- `desktop` contains different desktop configurations
+- `server` contains different server VM configurations
+

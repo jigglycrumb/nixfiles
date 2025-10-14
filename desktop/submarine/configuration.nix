@@ -18,40 +18,47 @@ let
     }
   );
 
-  hostname = "seegurke";
+  # Import secrets
+  #
+  # !!! WARNING !!!
+  # This approach is far from ideal since the secrets will end up in the locally readable /nix/store
+  # It is however, an easy way for keeping the secrets out of the repo until I've learned enough nix to implement a better solution
+  # The secrets.nix file is just a simple set lik e this:
+  #
+  # {
+  #   github-token = "<insert token here>";
+  # }
+
+  hostname = "submarine";
   username = "jigglycrumb";
+  locale = "en_US.UTF-8";
 in
 {
   imports = [
     # Include the results of the hardware scan.
-    # ./hardware-configuration.nix
+    # /etc/nixos/hardware-configuration.nix
     nixvim.nixosModules.nixvim
     (import ../../common/modules/nixvim.nix { inherit username; })
   ];
 
   # Bootloader
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 50; # limit boot loader to the last 50 generations
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # boot.extraModulePackages = [
   #   config.boot.kernelPackages.exfat-nofuse # enable ExFAT support
   # ];
 
   boot.initrd.kernelModules = [
-    "amdgpu" # AMD graphics drivers
     "sg" # generic SCSI for external DVD/BluRay drive support
-    # "xpad"
   ];
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
-  # hardware.bluetooth.powerOnBoot = true;
 
   # Enable Vulkan
   hardware.graphics.enable = true;
-  # For 32 bit applications
-  hardware.graphics.enable32Bit = true;
 
   networking.hostName = "${hostname}"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -63,10 +70,8 @@ in
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
-      # 50000 # rtorrent
     ];
     allowedUDPPorts = [
-      # 50000 # rtorrent
     ];
   };
 
@@ -74,22 +79,22 @@ in
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "de_DE.UTF-8";
+  i18n.defaultLocale = "${locale}";
 
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "de_DE.UTF-8";
-    LC_IDENTIFICATION = "de_DE.UTF-8";
-    LC_MEASUREMENT = "de_DE.UTF-8";
-    LC_MONETARY = "de_DE.UTF-8";
-    LC_NAME = "de_DE.UTF-8";
-    LC_NUMERIC = "de_DE.UTF-8";
-    LC_PAPER = "de_DE.UTF-8";
-    LC_TELEPHONE = "de_DE.UTF-8";
-    LC_TIME = "de_DE.UTF-8";
+    LC_ADDRESS = "${locale}";
+    LC_IDENTIFICATION = "${locale}";
+    LC_MEASUREMENT = "${locale}";
+    LC_MONETARY = "${locale}";
+    LC_NAME = "${locale}";
+    LC_NUMERIC = "${locale}";
+    LC_PAPER = "${locale}";
+    LC_TELEPHONE = "${locale}";
+    LC_TIME = "${locale}";
   };
 
   # Configure console keymap
-  console.keyMap = "de";
+  console.keyMap = "us";
 
   # Enable flakes
   nix.settings.experimental-features = [
@@ -101,33 +106,19 @@ in
   nixpkgs.config.allowUnfree = true;
 
   # Allow broken packages
-  # nixpkgs.config.allowBroken = true;
-
-  # Enabled support for rocm
-  # nixpkgs.config.rocmSupport = true;
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "dotnet-runtime-7.0.20"
-    "dotnet-sdk-7.0.410"
-    "dotnet-runtime-6.0.36"
-    "dotnet-sdk-6.0.428"
-  ];
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-  # services.xserver.videoDrivers = [ "amdgpu" ];
-  # services.xserver.excludePackages = [ pkgs.xterm ]; # don't install xterm
+  # nixpkgs.config.allowBroken = true; 
+  
+  # nixpkgs.config.permittedInsecurePackages = [];
 
   # Enable automatic discovery of remote drives
   services.gvfs.enable = true;
 
-  # TODO: finish this: enable tuigreet from wlogout, disable autologin
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
         command = ''
-          ${pkgs.greetd.tuigreet}/bin/tuigreet \
+          ${pkgs.tuigreet}/bin/tuigreet \
           --time \
           --asterisks \
           --user-menu
@@ -137,78 +128,120 @@ in
     };
   };
 
-  #environment.etc."greetd/environments".text = ''
-  #  Hyprland
-  #'';
+  services.below.enable = true;
 
-  # Configure keymap in X11
-  # services.xserver = {
-  #   xkb = {
-  #     layout = "de";
-  #     variant = "";
-  #   };
+  systemd.services.greetd = {
+    serviceConfig = {
+      Type = "idle";
+      StandardInput = "tty";
+      StandardOuput = "tty";
+      StandardError = "journal";
+      TTYReset = true;
+      TTYHangup = true;
+      TTYVTDisallocate = true;
+    };
+  };
 
-  #   displayManager.gdm = {
-  #     enable = true;
-  #     wayland = true;
-  #   };
-  # };
-
-  services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
+  services.desktopManager.gnome.extraGSettingsOverrides = ''
     [org.gnome.desktop.interface]
     gtk-theme='Arc-Dark'
   '';
 
   services.openssh.enable = true;
 
-  programs.niri.enable = true;
-
-  # programs.hyprland = {
-  #   enable = true;
-  #   xwayland.enable = true;
-  # };
-
   environment.sessionVariables = {
-    # NIXOS_OZONE_WL = "1";
+    NIXOS_OZONE_WL = "1";
+    ELECTRON_OZONE_PLATFORM_HINT = "wayland"; 
+    # XDG_DESKTOP_PORTAL = "xdg-desktop-portal-xapp";
     XDG_CURRENT_DESKTOP = "niri";
     XDG_SESSION_DESKTOP = "niri";
     XDG_SESSION_TYPE = "wayland";
     CLUTTER_BACKEND = "wayland";
     # SDL_VIDEODRIVER = "x11";
     MOZ_ENABLE_WAYLAND = "1";
-    # QT_QPA_PLATFORM = "wayland";
-    # QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    # QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_QPA_PLATFORM = "wayland";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    # DISPLAY = ":0";
   };
 
   xdg.portal = {
     enable = true;
-    # wlr.enable = true;
-    xdgOpenUsePortal = true;
+    wlr.enable = true;
+    # xdgOpenUsePortal = true;
     extraPortals = [
+      # pkgs.xdg-desktop-portal-xapp
+      pkgs.xdg-desktop-portal-gnome
       pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
+      # pkgs.xdg-desktop-portal-hyprland
     ];
+    # config = {
+      # niri = {
+      #   "org.freedesktop.impl.portal.FileChooser" = "gtk";
+      # };
+      # niri = {
+      #   default = [
+      #     "wlr"
+      #     "gtk"
+      #   ];
+      #   "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+      #   "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+      #   "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      #};
+      # gnome = {
+      #   default = [
+      #     "gnome"
+      #     "gtk"
+      #   ];
+      #   "org.freedesktop.impl.portal.Secret" = [
+      #     "gnome-keyring"
+      #   ];
+      #   "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      # };  
+    #};
   };
 
   # Enable OpenSnitch application firewall
   # services.opensnitch.enable = true;
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing.enable = true;
 
   # enable Blueman to manage bluetooth devices
   services.blueman.enable = true;
 
   # Automatically discover network printers
-  # services.avahi = {
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
+  # Enable ollama to run LLMs
+  services.ollama = {
+    enable = true;
+  };
+
+  # Enable web GUI for ollama
+  # services.open-webui = {
   #   enable = true;
-  #   nssmdns4 = true;
-  #   openFirewall = true;
+  #   port = 4141; # 8080;
+  #   environment = {
+  #     ANONYMIZED_TELEMETRY = "False";
+  #     DO_NOT_TRACK = "True";
+  #     SCARF_NO_ANALYTICS = "True";
+  #     # WEBUI_AUTH = "False";
+  #   };
+  #   # Temporary fix
+  #   package = pkgs.open-webui.overridePythonAttrs (old: {
+  #     dependencies = old.dependencies ++ [
+  #       pkgs.python3Packages.itsdangerous
+  #     ];
+  #   });
   # };
 
   # Enable sound with pipewire.
-  # services.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -244,15 +277,8 @@ in
   ];
   environment.shells = with pkgs; [ zsh ];
 
-  # Enable Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    gamescopeSession.enable = true;
-  };
-
-  programs.gamemode.enable = true;
+  # Enable Docker
+  virtualisation.docker.enable = true;
 
   programs.thunar = {
     enable = true;
@@ -272,6 +298,10 @@ in
   # Enable Gnome disk manager
   programs.gnome-disks.enable = true;
 
+  users.groups = {
+    plugdev = { };
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
     isNormalUser = true;
@@ -280,109 +310,116 @@ in
       "docker"
       "libvirtd"
       "networkmanager"
+      "plugdev"
       "wheel" # enables sudo
     ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-      angryipscanner # network scanner
-      appeditor # gui to edit app launcher entries (.desktop files)
       ascii-draw # draw diagrams etc in ASCII
       blanket # ambient sounds
       brave # web browser
-      nemo-with-extensions # file manager
-      cool-retro-term # terminal emulator
-      devilutionx # Diablo
-      door-knocker # check availability of portals
-      drawing # basic image editor, similar to MS Paint
-      fallout-ce # port of Fallout for modern systems
-      furnace # multi-system chiptune tracker
       cheese # webcam fun
+      door-knocker # check availability of portals
       evince # document viewer
-      seahorse # keyring manager
-      # keeperrl # roguelike
+      gimp # image manipulation
+      krita # painting software
       letterpress # convert images to ascii art
+      libreoffice # office suite
+      nemo-with-extensions # file manager
       networkmanagerapplet # tray app for network management
-      nwg-look # GUI to theme GTK apps
       oculante # fast image viewer
-      # opensnitch-ui # GUI for opensnitch application firewall
-      pablodraw # ANSI/ASCII art drawing
+      orca # screen reader
+      overskride # bluetooth management GUI
       pavucontrol # GUI volume conrol
-      # peazip # archive utility
-      sonic-pi # code music
-      wargus # Warcraft 2 port
+      peazip # archive utility
+      qutebrowser # keyboard focused web browser
+      seahorse # keyring manager
+      signal-desktop # messenger
+      simple-scan # scan documents
+      slacky # chat thing
+      teams-for-linux # ms teams
+      zed-editor # editor
     ];
   };
+
+  # Enable flatpak support
+  services.flatpak.enable = true;
 
   # Enable AppImages to run directly
   programs.appimage.binfmt = true;
 
-  # Enable automatic login for the user.
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.autoLogin.user = "${username}";
+  # programs.hyprlock.enable = true; # enable hyprland screen lock
 
-  services.hypridle.enable = true; # enable hyprland idle daemon
-  programs.hyprlock.enable = true; # enable hyprland screen lock
+  programs.niri.enable = true; # a scrolling window manager
+
+  # File previews for nautilus
+  services.gnome.sushi.enable = true;
+
+  programs.wshowkeys.enable = true; # show keypresses on screen
+
+  security.soteria.enable = true;
 
   # better ttys
-  # services.kmscon = {
-  #   enable = true;
-  #   hwRender = true;
-  #   fonts = [
-  #     {
-  #       name = "Hack";
-  #       package = pkgs.hack-font;
-  #     }
-  #   ];
-  #   extraConfig = ''
-  #     font-size=18
-  #     xkb-layout=de
-  #   '';
-  # };
+  services.kmscon = {
+    enable = true;
+    hwRender = true;
+    fonts = [
+      {
+        name = "Hack";
+        package = pkgs.hack-font;
+      }
+    ];
+    extraConfig = ''
+      font-size=18
+      xkb-layout=us
+    '';
+  };
 
   # Enable keyd to remap keyboard keys
-  services.keyd = {
-    enable = true;
-    keyboards.default = {
-      ids = [ "*" ];
-      settings = {
-        main = {
-          home = "pageup";
-          end = "pagedown";
-          pageup = "home";
-          pagedown = "end";
-        };
-        # leftalt = {
-        #   home = "pageup";
-        #   end = "pagedown";
-        # };
-      };
-    };
-
-  };
+  # services.keyd = {
+  #   enable = true;
+  #   keyboards.default = {
+  #     ids = [ "*" ];
+  #     settings = {
+  #       main = {
+  #         home = "pageup";
+  #         end = "pagedown";
+  #         pageup = "home";
+  #         pagedown = "end";
+  #       };
+  #       # leftalt = {
+  #       #   home = "pageup";
+  #       #   end = "pagedown";
+  #       # };
+  #     };
+  #   };
+  #
+  # };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    abduco # detachable terminal sessions
     appimage-run # runs appimage apps
     brightnessctl # control screen brightness
     cifs-utils # mount samba shares
-    clinfo
+    clinfo # shows info about OpenCL (GPU things) - TODO I don't recall why this is here, check if it's still needed and remove
     cliphist # clipboard history
-    # exfat # tools for ExFAT formatted disks
-    # exiftool # read & write exif data - integrates with digikam
+    exfat # tools for ExFAT formatted disks
+    exiftool # read & write exif data - integrates with digikam
     fuzzel # wayland app launcher
     git
-    git-crypt
+    git-crypt # transparent file encryption for git
     gparted # drive partition manager
-    grimblast # screenshot tool (used in screenshot script)
     home-manager # manage user configurations
     hyprcursor # xcursor replacement
-    hyprkeys # print hyprland key bindings
     hyprpicker # pick colors from the screen
+    isd # TUI for systemd services
     kitty # terminal
     libnotify # notification basics, includes notify-send
-    lxqt.lxqt-policykit
-    micro # terminal editor
+    nautilus # GNOME file manager, needed for niri file picker portal
+    pass-wayland # local password manager
+    powertop # power monitor
     pulseaudio # pactl
 
     (python3.withPackages (
@@ -391,17 +428,20 @@ in
       ]
     ))
 
+    raffi
     samba # de janeiro! *da da da da, dadada, dada*
-    # satty # screenshot annotation tool
     slurp # select region on screen (used in screen recording script)
+    sunsetr # blue light filter for wayland
     swayimg # image viewer
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
+    system-config-printer # printer configuration UI
     usbutils # provides lsusb
-    vim # editor
+    virtiofsd # enables shared folders between host and VM - add <binary path="/run/current-system/sw/bin/virtiofsd"/> to filesystem XML if virtiofsd can't be found
+    wf-recorder # screen recording
     wl-clipboard # wayland clipboard management
-    wlogout # wayland logout,lock,etc screen
     waybar # wayland menu bar
+    xwayland-satellite # runs X apps on wayland
   ];
 
   qt = {
@@ -445,4 +485,5 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
+
 }

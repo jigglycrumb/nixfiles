@@ -49,11 +49,15 @@ in
   # environment.
   home.packages = with pkgs; [
     alsa-utils # aplay
-    # angband # lotr terminal roguelike
+    angband # lotr terminal roguelike
     asciicam # webcam in the terminal
     asciiquarium # a fishy app
+    astroterm # watch the sky from your terminal
     atac # a terminal api client (like postman)
+    aws-sso-cli # work related
+    awscli2 # work related
     bat # fancy `cat` replacement
+    bluetui # terminal bluetooth manager
     bluetuith # terminal bluetooth manager
     browsh # terminal web browser
     btop # like top, but better
@@ -63,42 +67,50 @@ in
     cbonsai # terminal tree
     cfonts # ansi fonts
     chess-tui # terminal chess
+    claude-code # work related
+    clolcat # 🌈
     cmatrix # there is no spoon
     confetty # 🎊
     cowsay # moo
-    # crawl # roguelike
-    # daktilo # typewriter sounds for the keyboard
+    crawl # roguelike
+    daktilo # typewriter sounds for the keyboard
     ddate # discordian date
     delta # git diffs done right
     devd # on-demand webserver
+    distrobox # run other distros in containers
+    distrobox-tui # tui for distrobox
     doge # much wow
     dooit # todo tui
-    dysk # a better 'df'
+    dysk # shows info for mounted drives - a better 'df'
     epy # terminal ebook reader
     eza # ls replacement
     fast-ssh # ssh connection manager
+    fd # a better find
     file # identify file types
+    fluidsynth # software synthesizer
     font-awesome # icons for waybar (does not work in environment.systemPackages)
     fortune # mmh cookies
     frotz # infocom game interpreter
     fzf # fuzzy finder (zoxide)
+    gh # github cli
     gifgen # jen jifs from video files
     gitui # git tui
     glow # markdown reader
     go # go programming language
     gum # various little helpers
+    gurk-rs # terminal client for Signal messenger
     hollywood # hacking...
     htop # process monitor
     hyprland-monitor-attached # run scripts when monitors plug
-    hyprshot # screenshot utility
     iftop # network monitoring
     inetutils # telnet
     jp2a # convert jpg and png to ascii art
     jq # query JSON
     killall # Gotta kill 'em all! Currently used in screen recorder script
+    lazydocker # docker tui
     lazygit # git tui
-    clolcat # 🌈
     lynx # terminal web browser, can be scripted for tasks
+    mame-tools # contains chdman
     mc # dual pane terminal file manager
     md-tui # markdown renderer
     meld # merge tool
@@ -110,39 +122,52 @@ in
     neofetch # I use nix btw
     nms # decrypting...
     nixfmt-rfc-style # formatter for nix code, used in VSCode
+    nix-tree # browse the dependency graph of nix configs
     nodejs
     npm-check-updates # tool to check package.json for updates
+    nsxiv # new suckless X image viewer
     nyancat # nyan nyan nyan
+    nvtopPackages.amd # GPU monitoring
+    oterm # ollama terminal client
+    oxker # docker container management tui
     pamixer # terminal volume control
+    pastel # terminal color palette tool
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
+    posting # terminal HTTP API client
     pywal16 # color schemes from images
     # pywalfox-native # style firefox with pywal
-    # rtorrent # terminal torrent client
+    ripgrep # rg, a better grep
+    rmpc # terminal music player
+    rtorrent # terminal torrent client
     screen
     scope-tui # terminal oscilloscope
     sl # choo choo
+    slack-term # terminal slack client
+    sniffnet # GUI to monitor network traffic
     solitaire-tui # terminal card game
     speedread # read text fast
     sshpass # use ssh password auth within scripts - used for deploying proxmox VM configs
     sshs # ssh connection manager
+    superfile # terminal file manager
     tasktimer # task timer
-    # textual-paint # terminal ms paint
-    tealdeer # man but short
+    tealdeer # man pages but short
     terminal-parrot # party parrot
     termpdfpy # graphical pdf/ebook reader for kitty
     # termusic # music player - very promising, but crashes a lot currently
-    # termshark # wireshark for the terminal
+    termshark # wireshark for the terminal
+    # tickrs # realtime stock tickers in the terminal
     tmux
     trash-cli # use trash can in the terminal
     tui-journal # terminal journal app
     tuifeed # terminal feed reader
     unzip # extract zip files
-    # ventoy # create multi-boot usb sticks
+    # ventoy # create multi-boot usb sticks (unfree license, needs flag)
     vitetris # terminal tetris
     wavemon # Wifi monitoring
     wget # download stuff
     wiki-tui # terminal wikipedia
+    wikiman # offline reader for arch wiki
     yazi # terminal file manager
     yt-dlp # terminal downloader for Youtube etc
 
@@ -175,13 +200,26 @@ in
       ${secrets.weather-location}
     '';
 
+    ".claude/settings.json".text = ''
+      {
+        "env": {
+          "CLAUDE_CODE_USE_BEDROCK": "1",
+          "AWS_REGION": "eu-central-1",
+          "ANTHROPIC_MODEL": "eu.anthropic.claude-3-7-sonnet-20250219-v1:0",
+          "ANTHROPIC_SMALL_FAST_MODEL": "eu.anthropic.claude-3-5-haiku-20241022-v1:0"
+        }
+      }
+    '';
+
     ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml; 
     ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
     ".config/fuzzel/scripts".source = common + /dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = common + /dotfiles/config/hypr;
     ".config/kitty".source = common + /dotfiles/config/kitty;
-    # ".config/niri".source = ./dotfiles/config/niri;
-    ".config/raffi".source = common + /dotfiles/config/raffi;
+    
+    ".config/niri/config.kdl".source = ./dotfiles/config/niri/config.kdl;
+    ".config/niri/scripts".source = common + /dotfiles/config/niri/scripts;
+    
     ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
     ".config/sunsetr".source = common + /dotfiles/config/sunsetr;
     ".config/swaync".source = common + /dotfiles/config/swaync;
@@ -196,12 +234,8 @@ in
     ".screenrc".source = common + /dotfiles/screenrc;
     ".scripts".source = common + /dotfiles/scripts;
     ".sounds".source = common + /dotfiles/sounds;
-
-    ".rtorrent.rc".source = common + /dotfiles/rtorrent.rc;
     ".wgetrc".source = common + /dotfiles/wgetrc;
-
-    ".local/share/applications/appimage".source = ./dotfiles/local/share/applications/appimage;
-    ".local/share/applications/other".source = common + /dotfiles/local/share/applications/other;
+    ".local/share/applications/other".source = ./dotfiles/local/share/applications/other;
   };
 
   # You can also manage environment variables but you will have to manually
@@ -220,7 +254,7 @@ in
 
   home.pointerCursor = {
     gtk.enable = true;
-    x11.enable = true;
+    # x11.enable = true;
 
     package = pkgs.bibata-cursors;
     # name = "Bibata-Modern-Classic";
@@ -236,6 +270,8 @@ in
 
   # Enable atuin for shell history
   programs.atuin.enable = true;
+
+  programs.pay-respects.enable = true; # type "fuck" to correct your last command
 
   # Enable starship shell prompt
   programs.starship = {
@@ -254,42 +290,27 @@ in
     "ssh"
   ];
 
-  # Let virt-manager connect to KVM
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = [ "qemu:///system" ];
-      uris = [ "qemu:///system" ];
-    };
-  };
-
-  # Use dark theme in GTK apps
   gtk = {
     enable = true;
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
+
+    theme = {
+      package = pkgs.flat-remix-gtk;
+      name = "Flat-Remix-GTK-Grey-Darkest";
     };
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
+
+    iconTheme = {
+      package = pkgs.adwaita-icon-theme;
+      name = "Adwaita";
+    };
+
+    font = {
+      name = "Sans";
+      size = 11;
     };
   };
 
-  # gtk = {
-  #   enable = true;
-  #   # iconTheme = {
-  #   #   name = "elementary-Xfce-dark";
-  #   #   package = pkgs.elementary-xfce-icon-theme;
-  #   # };
-  #   # theme = {
-  #   #   name = "zukitre-dark";
-  #   #   package = pkgs.zuki-themes;
-  #   # };
-  # };
-
   programs.gpg.enable = true;
-
   services.gpg-agent.enable = true;
-
-  # services.swaync # todo check
 
   programs.direnv = {
     enable = true;
@@ -387,20 +408,6 @@ in
 
   programs.zsh = {
     enable = true;
-
-    # test - probably not needed anymore since atuin is used
-    # history = {
-    #   ignoreAllDups = true;
-    #   ignorePatterns = [
-    #     "ls"
-    #     "pwd"
-    #     "date"
-    #     "* --help"
-    #     "man"
-    #     "tldr"
-    #   ];
-    # };
-
     oh-my-zsh.enable = true;
 
     plugins = [
@@ -415,7 +422,7 @@ in
       }
     ];
 
-    initExtra = ''
+    initContent = ''
       autoload -U compinit && compinit
       autoload zmv
 
@@ -450,14 +457,17 @@ in
       "c." = "code .";
 
       "n" = "nvim";
+      "n." = "nvim .";
       "nn" = "nvim .";
 
       # cat = "bat";
       g = "git";
+      pico8 = "(cd ~/Applications/pico-8 && ./run.sh)";
       icat = "kitty +kitten icat";
-      pico8 = "cd ~/Applications/pico-8 && ./run.sh";
       lolcat = "clolcat";
 
+      p = "pnpm";
+      vibe = "aws-sso exec -p ai-coding.tools -- claude";
 
       # Mass rename utility, usage: mmv lolcat_<1-100>.jpg lolcat_*_thumb.jpg
       mmv = "noglob zmv -W";
@@ -494,19 +504,15 @@ in
       load = "git stash apply";
 
       # Nix the planet
-      run-msdos = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#msdos622 && cd $WD";
-      run-win311 = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#wfwg311&& cd $WD";
-      run-win98 = "WD=$(pwd) && cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#win98 && cd $WD";
+      run-msdos = "(cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#msdos622)";
+      run-win311 = "(cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#wfwg311)";
+      run-win98 = "(cd ~/VMs/machines && nix run github:matthewcroughan/NixThePlanet#win98)";
 
       # NixOS specific things
       boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
       nixos-cleanup = "home-manager expire-generations '-7 days' && sudo nix-collect-garbage --delete-older-than 7d"; 
-      nixos-update = "(~/nixfiles/machines/$(hostname) && nix flake update)";
-      rebuild = "sudo nixos-rebuild switch --flake ~/nixfiles/machines/$(hostname) --impure";
-
-      # VPN
-      vpn-up = "sudo systemctl start wg-quick-home.service";
-      vpn-down = "sudo systemctl stop wg-quick-home.service";
+      nixos-update = "(cd ~/nixfiles/desktop/$(hostname) && nix flake update)";
+      rebuild = "sudo nixos-rebuild switch --flake ~/nixfiles/desktop/$(hostname) --impure";
 
       # OSX debris
 
@@ -520,20 +526,11 @@ in
       sl = "aplay -q ~/.sounds/train.wav & sl";
       space-opera = "telnet towel.blinkenlights.nl";
 
-      # games
-      diablo = "(cd ~/Games/Diablo && devilutionx) &";
-      diablo-hellfire = "(cd ~/Games/Diablo && devilutionx --hellfire) &";
-
+      # downloads
+      download = "yt-dlp -t mp4";
+      downloadmp3 = "yt-dlp -t mp3";
     };
   };
-
-  # wayland.windowManager.hyprland = {
-  #   enable = true; # enable Hyprland
-  #   plugins = with pkgs.hyprlandPlugins; [
-  #     hyprspace
-  #     hyprsplit
-  #   ];
-  # };
 
   # do not create ~/Public & ~/Templates
   xdg.userDirs = {
