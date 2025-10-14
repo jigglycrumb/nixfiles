@@ -171,8 +171,8 @@ layout {
     // preset-window-heights { }
 
     // You can change the default width of the new windows.
-    // default-column-width { proportion 0.5; }
-    default-column-width { proportion 1.0; }
+    default-column-width { proportion 0.5; }
+    // default-column-width { proportion 1.0; }
     // If you leave the brackets empty, the windows themselves will decide their initial width.
     // default-column-width {}
 
@@ -356,7 +356,7 @@ window-rule {
 
 // Work around WezTerm's initial configure bug
 // by setting an empty default-column-width.
-window-rule {
+/-window-rule {
     // This regular expression is intentionally made as specific as possible,
     // since this is the default config, and we want no false positives.
     // You can get away with just app-id="wezterm" if you want.
@@ -384,6 +384,11 @@ window-rule {
     // Use this instead if you want them visible on third-party screenshot tools.
     // block-out-from "screencast"
 }
+
+// window-rule {
+//   match app-id="kitty"
+//   default-column-width { proportion 1.0 }
+// }
 
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
