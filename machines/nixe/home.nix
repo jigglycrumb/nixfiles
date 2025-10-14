@@ -215,8 +215,8 @@ in
     ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
     ".config/fuzzel/scripts".source = common + /dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = common + /dotfiles/config/hypr;
-    ".config/kitty/kitty.conf".source = common + /dotfiles/config/kitty/kitty.conf;
-    
+    ".config/kitty".source = common + /dotfiles/config/kitty;
+
     ".config/niri/config.kdl".source = ./dotfiles/config/niri/config.kdl;
     ".config/niri/scripts".source = common + /dotfiles/config/niri/scripts;
 

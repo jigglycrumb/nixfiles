@@ -179,7 +179,7 @@ in
     ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
     ".config/fuzzel/scripts".source = common + /dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = common + /dotfiles/config/hypr;
-    ".config/kitty/kitty.conf".source = common + /dotfiles/config/kitty/kitty.conf;
+    ".config/kitty".source = common + /dotfiles/config/kitty;
     # ".config/niri".source = ./dotfiles/config/niri;
     ".config/raffi".source = common + /dotfiles/config/raffi;
     ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
