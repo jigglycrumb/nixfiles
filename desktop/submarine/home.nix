@@ -25,11 +25,12 @@ let
 
 in
 {
-  # imports = [ inputs.nixvim.homeManagerModules.nixvim ];
+  imports = [
+    ../../common/modules/pico-8/pico-8.nix
+  ];
 
-  # programs.nixvim = {
-  #   enable = true;
-  # };
+  modules.pico-8.username = username;
+  # modules.pico-8.cart-path = "Projects/Github/Private/pico8-carts";
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -192,9 +193,6 @@ in
     # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-
-    "Applications/pico-8/pico8.nix".source = common + /home/Applications/pico-8/pico8.nix;
-    "Applications/pico-8/run.sh".source = common + /home/Applications/pico-8/run.sh;
 
     ".cache/weather-location".text = ''
       ${secrets.weather-location}
@@ -462,7 +460,6 @@ in
 
       # cat = "bat";
       g = "git";
-      pico8 = "(cd ~/Applications/pico-8 && ./run.sh)";
       icat = "kitty +kitten icat";
       lolcat = "clolcat";
 
