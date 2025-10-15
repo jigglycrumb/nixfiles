@@ -17,9 +17,9 @@ In your home manager config (usually `home.nix`), add the following:
     <path-to>/pico-8/pico-8.nix
   ];
 
-  modules.pico-8.username = "<your username>"; # required
-  modules.pico-8.app-path = ""; # optional, default: `Applications/pico-8`
-  modules.pico-8.cart-path = ""; # optional, default: `.lexaloffle/pico-8/carts`
+  modules.pico-8.username = ""; # Required. Your system username.
+  modules.pico-8.app-path = ""; # Optional. Relative to ~. Default: `Applications/pico-8`
+  modules.pico-8.cart-path = ""; # Optional. Relative to ~. Default: `.lexaloffle/pico-8/carts`
 ```
 
 ### Install PICO-8
