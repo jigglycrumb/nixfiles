@@ -2,15 +2,11 @@
 {
   config,
   lib,
-  # pkgs,
-  # inputs,
-  # username,
   ...
 }:
 let
   # the _actual_ applied config
   cfg = config.modules.pico-8;
-  app-path = "Applications/PICO-8";
 in
 {
   options.modules.pico-8 = {

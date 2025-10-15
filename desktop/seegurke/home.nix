@@ -27,10 +27,13 @@ in
 {
   imports = [
     ../../common/modules/pico-8/pico-8.nix
+    ../../common/modules/picotron/picotron.nix
   ];
 
   modules.pico-8.username = username;
-  # modules.pico-8.cart-path = "Projects/Github/Private/pico8-carts";
+  modules.pico-8.cart-path = "Projects/Github/Private/pico8-carts";
+
+  modules.picotron.username = username;
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
