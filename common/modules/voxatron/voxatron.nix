@@ -32,11 +32,11 @@ in
   config = {
     home.file = {
       "${cfg.app-path}/README.md".text = ''
-        # Welcome to voxatron with home-manager!
+        # Welcome to Voxatron!
 
-        Download voxatron from the Lexaloffle website and extract the zip file into this folder.
+        Download Voxatron from the Lexaloffle website and extract the zip file into this folder.
 
-        Then, run voxatron using your app launcher or by typing `voxatron` in your terminal.
+        Then, run Voxatron using your app launcher or by typing `voxatron` in your terminal.
       '';
 
       "${cfg.app-path}/voxatron.nix".text = ''

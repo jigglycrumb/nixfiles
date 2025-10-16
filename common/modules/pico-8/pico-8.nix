@@ -32,7 +32,7 @@ in
   config = {
     home.file = {
       "${cfg.app-path}/README.md".text = ''
-        # Welcome to PICO-8 with home-manager!
+        # Welcome to PICO-8!
 
         Download PICO-8 from the Lexaloffle website and extract the zip file into this folder.
 

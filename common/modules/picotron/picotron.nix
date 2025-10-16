@@ -32,11 +32,11 @@ in
   config = {
     home.file = {
       "${cfg.app-path}/README.md".text = ''
-        # Welcome to picotron with home-manager!
+        # Welcome to Picotron!
 
-        Download picotron from the Lexaloffle website and extract the zip file into this folder.
+        Download Picotron from the Lexaloffle website and extract the zip file into this folder.
 
-        Then, run picotron using your app launcher or by typing `picotron` in your terminal.
+        Then, run Picotron using your app launcher or by typing `picotron` in your terminal.
       '';
 
       "${cfg.app-path}/picotron.nix".text = ''

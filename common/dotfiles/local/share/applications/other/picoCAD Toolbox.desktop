@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=picoCAD Toolbox
-Comment=A tiny modeler for tiny models
-Exec=bash run-toolbox.sh
-Path=/home/jigglycrumb/Applications/picocad
-Icon=/home/jigglycrumb/.local/share/applications/other/picocad-toolbox.png
-Terminal=false
-Type=Application
-Categories=Development;
