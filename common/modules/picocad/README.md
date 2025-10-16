@@ -28,4 +28,5 @@ Buy picoCAD. Then, extract the downloaded zip file to the `app-path` (default: `
 ## Running
 
 Start picoCAD via your app launcher or with `picocad` in your terminal.
+
 Start picoCAD Toolbox via your app launcher or with `picocad-toolbox` in your terminal.

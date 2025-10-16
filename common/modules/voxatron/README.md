@@ -1,6 +1,6 @@
-# voxatron home-manager module
+# Voxatron home-manager module
 
-This module enables using [voxatron](https://www.lexaloffle.com/voxatron.php) with Nix [home-manager](https://nix-community.github.io/home-manager/).
+This module enables using [Voxatron](https://www.lexaloffle.com/voxatron.php) with Nix [home-manager](https://nix-community.github.io/home-manager/).
 
 ## Installation
 
@@ -21,10 +21,10 @@ In your home manager config (usually `home.nix`), add the following:
   modules.voxatron.app-path = ""; # Optional. Relative to ~. Default: `Applications/voxatron`
 ```
 
-### Install voxatron
+### Install Voxatron
 
-Buy voxatron. Then, extract the downloaded zip file to the `app-path` (default: `Applications/voxatron`).
+Buy Voxatron. Then, extract the downloaded zip file to the `app-path` (default: `Applications/voxatron`).
 
 ## Running
 
-Start voxatron via your app launcher or with `voxatron` in your terminal.
+Start Voxatron via your app launcher or with `voxatron` in your terminal.

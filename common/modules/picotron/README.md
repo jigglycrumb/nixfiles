@@ -1,6 +1,6 @@
-# picotron home-manager module
+# Picotron home-manager module
 
-This module enables using [picotron](https://www.lexaloffle.com/picotron.php) with Nix [home-manager](https://nix-community.github.io/home-manager/).
+This module enables using [Picotron](https://www.lexaloffle.com/picotron.php) with Nix [home-manager](https://nix-community.github.io/home-manager/).
 
 ## Installation
 
@@ -21,10 +21,10 @@ In your home manager config (usually `home.nix`), add the following:
   modules.picotron.app-path = ""; # Optional. Relative to ~. Default: `Applications/picotron`
 ```
 
-### Install picotron
+### Install Picotron
 
-Buy picotron. Then, extract the downloaded zip file to the `app-path` (default: `Applications/picotron`).
+Buy Picotron. Then, extract the downloaded zip file to the `app-path` (default: `Applications/picotron`).
 
 ## Running
 
-Start picotron via your app launcher or with `picotron` in your terminal.
+Start Picotron via your app launcher or with `picotron` in your terminal.
