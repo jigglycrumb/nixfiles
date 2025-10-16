@@ -28,12 +28,14 @@ in
   imports = [
     ../../common/modules/pico-8/pico-8.nix
     ../../common/modules/picotron/picotron.nix
+    ../../common/modules/voxatron/voxatron.nix
   ];
 
   modules.pico-8.username = username;
   modules.pico-8.cart-path = "Projects/Github/Private/pico8-carts";
 
   modules.picotron.username = username;
+  modules.voxatron.username = username;
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -200,8 +202,8 @@ in
     "Applications/picocad/picocad-toolbox.nix".source = common + /home/Applications/picocad/picocad-toolbox.nix;
     "Applications/picocad/run-toolbox.sh".source = common + /home/Applications/picocad/run-toolbox.sh;
     
-    "Applications/voxatron/voxatron.nix".source = common + /home/Applications/voxatron/voxatron.nix;
-    "Applications/voxatron/run.sh".source = common + /home/Applications/voxatron/run.sh;
+    # "Applications/voxatron/voxatron.nix".source = common + /home/Applications/voxatron/voxatron.nix;
+    # "Applications/voxatron/run.sh".source = common + /home/Applications/voxatron/run.sh;
     
     "Pictures/digiKam/digikamrc.template".source = common + /home/Pictures/digiKam/digikamrc.template;
 

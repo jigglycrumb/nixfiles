@@ -72,7 +72,7 @@ in
       ".icons/picotron.png".source = ./picotron.png;
       ".local/share/applications/picotron.desktop".text = ''
         [Desktop Entry]
-        Name=picotron
+        Name=Picotron
         Comment=Fantasy Workstation
         Exec=bash run.sh
         Path=/home/${cfg.username}/${cfg.app-path}
