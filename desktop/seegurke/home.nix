@@ -108,7 +108,7 @@
   # plain files is through 'home.file'.
   home.file = {
     ".config/niri/config.kdl".source = ./dotfiles/config/niri/config.kdl;
-    ".config/waybar".source = ./dotfiles/config/waybar;
+    ".config/waybar/config".source = ./dotfiles/config/waybar/config;
     ".local/share/applications/appimage".source = ./dotfiles/local/share/applications/appimage;
   };
 }
