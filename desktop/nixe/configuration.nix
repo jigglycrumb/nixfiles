@@ -51,6 +51,14 @@ in
     # "xpad" # Gamepad support
   ];
 
+  # Add swap
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024; # 16GB in MB
+    }
+  ];
+
   # For 32 bit applications
   hardware.graphics.enable32Bit = true;
 
@@ -59,9 +67,9 @@ in
   hardware.graphics.extraPackages = with pkgs; [
     amdvlk
     # rocmPackages
-    rocmPackages.clr.icd
-    rocmPackages.rocm-runtime
-    rocmPackages.rocm-smi
+    # rocmPackages.clr.icd
+    # rocmPackages.rocm-runtime
+    # rocmPackages.rocm-smi
     # rocm-opencl-icd
     # rocm-runtime-ext
   ];
@@ -111,7 +119,7 @@ in
   # nixpkgs.config.allowBroken = true; 
   
   # Enable support for rocm
-  # nixpkgs.config.rocmSupport = true;
+  nixpkgs.config.rocmSupport = true;
 
   # nixpkgs.config.permittedInsecurePackages = [];
 
@@ -154,34 +162,34 @@ in
     });
   };
 
-  # services.syncthing = {
-  #   enable = true;
-  #   openDefaultPorts = true;
-  #   configDir = "/home/${username}/.config/syncthing";
-  #   user = "${username}";
-  #   group = "users";
-  #
-  #   cert = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/cert.pem";
-  #   key = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/key.pem";
-  #
-  #   overrideDevices = true; # overrides any devices added or deleted through the WebUI
-  #   overrideFolders = true; # overrides any folders added or deleted through the WebUI
-  #
-  #   settings = {
-  #     options = {
-  #       urAccepted = -1; # disable telemetry
-  #     };
-  #
-  #     devices = {
-  #       siren = secrets-syncthing.devices.siren;
-  #       steamdeck = secrets-syncthing.devices.steamdeck;
-  #     };
-  #
-  #     folders = secrets-syncthing.folders."${hostname}";
-  #   };
-  # };
-  #
-  # systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    configDir = "/home/${username}/.config/syncthing";
+    user = "${username}";
+    group = "users";
+
+    cert = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/cert.pem";
+    key = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/key.pem";
+
+    overrideDevices = true; # overrides any devices added or deleted through the WebUI
+    overrideFolders = true; # overrides any folders added or deleted through the WebUI
+
+    settings = {
+      options = {
+        urAccepted = -1; # disable telemetry
+      };
+
+      devices = {
+        siren = secrets-syncthing.devices.siren;
+        steamdeck = secrets-syncthing.devices.steamdeck;
+      };
+
+      folders = secrets-syncthing.folders."${hostname}";
+    };
+  };
+
+  systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 
 
   # Enable Docker
