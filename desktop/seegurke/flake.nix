@@ -17,7 +17,7 @@
 
   outputs = { self, nixpkgs, home-manager }:
   let
-    hostname = "nixe";
+    hostname = "seegurke";
     username = "jigglycrumb";
   in
   {

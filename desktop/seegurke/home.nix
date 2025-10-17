@@ -115,13 +115,15 @@ in
     nms # decrypting...
     nixfmt-rfc-style # formatter for nix code, used in VSCode
     nodejs
-    npm-check-updates # tool to check package.json for updates
+    npm-check-updates # tool to check package.json for npm-check-updates
+    nsxiv
     nyancat # nyan nyan nyan
     pamixer # terminal volume control
     pipes # terminal screensaver
     ponysay # like cowsay, but 20% cooler
     pywal16 # color schemes from images
     # pywalfox-native # style firefox with pywal
+    ripgrep
     # rtorrent # terminal torrent client
     screen
     scope-tui # terminal oscilloscope
@@ -167,42 +169,37 @@ in
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
+    ".cache/weather-location".text = ''
+      ${secrets.weather-location}
+    '';
+
+    ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml;
+    ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
+    ".config/fuzzel/scripts".source = ./dotfiles/config/fuzzel/scripts;
+    ".config/hypr".source = common + /dotfiles/config/hypr;
+    ".config/kitty/kitty.conf".source = common + /dotfiles/config/kitty/kitty.conf;
+    ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
+    ".config/swaync".source = common + /dotfiles/config/swaync;
+    ".config/Thunar/uca.xml".source = common + /dotfiles/config/Thunar/uca.xml;
     # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
 
-    ".cache/weather-location".text = ''
-      ${secrets.weather-location}
-    '';
-
-    ".config/atuin/config.toml".source = common + /dotfiles/config/atuin/config.toml; 
-    ".config/direnv/direnv.toml".source = common + /dotfiles/config/direnv/direnv.toml;
-    ".config/fuzzel/scripts".source = common + /dotfiles/config/fuzzel/scripts;
-    ".config/hypr".source = common + /dotfiles/config/hypr;
-    ".config/kitty".source = common + /dotfiles/config/kitty;
-    # ".config/niri".source = ./dotfiles/config/niri;
-    ".config/raffi".source = common + /dotfiles/config/raffi;
-    ".config/starship.toml".source = common + /dotfiles/config/starship.toml;
-    ".config/sunsetr".source = common + /dotfiles/config/sunsetr;
-    ".config/swaync".source = common + /dotfiles/config/swaync;
-    ".config/Thunar/uca.xml".source = common + /dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = common + /dotfiles/config/wal/templates;
-
-    ".config/waybar/config".source = ./dotfiles/config/waybar/config;
-    ".config/waybar/scripts".source = common + /dotfiles/config/waybar/scripts;
-    ".config/waybar/style.css".source = common + /dotfiles/config/waybar/style.css;
+    ".config/waybar".source = ./dotfiles/config/waybar;
 
     ".functions".source = common + /dotfiles/functions;
+    ".local/share/applications/appimage".source = ./dotfiles/local/share/applications/appimage;
+    ".local/share/applications/other".source = common + /dotfiles/local/share/applications/other;
+    ".rtorrent.rc".source = common + /dotfiles/rtorrent.rc;
     ".screenrc".source = common + /dotfiles/screenrc;
     ".scripts".source = common + /dotfiles/scripts;
     ".sounds".source = common + /dotfiles/sounds;
-
-    ".rtorrent.rc".source = common + /dotfiles/rtorrent.rc;
     ".wgetrc".source = common + /dotfiles/wgetrc;
 
-    ".local/share/applications/appimage".source = ./dotfiles/local/share/applications/appimage;
-    ".local/share/applications/other".source = common + /dotfiles/local/share/applications/other;
+    "Applications/pico-8/pico8.nix".source = common + /home/Applications/pico-8/pico8.nix;
+    "Applications/pico-8/run.sh".source = common + /home/Applications/pico-8/run.sh;
   };
 
   # You can also manage environment variables but you will have to manually
@@ -416,7 +413,7 @@ in
       }
     ];
 
-    initExtra = ''
+    initContent = ''
       autoload -U compinit && compinit
       autoload zmv
 

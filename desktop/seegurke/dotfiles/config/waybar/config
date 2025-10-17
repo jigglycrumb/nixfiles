@@ -18,56 +18,30 @@
 
     // module slots
     "modules-left": [
-      "hyprland/workspaces",
-      // "custom/launcher",
+      "niri/workspaces",
       "custom/kitty",
-      "custom/thunar",
+      "custom/nemo",
       "custom/brave",
-      "wlr/taskbar",
-      "hyprland/window"
-    ],
-
-    "modules-center": [
-      "clock"
+      "niri/window"
     ],
 
     "modules-right": [
-      // "backlight",
-      // "network",
+      "network",
       "cpu",
-      // "memory",
-      // "disk",
-      "battery",
-      "pulseaudio",
-      // "custom/weather",
-      // "custom/discordian-date",
-      // "custom/moon-phase",
-      // "custom/bitcoin",
-      // "bluetooth",
+      "memory",
+      "custom/weather",
       "tray",
-      // "custom/clipboard",
       "privacy",
-      // "idle_inhibitor",
+      "idle_inhibitor",
       "custom/microphone",
       "custom/screen-recording",
-      // "custom/vpn",
-      // "custom/keyboard",
-      "custom/notification",
-      "custom/wlogout"
+      "pulseaudio",
+      "battery",
+      "clock",
+      "custom/notification"
     ],
 
     // module settings
-    "backlight": {
-      "format": " {percent}%",
-      "tooltip-format": "Screen brightness: {percent}%"
-    },
-
-    "backlight/slider": {
-      "min": 0,
-      "max": 100,
-      "orientation": "horizontal"
-    },
-
     "battery": {
       "format": "{icon} {capacity}%",
       "format-icons": [
@@ -126,33 +100,10 @@
       "max-length": 10
     },
 
-    "custom/bitcoin": {
-      "format": "{}",
-      "tooltip": true,
-      "interval": 60,
-      "exec": "~/.config/waybar/scripts/bitcoin.js",
-      "on-click": "~/.config/waybar/scripts/bitcoin.js",
-      "return-type": "json"
-    },
-
     "custom/brave": {
       "format": "",
       "tooltip": false,
-      "on-click": "brave"
-    },
-
-    "custom/clipboard": {
-      "format": "",
-      "tooltip": false,
-      "on-click": "cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-    },
-
-    "custom/discordian-date": {
-      "format": "{}",
-      "tooltip": true,
-      "interval": 3600,
-      "exec": "~/.config/waybar/scripts/discordian-date.js",
-      "return-type": "json"
+      "on-click": "niri msg action spawn -- brave"
     },
 
     "custom/keyboard": {
@@ -167,15 +118,8 @@
     "custom/kitty": {
       "format": "",
       "tooltip": false,
-      "on-click": "kitty"
+      "on-click": "niri msg action spawn -- kitty"
     },
-
-    "custom/launcher": {
-      "format": "",
-      "tooltip": false,
-      "on-click": "nwggrid -client -layer-shell-exclusive-zone -1"
-    },
-
 
     "custom/microphone": {
       "format": "{}",
@@ -185,25 +129,17 @@
       "return-type": "json"
     },
 
+    "custom/nemo": {
+      "format": "",
+      "tooltip": false,
+      "on-click": "niri msg action spawn -- nemo"
+    },
+
     "custom/screen-recording": {
       "format": "{}",
       "tooltip": true,
       "interval": 1,
       "exec": "~/.config/waybar/scripts/screen-recording.sh",
-      "return-type": "json"
-    },
-
-    "custom/thunar": {
-      "format": "",
-      "tooltip": false,
-      "on-click": "thunar"
-    },
-
-    "custom/moon-phase": {
-      "format": "{}",
-      "tooltip": true,
-      "interval": 3600,
-      "exec": "~/.config/waybar/scripts/moon-phase.js",
       "return-type": "json"
     },
 
@@ -227,28 +163,12 @@
       "escape": true
     },
 
-    "custom/vpn":{
-      "format": "{icon}",
-      "exec": "~/.config/waybar/scripts/vpn-status.sh",
-      "return-type": "json",
-      "interval": 1,
-      "tooltip": true,
-      "on-click": "~/.config/waybar/scripts/vpn-status.sh --toggle",
-      "format-icons": ["🔓", "🔒"]
-    },
-
     "custom/weather": {
       "format": "{}",
       "tooltip": true,
       "interval": 3600,
       "exec": "~/.config/waybar/scripts/weather.py",
       "return-type": "json"
-    },
-
-    "custom/wlogout": {
-      "format": "",
-      "on-click": "~/.config/wlogout/wlogout.sh",
-      "tooltip": false
     },
 
     "disk": {
@@ -258,8 +178,12 @@
       "tooltip-format": "Disk space\n{path}\t using {used} of {total} ({percentage_used}%)"
     },
 
-    "hyprland/workspaces": {
-      "sort-by-number": true
+    "idle_inhibitor": {
+      "format": "{icon}",
+      "format-icons": {
+          "activated": "",
+          "deactivated": ""
+      }
     },
 
     "memory": {
@@ -270,18 +194,28 @@
     },
 
     "network": {
-      "interface": "wlp2s0",
+      "interface": "wlp8s0",
       "interval": 5,
       "format": "{ifname}",
       // "format-wifi": " {signalStrength}%   {bandwidthUpBytes}   {bandwidthDownBytes}",
       "format-wifi": " {bandwidthUpBytes}   {bandwidthDownBytes}",
-      "format-ethernet": "󰊗 {ipaddr}/{cidr}",
+      "format-ethernet": " {bandwidthUpBytes}   {bandwidthDownBytes}",
+      // "format-ethernet": "󰊗 {ipaddr}/{cidr}",
       "format-disconnected": "no network, GFY",
       "tooltip-format": "󰊗 {ifname} via {gwaddr}",
       "tooltip-format-wifi": " {essid} ({signalStrength}%) - {ipaddr}",
-      "tooltip-format-ethernet": " {ifname}",
+      "tooltip-format-ethernet": " {ifname} - {ipaddr}",
       "tooltip-format-disconnected": "Disconnected",
       "max-length": 50
+    },
+
+    "niri/window": {
+      "format": "{title}",
+      "separate-outputs": true,
+    },
+
+    "niri/workspaces": {
+      "format": "{index}",
     },
 
     "privacy": {
@@ -334,58 +268,5 @@
       "spacing": 16,
       "show-passive-items": true
     },
-
-    "wlr/taskbar": {
-      "format": "{icon}",
-      "icon-size": 20,
-      "tooltip-format": "{title}",
-      "on-click": "activate",
-      "on-click-middle": "close",
-      "all-outputs": true,
-      "sort-by-app-id": true
-      // "ignore-list": [
-      //   "Alacritty"
-      // ],
-      // "app_ids-mapping": {
-      //   "firefoxdeveloperedition": "firefox-developer-edition"
-      // },
-      // "rewrite": {
-      //   "Firefox Web Browser": "Firefox",
-      //   "Foot Server": "Terminal"
-      // }
-    }
   }
-
-  /*
-  // ----- BOTTOM BAR -------
-  {
-    // general config
-    "name": "bottom",
-    "layer": "top",
-    "position": "bottom",
-    "margin-top": 0,
-    "margin-right": 8,
-    "margin-left": 8,
-    "margin-bottom": 8,
-    "spacing": 4,
-
-    "modules-left": [
-      // "custom/launcher",
-      // "custom/kitty",
-      // "custom/thunar",
-      // "custom/brave",
-      // "hyprland/window"
-      "hyprland/workspaces"
-    ],
-
-    // "modules-center": [
-    //   "clock"
-    // ],
-
-    "modules-right": [
-      "clock",
-      "wlr/taskbar"
-    ]
-  }
-  */
 ]
