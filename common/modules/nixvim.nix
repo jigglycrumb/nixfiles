@@ -1,10 +1,11 @@
-{ username }:
 {
   config,
   lib,
   pkgs,
+  username,
   ...
 }:
+
 let
 
   enable =

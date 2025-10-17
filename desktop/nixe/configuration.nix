@@ -12,14 +12,6 @@
 }:
 
 let
-
-  nixvim = import (
-    builtins.fetchGit {
-      url = "https://github.com/nix-community/nixvim";
-      # When using a different channel you can use `ref = "nixos-<version>"` to set it here
-    }
-  );
-
   # Import secrets
   #
   # !!! WARNING !!!
@@ -29,14 +21,8 @@ let
   secrets-nas = import ./secret/nas.nix;
   secrets-syncthing = import ../../common/secret/syncthing.nix;
   secrets-wireguard = import ../../common/secret/wireguard.nix;
-
 in
 {
-  imports = [
-    nixvim.nixosModules.nixvim
-    (import ../../common/modules/nixvim.nix { inherit username; })
-  ];
-
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 50; # limit boot loader to the last 50 generations
@@ -162,32 +148,32 @@ in
     });
   };
 
-  services.syncthing = {
-    enable = true;
-    openDefaultPorts = true;
-    configDir = "/home/${username}/.config/syncthing";
-    user = "${username}";
-    group = "users";
-
-    cert = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/cert.pem";
-    key = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/key.pem";
-
-    overrideDevices = true; # overrides any devices added or deleted through the WebUI
-    overrideFolders = true; # overrides any folders added or deleted through the WebUI
-
-    settings = {
-      options = {
-        urAccepted = -1; # disable telemetry
-      };
-
-      devices = {
-        siren = secrets-syncthing.devices.siren;
-        steamdeck = secrets-syncthing.devices.steamdeck;
-      };
-
-      folders = secrets-syncthing.folders."${hostname}";
-    };
-  };
+  # services.syncthing = {
+  #   enable = true;
+  #   openDefaultPorts = true;
+  #   configDir = "/home/${username}/.config/syncthing";
+  #   user = "${username}";
+  #   group = "users";
+  #
+  #   cert = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/cert.pem";
+  #   key = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/key.pem";
+  #
+  #   overrideDevices = true; # overrides any devices added or deleted through the WebUI
+  #   overrideFolders = true; # overrides any folders added or deleted through the WebUI
+  #
+  #   settings = {
+  #     options = {
+  #       urAccepted = -1; # disable telemetry
+  #     };
+  #
+  #     devices = {
+  #       siren = secrets-syncthing.devices.siren;
+  #       steamdeck = secrets-syncthing.devices.steamdeck;
+  #     };
+  #
+  #     folders = secrets-syncthing.folders."${hostname}";
+  #   };
+  # };
 
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 

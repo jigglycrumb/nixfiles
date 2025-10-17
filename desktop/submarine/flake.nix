@@ -13,9 +13,14 @@
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager }:
+  outputs = { self, nixpkgs, home-manager, nixvim }:
   let
     hostname = "submarine";
     username = "jigglycrumb";
@@ -45,6 +50,9 @@
               inherit username;
             };
           }
+
+          nixvim.nixosModules.nixvim
+          (import ../../common/modules/nixvim.nix)
         ];
         specialArgs = {
           inherit hostname;

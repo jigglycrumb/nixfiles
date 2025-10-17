@@ -10,20 +10,7 @@
   ...
 }:
 
-let
-  nixvim = import (
-    builtins.fetchGit {
-      url = "https://github.com/nix-community/nixvim";
-      # When using a different channel you can use `ref = "nixos-<version>"` to set it here
-    }
-  );
-in
 {
-  imports = [
-    nixvim.nixosModules.nixvim
-    (import ../../common/modules/nixvim.nix { inherit username; })
-  ];
-
   # Bootloader
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
