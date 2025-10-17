@@ -73,9 +73,6 @@ in
   # enable ledger udev rules
   hardware.ledger.enable = true;
 
-  # Add OpenVPN plugin to network manager
-  # networking.networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
-
   networking.firewall = {
     allowedTCPPorts = [
       50000 # rtorrent
