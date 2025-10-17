@@ -82,8 +82,8 @@ in
     clolcat # 🌈
     cmatrix # there is no spoon
     cowsay # moo
-    delta # git diffs done right
     ddate # discordian date
+    delta # git diffs done right
     dysk # shows info for mounted drives - a better 'df'
     fd # a better find
     file # identify file types
@@ -162,6 +162,9 @@ in
     enable = true;
     nix-direnv.enable = true;
   };
+
+  # Enable pay-respects (type 'f' to correct the last shell command)
+  programs.pay-respects.enable = true;
 
   # Configure git
   programs.git = {

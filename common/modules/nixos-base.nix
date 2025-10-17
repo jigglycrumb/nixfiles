@@ -256,12 +256,12 @@ in
     cifs-utils # mount samba shares
     cliphist # clipboard history
     exfat # tools for ExFAT formatted disks
-    isd # TUI for systemd services
     fuzzel # wayland app launcher
     git
     git-crypt # transparent file encryption for git
     gparted # drive partition manager
     home-manager # manage user configurations
+    isd # TUI for systemd services
     kitty # terminal
     libnotify # notification basics, includes notify-send
     nautilus # GNOME file manager, needed for niri file picker portal
