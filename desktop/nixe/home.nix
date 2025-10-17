@@ -46,7 +46,6 @@ in
     asciicam # webcam in the terminal
     astroterm # watch the sky from your terminal
     atac # a terminal api client (like postman)
-    bluetui # terminal bluetooth manager
     bluetuith # terminal bluetooth manager
     browsh # terminal web browser
     caligula # burn/flash images to SD cards from the terminal

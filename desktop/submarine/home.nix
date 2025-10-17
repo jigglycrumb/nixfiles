@@ -37,7 +37,6 @@
     atac # a terminal api client (like postman)
     aws-sso-cli # work related
     awscli2 # work related
-    bluetui # terminal bluetooth manager
     bluetuith # terminal bluetooth manager
     browsh # terminal web browser
     castero # terminal podcast client
