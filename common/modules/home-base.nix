@@ -87,6 +87,7 @@ in
     dysk # shows info for mounted drives - a better 'df'
     fd # a better find
     file # identify file types
+    font-awesome # icons for waybar (does not work in environment.systemPackages)
     fortune # mmh cookies
     fzf # fuzzy finder (zoxide)
     htop # process monitor
@@ -99,6 +100,7 @@ in
     ncdu # show disk usage
     neofetch # I use nix btw
     nix-tree # browse the dependency graph of nix configs
+    nodejs
     pamixer # terminal volume control
     pipes # terminal screensaver
     pywal16 # color schemes from images

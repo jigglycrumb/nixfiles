@@ -65,7 +65,6 @@ in
     eza # ls replacement
     fast-ssh # ssh connection manager
     fluidsynth # software synthesizer
-    font-awesome # icons for waybar (does not work in environment.systemPackages)
     frotz # infocom game interpreter
     gh # github cli
     gifgen # jen jifs from video files
@@ -89,7 +88,6 @@ in
     # musikcube # cli music player
     nms # decrypting...
     nixfmt-rfc-style # formatter for nix code, used in VSCode
-    nodejs
     npm-check-updates # tool to check package.json for updates
     nsxiv # new suckless X image viewer
     nyancat # nyan nyan nyan

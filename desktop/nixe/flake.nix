@@ -15,11 +15,17 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager }: {
+  outputs = { self, nixpkgs, home-manager }:
+  let
+    hostname = "nixe";
+    username = "jigglycrumb";
+  in
+  {
     nixosConfigurations = {
       nixe = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          ../../common/modules/nixos-base.nix
           ./configuration.nix
           ./hardware-configuration.nix
 
@@ -36,6 +42,10 @@
             # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
           }
         ];
+        specialArgs = {
+          inherit hostname;
+          inherit username;
+        };
       };
     };
   };

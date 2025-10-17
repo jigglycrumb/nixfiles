@@ -6,6 +6,8 @@
   config,
   lib,
   pkgs,
+  hostname,
+  username,
   ...
 }:
 
@@ -23,15 +25,7 @@ let
   # !!! WARNING !!!
   # This approach is far from ideal since the secrets will end up in the locally readable /nix/store
   # It is however, an easy way for keeping the secrets out of the repo until I've learned enough nix to implement a better solution
-  # The secrets.nix file is just a simple set lik e this:
-  #
-  # {
-  #   github-token = "<insert token here>";
-  # }
 
-  hostname = "nixe";
-  username = "jigglycrumb";
-  locale = "en_US.UTF-8";
   secrets-nas = import ./secret/nas.nix;
   secrets-syncthing = import ../../common/secret/syncthing.nix;
   secrets-wireguard = import ../../common/secret/wireguard.nix;
@@ -39,16 +33,10 @@ let
 in
 {
   imports = [
-    # Include the results of the hardware scan.
-    # /etc/nixos/hardware-configuration.nix
     nixvim.nixosModules.nixvim
     (import ../../common/modules/nixvim.nix { inherit username; })
   ];
 
-  # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 50; # limit boot loader to the last 50 generations
-  boot.loader.efi.canTouchEfiVariables = true;
 
   # boot.extraModulePackages = [
   #   config.boot.kernelPackages.exfat-nofuse # enable ExFAT support
@@ -60,11 +48,6 @@ in
     # "xpad"
   ];
 
-  # Enable bluetooth
-  hardware.bluetooth.enable = true;
-
-  # Enable Vulkan
-  hardware.graphics.enable = true;
   # For 32 bit applications
   hardware.graphics.enable32Bit = true;
 
@@ -87,11 +70,7 @@ in
   # enable ledger udev rules
   hardware.ledger.enable = true;
 
-  networking.hostName = "${hostname}"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Enable networking
-  networking.networkmanager.enable = true;
+  # Add OpenVPN plugin to network manager
   networking.networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
 
   networking.firewall = {
@@ -129,36 +108,6 @@ in
 
   # networking.firewall.trustedInterfaces = [ "virbr0" ];
 
-  # Set your time zone.
-  time.timeZone = "Europe/Berlin";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "${locale}";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "${locale}";
-    LC_IDENTIFICATION = "${locale}";
-    LC_MEASUREMENT = "${locale}";
-    LC_MONETARY = "${locale}";
-    LC_NAME = "${locale}";
-    LC_NUMERIC = "${locale}";
-    LC_PAPER = "${locale}";
-    LC_TELEPHONE = "${locale}";
-    LC_TIME = "${locale}";
-  };
-
-  # Configure console keymap
-  console.keyMap = "us";
-
-  # Enable flakes
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # Allow broken packages
   # nixpkgs.config.allowBroken = true; 
   
@@ -166,97 +115,6 @@ in
   # nixpkgs.config.rocmSupport = true;
 
   # nixpkgs.config.permittedInsecurePackages = [];
-
-  # Enable automatic discovery of remote drives
-  services.gvfs.enable = true;
-
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = ''
-          ${pkgs.tuigreet}/bin/tuigreet \
-          --time \
-          --asterisks \
-          --user-menu
-        '';
-        user = "${username}";
-      };
-    };
-  };
-
-  services.below.enable = true;
-
-  systemd.services.greetd = {
-    serviceConfig = {
-      Type = "idle";
-      StandardInput = "tty";
-      StandardOuput = "tty";
-      StandardError = "journal";
-      TTYReset = true;
-      TTYHangup = true;
-      TTYVTDisallocate = true;
-    };
-  };
-
-  services.desktopManager.gnome.extraGSettingsOverrides = ''
-    [org.gnome.desktop.interface]
-    gtk-theme='Arc-Dark'
-  '';
-
-  services.openssh.enable = true;
-
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    ELECTRON_OZONE_PLATFORM_HINT = "wayland"; 
-    # XDG_DESKTOP_PORTAL = "xdg-desktop-portal-xapp";
-    XDG_CURRENT_DESKTOP = "niri";
-    XDG_SESSION_DESKTOP = "niri";
-    XDG_SESSION_TYPE = "wayland";
-    CLUTTER_BACKEND = "wayland";
-    # SDL_VIDEODRIVER = "x11";
-    MOZ_ENABLE_WAYLAND = "1";
-    QT_QPA_PLATFORM = "wayland";
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-    # DISPLAY = ":0";
-  };
-
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    # xdgOpenUsePortal = true;
-    extraPortals = [
-      # pkgs.xdg-desktop-portal-xapp
-      pkgs.xdg-desktop-portal-gnome
-      pkgs.xdg-desktop-portal-gtk
-      # pkgs.xdg-desktop-portal-hyprland
-    ];
-    # config = {
-      # niri = {
-      #   "org.freedesktop.impl.portal.FileChooser" = "gtk";
-      # };
-      # niri = {
-      #   default = [
-      #     "wlr"
-      #     "gtk"
-      #   ];
-      #   "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
-      #   "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-      #   "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-      #};
-      # gnome = {
-      #   default = [
-      #     "gnome"
-      #     "gtk"
-      #   ];
-      #   "org.freedesktop.impl.portal.Secret" = [
-      #     "gnome-keyring"
-      #   ];
-      #   "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-      # };  
-    #};
-  };
 
   fileSystems."/home/${username}/Remote/NAS" = {
     device = "//siren/nas";
@@ -271,19 +129,6 @@ in
 
   # Enable OpenSnitch application firewall
   # services.opensnitch.enable = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # enable Blueman to manage bluetooth devices
-  services.blueman.enable = true;
-
-  # Automatically discover network printers
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
 
   # Enable ollama to run LLMs
   services.ollama = {
@@ -336,45 +181,9 @@ in
   #     folders = secrets-syncthing.folders."${hostname}";
   #   };
   # };
-
+  #
   # systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
-
-  # Enable ZSH
-  programs.zsh = {
-    enable = true;
-    autosuggestions.enable = true;
-    setOptions = [ "RM_STAR_WAIT" ];
-    syntaxHighlighting = {
-      enable = true;
-      highlighters = [
-        "main"
-        "brackets"
-        "pattern"
-        "cursor"
-      ];
-      patterns = {
-        "rm -rf *" = "fg=white,bold,bg=red";
-      };
-    };
-    histSize = 10000;
-  };
-
-  environment.pathsToLink = [
-    "/libexec"
-    "/share/zsh"
-  ];
-  environment.shells = with pkgs; [ zsh ];
 
   # Enable Docker
   virtualisation.docker.enable = true;
@@ -410,23 +219,15 @@ in
 
   programs.gamemode.enable = true;
 
-  programs.thunar = {
-    enable = true;
-    plugins = with pkgs.xfce; [
-      tumbler # thumbnail previews
-      thunar-volman # removable device management
-      thunar-archive-plugin # archive creation and extraction
-      thunar-media-tags-plugin # view/edit ID3/OGG tags
-    ];
-  };
-
-  security.polkit.enable = true;
-
-  security.pam.services.gdm.enableGnomeKeyring = true;
-  services.gnome.gnome-keyring.enable = true;
-
-  # Enable Gnome disk manager
-  programs.gnome-disks.enable = true;
+  # programs.thunar = {
+  #   enable = true;
+  #   plugins = with pkgs.xfce; [
+  #     tumbler # thumbnail previews
+  #     thunar-volman # removable device management
+  #     thunar-archive-plugin # archive creation and extraction
+  #     thunar-media-tags-plugin # view/edit ID3/OGG tags
+  #   ];
+  # };
 
   users.groups = {
     plugdev = { };
@@ -434,16 +235,11 @@ in
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
-    isNormalUser = true;
-    description = "${username}";
     extraGroups = [
       "docker"
       "libvirtd"
-      "networkmanager"
       "plugdev"
-      "wheel" # enables sudo
     ];
-    shell = pkgs.zsh;
     packages = with pkgs; [
       _86Box-with-roms
       # affine # workspace / knowledge space
@@ -455,7 +251,6 @@ in
       audacity # audio recorder/editor
       blanket # ambient sounds
       blender # 3D modeling
-      brave # web browser
       # bruno # API client/tester/explorer
       # celestia # spaaaaaaaaaaace
       cheese # webcam fun
@@ -469,7 +264,6 @@ in
       devilutionx # Diablo
       digikam # photo manager
       # discord # (voice)chat
-      door-knocker # check availability of portals
       dosbox-staging # emulates DOS software
       # drawing # basic image editor, similar to MS Paint
       easyeffects # effects for pipewire apps
@@ -505,8 +299,6 @@ in
       mediathekview # downloader for German public broadcasts
       meshlab # edit 3D model files
       milkytracker # music tracker
-      nemo-with-extensions # file manager
-      networkmanagerapplet # tray app for network management
       nwg-look # GUI to theme GTK apps
       # obsidian # personal knowledge base
       oculante # fast image viewer
@@ -518,20 +310,15 @@ in
       # openxcom # xcom source port
       overskride # bluetooth management GUI
       pablodraw # ANSI/ASCII art drawing
-      pavucontrol # GUI volume conrol
-      peazip # archive utility
       pika-backup # a backup thing
       plasticity # CAD modeler
       prismlauncher # Minecraft launcher
       protonup-qt # GUI to manage Steam compatibility tools
       qsynth # small gui for fluidsynth
-      qutebrowser # keyboard focused web browser
       # retroarch # multi system emulator
       # rhythmbox # music player like old school itunes
       # rosegarden
       scummvm # emulates old adventure games
-      seahorse # keyring manager
-      signal-desktop # messenger
       simple-scan # scan documents
       # slack # chat thing
       # simplex-chat-desktop # messenger
@@ -543,7 +330,6 @@ in
       # ungoogled-chromium # chrome without google
       ut1999 # Unreal Tournament
       virt-viewer # VM management GUI
-      vlc # media player
       # wargus # Warcraft 2 port
       # wtype # fake keypresses in wayland (bookmarks mgmt)
       yoshimi # software synthesizer
@@ -551,39 +337,13 @@ in
     ];
   };
 
-  # Enable flatpak support
-  services.flatpak.enable = true;
-
-  # Enable AppImages to run directly
-  programs.appimage.binfmt = true;
-
   # services.hypridle.enable = true; # enable hyprland idle daemon
   programs.hyprlock.enable = true; # enable hyprland screen lock
-
-  programs.niri.enable = true; # a scrolling window manager
 
   # File previews for nautilus
   services.gnome.sushi.enable = true;
 
   programs.wshowkeys.enable = true; # show keypresses on screen
-
-  security.soteria.enable = true;
-
-  # better ttys
-  services.kmscon = {
-    enable = true;
-    hwRender = true;
-    fonts = [
-      {
-        name = "Hack";
-        package = pkgs.hack-font;
-      }
-    ];
-    extraConfig = ''
-      font-size=18
-      xkb-layout=us
-    '';
-  };
 
   # Enable keyd to remap keyboard keys
   services.keyd = {
@@ -603,7 +363,6 @@ in
         # };
       };
     };
-
   };
 
   # alternative
@@ -617,67 +376,23 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     abduco # detachable terminal sessions
-    appimage-run # runs appimage apps
-    brightnessctl # control screen brightness
-    cifs-utils # mount samba shares
     clinfo # shows info about OpenCL (GPU things) - TODO I don't recall why this is here, check if it's still needed and remove
-    cliphist # clipboard history
-    exfat # tools for ExFAT formatted disks
     exiftool # read & write exif data - integrates with digikam
-    fuzzel # wayland app launcher
-    git
-    git-crypt # transparent file encryption for git
-    gparted # drive partition manager
-    home-manager # manage user configurations
-    hyprcursor # xcursor replacement
+    # hyprcursor # xcursor replacement
     hyprpicker # pick colors from the screen
-    isd # TUI for systemd services
-    kitty # terminal
-    libnotify # notification basics, includes notify-send
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
-    nautilus # GNOME file manager, needed for niri file picker portal
     # nix-output-monitor # nom nom nom
     # nvd # nix version diff
     pass-wayland # local password manager
     powertop # power monitor
-    pulseaudio # pactl
-
-    (python3.withPackages (
-      ps: with ps; [
-        requests # needed for waybar weather script
-      ]
-    ))
-
     radeontop
-    raffi
     rocmPackages.rocminfo
-    samba # de janeiro! *da da da da, dadada, dada*
     slurp # select region on screen (used in screen recording script)
     spice # VM stuff
     spice-gtk # VM stuff
     spice-protocol # VM stuff
-    sunsetr # blue light filter for wayland
-    swayimg # image viewer
-    swaynotificationcenter # wayland notifications
-    swww # wayland background image daemon
     system-config-printer # printer configuration UI
-    usbutils # provides lsusb
     virtiofsd # enables shared folders between host and VM - add <binary path="/run/current-system/sw/bin/virtiofsd"/> to filesystem XML if virtiofsd can't be found
-    wf-recorder # screen recording
-    wl-clipboard # wayland clipboard management
-    waybar # wayland menu bar
-    xwayland-satellite # runs X apps on wayland
-  ];
-
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
-
-  fonts.packages = with pkgs; [
-    hack-font
-    victor-mono
   ];
 
   # Automatically upgrade the system
@@ -732,5 +447,5 @@ in
   '';
 
   # AMD GPU HIP fix
-  systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
+  # systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
 }
