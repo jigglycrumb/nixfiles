@@ -2,11 +2,11 @@
   config,
   pkgs,
   # inputs,
+  username,
   ...
 }:
 
 let
-  username = "jigglycrumb";
   common = ../../common;
 in
 {

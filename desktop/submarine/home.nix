@@ -2,12 +2,10 @@
   config,
   pkgs,
   # inputs,
+  username,
   ...
 }:
 
-let
-  username = "jigglycrumb";
-in
 {
   imports = [
     ../../common/modules/home-base.nix

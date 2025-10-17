@@ -41,6 +41,9 @@
             home-manager.users.jigglycrumb = import ./home.nix;
 
             # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+            home-manager.extraSpecialArgs = {
+              inherit username;
+            };
           }
         ];
         specialArgs = {

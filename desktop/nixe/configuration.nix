@@ -37,6 +37,10 @@ in
     (import ../../common/modules/nixvim.nix { inherit username; })
   ];
 
+  # Bootloader
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 50; # limit boot loader to the last 50 generations
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # boot.extraModulePackages = [
   #   config.boot.kernelPackages.exfat-nofuse # enable ExFAT support
@@ -44,8 +48,7 @@ in
 
   boot.initrd.kernelModules = [
     "amdgpu" # AMD graphics driver
-    "sg" # generic SCSI for external DVD/BluRay drive support
-    # "xpad"
+    # "xpad" # Gamepad support
   ];
 
   # For 32 bit applications
@@ -71,10 +74,9 @@ in
   hardware.ledger.enable = true;
 
   # Add OpenVPN plugin to network manager
-  networking.networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
+  # networking.networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
 
   networking.firewall = {
-    enable = true;
     allowedTCPPorts = [
       50000 # rtorrent
     ];
@@ -378,8 +380,6 @@ in
     abduco # detachable terminal sessions
     clinfo # shows info about OpenCL (GPU things) - TODO I don't recall why this is here, check if it's still needed and remove
     exiftool # read & write exif data - integrates with digikam
-    # hyprcursor # xcursor replacement
-    hyprpicker # pick colors from the screen
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
     # nix-output-monitor # nom nom nom
     # nvd # nix version diff

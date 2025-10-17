@@ -6,53 +6,34 @@
   config,
   lib,
   pkgs,
+  username,
   ...
 }:
 
 let
-
   nixvim = import (
     builtins.fetchGit {
       url = "https://github.com/nix-community/nixvim";
       # When using a different channel you can use `ref = "nixos-<version>"` to set it here
     }
   );
-
-  # Import secrets
-  #
-  # !!! WARNING !!!
-  # This approach is far from ideal since the secrets will end up in the locally readable /nix/store
-  # It is however, an easy way for keeping the secrets out of the repo until I've learned enough nix to implement a better solution
-  # The secrets.nix file is just a simple set lik e this:
-  #
-  # {
-  #   github-token = "<insert token here>";
-  # }
-
-  username = "jigglycrumb";
 in
 {
   imports = [
-    # Include the results of the hardware scan.
-    # /etc/nixos/hardware-configuration.nix
     nixvim.nixosModules.nixvim
     (import ../../common/modules/nixvim.nix { inherit username; })
   ];
+
+  # Bootloader
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 50; # limit boot loader to the last 50 generations
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # boot.extraModulePackages = [
   #   config.boot.kernelPackages.exfat-nofuse # enable ExFAT support
   # ];
 
-  boot.initrd.kernelModules = [
-    "sg" # generic SCSI for external DVD/BluRay drive support
-  ];
-
-
-  # Enable networking
-  networking.networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
-
   networking.firewall = {
-    enable = true;
     allowedTCPPorts = [
     ];
     allowedUDPPorts = [
@@ -163,12 +144,9 @@ in
     abduco # detachable terminal sessions
     clinfo # shows info about OpenCL (GPU things) - TODO I don't recall why this is here, check if it's still needed and remove
     exfat # tools for ExFAT formatted disks
-    exiftool # read & write exif data - integrates with digikam
-    hyprpicker # pick colors from the screen
     pass-wayland # local password manager
     powertop # power monitor
     slurp # select region on screen (used in screen recording script)
-    swayimg # image viewer
     system-config-printer # printer configuration UI
     virtiofsd # enables shared folders between host and VM - add <binary path="/run/current-system/sw/bin/virtiofsd"/> to filesystem XML if virtiofsd can't be found
   ];

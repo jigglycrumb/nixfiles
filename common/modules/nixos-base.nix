@@ -12,11 +12,10 @@ let
   timezone = "Europe/Berlin";
 in
 {
- 
-  # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 50; # limit boot loader to the last 50 generations
-  boot.loader.efi.canTouchEfiVariables = true;
+  #  Load kernel modules
+  boot.initrd.kernelModules = [
+    "sg" # SCSI generic for external DVD/BluRay drive support
+  ];
 
   # Set hostname
   networking.hostName = hostname;
@@ -154,6 +153,9 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Enable firewall
+  networking.firewall.enable = true;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -261,6 +263,7 @@ in
     git-crypt # transparent file encryption for git
     gparted # drive partition manager
     home-manager # manage user configurations
+    hyprpicker # pick colors from the screen
     isd # TUI for systemd services
     kitty # terminal
     libnotify # notification basics, includes notify-send
@@ -274,6 +277,7 @@ in
     raffi
     samba # de janeiro! *da da da da, dadada, dada*
     sunsetr # blue light filter for wayland
+    swayimg # image viewer
     swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     usbutils # provides lsusb
