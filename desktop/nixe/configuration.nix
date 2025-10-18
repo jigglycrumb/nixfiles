@@ -148,32 +148,32 @@ in
     });
   };
 
-  # services.syncthing = {
-  #   enable = true;
-  #   openDefaultPorts = true;
-  #   configDir = "/home/${username}/.config/syncthing";
-  #   user = "${username}";
-  #   group = "users";
-  #
-  #   cert = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/cert.pem";
-  #   key = "/home/${username}/nixfiles/machines/${hostname}/nixos/secret/syncthing/key.pem";
-  #
-  #   overrideDevices = true; # overrides any devices added or deleted through the WebUI
-  #   overrideFolders = true; # overrides any folders added or deleted through the WebUI
-  #
-  #   settings = {
-  #     options = {
-  #       urAccepted = -1; # disable telemetry
-  #     };
-  #
-  #     devices = {
-  #       siren = secrets-syncthing.devices.siren;
-  #       steamdeck = secrets-syncthing.devices.steamdeck;
-  #     };
-  #
-  #     folders = secrets-syncthing.folders."${hostname}";
-  #   };
-  # };
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    configDir = "/home/${username}/.config/syncthing";
+    user = "${username}";
+    group = "users";
+
+    cert = "/home/${username}/nixfiles/desktop/${hostname}/secret/syncthing/cert.pem";
+    key = "/home/${username}/nixfiles/desktop/${hostname}/secret/syncthing/key.pem";
+
+    overrideDevices = true; # overrides any devices added or deleted through the WebUI
+    overrideFolders = true; # overrides any folders added or deleted through the WebUI
+
+    settings = {
+      options = {
+        urAccepted = -1; # disable telemetry
+      };
+
+      devices = {
+        siren = secrets-syncthing.devices.siren;
+        steamdeck = secrets-syncthing.devices.steamdeck;
+      };
+
+      folders = secrets-syncthing.folders."${hostname}";
+    };
+  };
 
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 
