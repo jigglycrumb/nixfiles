@@ -138,7 +138,7 @@ in
       ANONYMIZED_TELEMETRY = "False";
       DO_NOT_TRACK = "True";
       SCARF_NO_ANALYTICS = "True";
-      # WEBUI_AUTH = "False";
+      WEBUI_AUTH = "False";
     };
     # Temporary fix
     package = pkgs.open-webui.overridePythonAttrs (old: {
