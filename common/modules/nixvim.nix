@@ -184,12 +184,25 @@ in
     '';
 
     keymaps = [
+      # toggle file tree - ALT + b
+      {
+        key = "<A-b>";
+        action = "<CMD>Neotree toggle<CR>";
+        options.desc = "Toggle file tree";
+      }
+      
+      # toggle code minimap - ALT + m
+      {
+        key = "<A-m>";
+        action = "<CMD>Neominimap toggle<CR>";
+        options.desc = "Toggle minimap";
+      }
 
       # session switcher - ALT + s
       {
         key = "<A-s>";
         action = "<CMD>Telescope session-lens search_session<CR>";
-        options.desc = "Jump to file";
+        options.desc = "Switch session";
       }
 
       # fuzzy file picker - ALT + f
@@ -408,7 +421,7 @@ in
           mapping = {
             "<C-Space>" = "cmp.mapping.complete()";
             # "<C-d>" = "cmp.mapping.scroll_docs(-4)";
-            # "<C-e>" = "cmp.mapping.close()";
+            "<C-e>" = "cmp.mapping.close()";
             # "<C-f>" = "cmp.mapping.scroll_docs(4)";
             "<CR>" = "cmp.mapping.confirm({ select = true })";
             "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
@@ -638,11 +651,6 @@ in
             draw.delay = 0;
             symbol = "|";
           };
-
-          # code minimap
-          # map = {
-          #   window.winblend = 50; # minimap transparency - 0 = opaque, 100 = transparent
-          # };
 
           # move multi-line selection
           move = {
