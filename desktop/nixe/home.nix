@@ -56,6 +56,7 @@ in
     crawl # roguelike
     daktilo # typewriter sounds for the keyboard
     devd # on-demand webserver
+    # dig # look up DNS things
     distrobox # run other distros in containers
     distrobox-tui # tui for distrobox
     doge # much wow
@@ -85,6 +86,7 @@ in
     mprocs # run multiple processes at the same time
     mpv # video player
     # musikcube # cli music player
+    navi # cheat sheets at your fingertips
     nms # decrypting...
     nixfmt-rfc-style # formatter for nix code, used in VSCode
     npm-check-updates # tool to check package.json for updates
