@@ -112,6 +112,7 @@ in
   # Configure desktop portals
   xdg.portal = {
     enable = true;
+    xdgOpenUsePortal = true;
     wlr.enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-gnome

@@ -268,6 +268,7 @@ in
       # freecad # CAD modeler 
       furnace # multi-system chiptune tracker
       gimp # image manipulation
+      gitify # github notifications in the menu bar
       godot_4 # game engine
       # gossip # nostr client
       grandorgue # virtual pipe organ

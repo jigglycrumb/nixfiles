@@ -76,6 +76,8 @@ in
     alsa-utils # aplay
     asciiquarium # a fishy app
     bat # fancy `cat` replacement
+    bashmount # helps mounting USB drives
+    bitwarden-cli # password manager
     btop # like top, but better
     cbonsai # terminal tree
     cfonts # ansi fonts
@@ -106,9 +108,9 @@ in
     pipes # terminal screensaver
     pywal16 # color schemes from images
     ripgrep # rg, a better grep
-    screen
+    screen # detachable sessions
     sl # choo choo
-    tmux
+    tmux # terminal multiplexer
     trash-cli # use trash can in the terminal
     unzip # extract zip files
     wget # download stuff
