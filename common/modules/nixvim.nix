@@ -198,9 +198,9 @@ in
         options.desc = "Toggle minimap";
       }
 
-      # session switcher - ALT + s
+      # session or "workspace" switcher - ALT + w
       {
-        key = "<A-s>";
+        key = "<A-w>";
         action = "<CMD>Telescope session-lens search_session<CR>";
         options.desc = "Switch session";
       }
@@ -213,17 +213,19 @@ in
       }
 
       # live grep - ALT + g
-      # {
-      #   key = "<A-F>";
-      #   action = "<CMD>Telescope live_grep<CR>";
-      #   options.desc = "Search files";
-      # }
-
       {
         key = "<A-g>";
         action = "<CMD>Telescope live_grep<CR>";
         options.desc = "Search files";
       }
+
+      # floating file manager (yazi) - ALT + a
+      {
+        key = "<A-a>";
+        action = "<CMD>Yazi cwd<CR>";
+        options.desc = "File manager";
+      }
+
 
       # tabs - ALT + key
       # commands powered by barbar.nvim
@@ -522,25 +524,9 @@ in
       };
 
       direnv.enable = true;
-
       flash.enable = true; # search labels
-
       fugitive.enable = true; # git command integration
-
       gitsigns.enable = true; # git markers
-
-      # markdown renderer
-      # glow = {
-      #   enable = true;
-      #   settings = {
-      #     border = "rounded";
-      #     height = 1000;
-      #     width = 1000;
-      #     height_ratio = 1.0;
-      #     width_ratio = 1.0;
-      #   };
-      # };
-
       godot.enable = true;
 
       # indentation hints
@@ -591,15 +577,7 @@ in
 
       lualine.enable = true; # bottom status line
 
-      # luasnip = {
-      #   enable = true;
-      #   settings = {
-      #     enable_autosnippets = false;
-      #     store_selection_keys = "<Tab>";
-      #   };
-      # };
-
-      # file explorer
+      # file tree
       neo-tree = {
         enable = true;
         settings = {
@@ -698,12 +676,12 @@ in
       # snacks.enable = true; # enable snacks (bigfile, notifier, quickfile, statuscolumn, words) - doesn't seem to do anything?
       telescope.enable = true; # fuzzy finder
 
-      # floating terminal, ALT + n
+      # floating terminal, ALT + s
       toggleterm = {
         enable = true;
         settings = {
           direction = "float";
-          open_mapping = "[[<M-n>]]";
+          open_mapping = "[[<M-s>]]";
           float_opts.border = "curved";
         };
       };
@@ -760,6 +738,7 @@ in
       ts-comments.enable = true; # better comment highlighting
       typescript-tools.enable = true; # something with typescript
       which-key.enable = true; # key hints
+      yazi.enable = true; # file manager
     };
 
     extraPlugins = with pkgs.vimPlugins; [
