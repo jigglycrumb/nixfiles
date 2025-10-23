@@ -1,1 +1,1 @@
-../../../../common/secret/syncthing.nix
+../../../common/secret/syncthing.nix

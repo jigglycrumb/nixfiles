@@ -54,6 +54,12 @@ in
             };
           }
           {
+            "Glance" = {
+              description = "Dashboard";
+              href = "http://driftwood:8081";
+            };
+          }
+          {
             "NetAlertX" = {
               description = "Network Alerts";
               href = "http://hafen:20211";
@@ -194,6 +200,7 @@ in
     whitelist = secrets-minecraft.whitelist;
   };
 
+  # recipe database
   services.mealie = {
     enable = true;
     # port = 9000;
@@ -243,6 +250,7 @@ in
   #   baseUrl = "https://freshrss.example.com";
   # };
 
+  # search engine
   services.searx = {
     enable = true;
     redisCreateLocally = true;
@@ -257,11 +265,22 @@ in
 
   # services.searx.settings.search.formats = ["html" "json" "rss"];
 
+  # dashboard
+  services.glance = {
+    enable = true;
+    openFirewall = true;
+    settings.server = {
+      port = 8081;
+      host = "0.0.0.0";
+    };
+  };
+
   networking.firewall.allowedTCPPorts = [
     # 80 # homepage-dashboard
     # 3000 # invidious
     # 8065 # mattermost
     8080 # gollum
+    # 8081 # Glance Dashboard
     8082 # homepage-dashboard
     8384 # syncthing
     8888 # SearXNG
