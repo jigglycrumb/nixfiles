@@ -87,6 +87,7 @@ in
     ddate # discordian date
     delta # git diffs done right
     dysk # shows info for mounted drives - a better 'df'
+    fastfetch # I use nix btw
     fd # a better find
     file # identify file types
     font-awesome # icons for waybar (does not work in environment.systemPackages)
@@ -101,7 +102,6 @@ in
     mc # dual pane terminal file manager
     meld # merge tool
     ncdu # show disk usage
-    neofetch # I use nix btw
     nix-tree # browse the dependency graph of nix configs
     nodejs
     pamixer # terminal volume control
