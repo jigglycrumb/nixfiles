@@ -184,6 +184,14 @@ in
     '';
 
     keymaps = [
+
+      # session switcher - ALT + s
+      {
+        key = "<A-s>";
+        action = "<CMD>Telescope session-lens search_session<CR>";
+        options.desc = "Jump to file";
+      }
+
       # fuzzy file picker - ALT + f
       {
         key = "<A-f>";
@@ -358,6 +366,9 @@ in
 
     plugins = {
 
+      # automatic session save/load
+      auto-session.enable = true;
+
       # tabs
       barbar = {
         enable = true;
@@ -500,7 +511,9 @@ in
       direnv.enable = true;
 
       flash.enable = true; # search labels
-      # floaterm.enable = true; # terminal
+
+      fugitive.enable = true; # git command integration
+
       gitsigns.enable = true; # git markers
 
       # markdown renderer
@@ -606,6 +619,8 @@ in
       };
 
       # TODO grug-far = { }; # find and replace
+
+      nvim-surround.enable = true; # deal with surrounding characters
 
       # mini.nvim plugin suite
       mini = {

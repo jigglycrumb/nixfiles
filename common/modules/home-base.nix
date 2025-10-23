@@ -95,6 +95,7 @@ in
     inetutils # telnet
     jq # query JSON
     killall # Gotta kill 'em all!
+    lsd # ls with icons
     mc # dual pane terminal file manager
     meld # merge tool
     ncdu # show disk usage
@@ -305,7 +306,8 @@ in
 
     shellAliases = {
       c = "clear";
-      "c." = "code .";
+      l = "lsd -la";
+      ll = "lsd -l";
 
       "n" = "nvim";
       "nn" = "nvim .";
