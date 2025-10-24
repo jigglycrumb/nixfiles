@@ -611,7 +611,6 @@ in
 
       # TODO grug-far = { }; # find and replace
 
-      nvim-surround.enable = true; # deal with surrounding characters
 
       # mini.nvim plugin suite
       mini = {
@@ -660,6 +659,9 @@ in
         };
       };
 
+      numbertoggle.enable = true; # relative line numbers in normal, absolute in insert mode 
+      nvim-surround.enable = true; # deal with surrounding characters
+
       # ollama = {
       #   enable = true;
       # };
@@ -673,6 +675,9 @@ in
       };
 
       # overseer.enable = true; # task runner
+      render-markdown.enable = true;
+      smear-cursor.enable = true;
+
       # snacks.enable = true; # enable snacks (bigfile, notifier, quickfile, statuscolumn, words) - doesn't seem to do anything?
       telescope.enable = true; # fuzzy finder
 
