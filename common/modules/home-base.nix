@@ -33,6 +33,11 @@ in
   programs.zoxide.enable = true;
   programs.zoxide.options = [ "--cmd cd" ];
 
+  programs.qutebrowser = {
+    enable = true;
+    # TODO configure
+  };
+
   # Enable gnome keyring
   services.gnome-keyring.enable = true;
   services.gnome-keyring.components = [

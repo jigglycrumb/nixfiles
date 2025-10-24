@@ -304,7 +304,6 @@ in
       networkmanagerapplet # tray app for network management
       pavucontrol # GUI volume conrol
       peazip # archive utility
-      qutebrowser # keyboard focused web browser
       seahorse # keyring manager
       signal-desktop # messenger
       vlc # media player

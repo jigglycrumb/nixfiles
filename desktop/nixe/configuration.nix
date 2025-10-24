@@ -264,7 +264,6 @@ in
       evince # document viewer
       fallout-ce # port of Fallout for modern systems
       ffmpeg # needed for mediathekview
-      # firefox # web browser
       # freecad # CAD modeler 
       furnace # multi-system chiptune tracker
       gimp # image manipulation
@@ -339,6 +338,8 @@ in
   services.gnome.sushi.enable = true;
 
   programs.wshowkeys.enable = true; # show keypresses on screen
+
+  programs.ladybird.enable = true; # ladybird web browser
 
   # Enable keyd to remap keyboard keys
   services.keyd = {

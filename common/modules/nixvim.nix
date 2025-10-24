@@ -186,13 +186,13 @@ in
     keymaps = [
       # back to normal mode shortcut
       {
-        mode = [ "i" "n" ];
+        mode = [ "i" "v" ];
         key = "qq";
         action = "<ESC>";
         options.desc = "Back to normal mode";
       }
       {
-        mode = [ "i" "n" ];
+        mode = [ "i" "v" ];
         key = "jj";
         action = "<ESC>";
         options.desc = "Back to normal mode";
