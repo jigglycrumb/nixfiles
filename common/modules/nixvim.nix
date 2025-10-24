@@ -184,6 +184,20 @@ in
     '';
 
     keymaps = [
+      # back to normal mode shortcut
+      {
+        mode = [ "i" "n" ];
+        key = "qq";
+        action = "<ESC>";
+        options.desc = "Back to normal mode";
+      }
+      {
+        mode = [ "i" "n" ];
+        key = "jj";
+        action = "<ESC>";
+        options.desc = "Back to normal mode";
+      }
+
       # toggle file tree - ALT + b
       {
         key = "<A-b>";
