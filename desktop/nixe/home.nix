@@ -87,6 +87,7 @@ in
     mpv # video player
     # musikcube # cli music player
     navi # cheat sheets at your fingertips
+    ncgopher # cli gopher and gemini client
     nms # decrypting...
     nixfmt-rfc-style # formatter for nix code, used in VSCode
     npm-check-updates # tool to check package.json for updates

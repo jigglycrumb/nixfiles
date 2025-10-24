@@ -270,7 +270,7 @@ in
       gimp # image manipulation
       gitify # github notifications in the menu bar
       godot_4 # game engine
-      # gossip # nostr client
+      gossip # nostr client
       grandorgue # virtual pipe organ
       # handbrake # video encoding
       helvum # patchbay for PipeWire
@@ -282,6 +282,7 @@ in
       # keeperrl # roguelike
       krita # painting software
       # kstars # spaaaaaaaaaaace
+      lagrange # GUI client for gemini
       letterpress # convert images to ascii art
       libreoffice # office suite
       lmms # DAW similar to FL Studio
