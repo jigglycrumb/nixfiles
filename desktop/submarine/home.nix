@@ -33,6 +33,8 @@
   # environment.
   home.packages = with pkgs; [
     asciicam # webcam in the terminal
+    asciinema # record terminal sessions
+    asciinema-agg # .. and convert them to gif
     astroterm # watch the sky from your terminal
     atac # a terminal api client (like postman)
     aws-sso-cli # work related
@@ -57,6 +59,7 @@
     gifgen # jen jifs from video files
     gitui # git tui
     glow # markdown reader
+    grex # generate regular expressions
     go # go programming language
     gum # various little helpers
     gurk-rs # terminal client for Signal messenger
@@ -136,6 +139,8 @@
     ".config/niri/config.kdl".source = ./dotfiles/config/niri/config.kdl;
     ".config/waybar/config".source = ./dotfiles/config/waybar/config;
   };
+
+  programs.jrnl.enable = true; # cli journaling
 
   programs.zsh.shellAliases = {
     p = "pnpm";

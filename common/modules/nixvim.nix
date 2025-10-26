@@ -212,6 +212,13 @@ in
         options.desc = "Toggle minimap";
       }
 
+      # system clipboard
+      {
+        key = "<leader>y";
+        action = "\"+y<CR>";
+        options.desc = "Yank to system clipboard";
+      }
+
       # session or "workspace" switcher - ALT + w
       {
         key = "<A-w>";
@@ -391,6 +398,9 @@ in
       shiftwidth = 2; # tab width
       expandtab = true; # replace tabs with spaces
       relativenumber = true; # Show relative line numbers
+      winborder = "rounded"; # border for code preview windows
+      signcolumn = "yes"; # always draw the sign column
+      smartindent = true;
     };
 
     plugins = {
@@ -430,9 +440,6 @@ in
             "buffer"
             "copilot"
           ];
-          # TODO More consistent Tab binds
-          # TODO Better smart indent https://www.reddit.com/r/neovim/comments/101kqds/comment/j2p5xe4
-          # QUESTION Fix binds like the quickfix menu in vscode?
 
           mapping = {
             "<C-Space>" = "cmp.mapping.complete()";

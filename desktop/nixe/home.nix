@@ -44,6 +44,8 @@ in
   home.packages = with pkgs; [
     angband # lotr terminal roguelike
     asciicam # webcam in the terminal
+    asciinema # record terminal sessions
+    asciinema-agg # .. and convert them to gif
     astroterm # watch the sky from your terminal
     atac # a terminal api client (like postman)
     bluetuith # terminal bluetooth manager
@@ -163,6 +165,8 @@ in
       uris = [ "qemu:///system" ];
     };
   };
+
+  programs.mpvpaper.enable = true;
 
   programs.zsh.shellAliases = {
     # Nix the planet

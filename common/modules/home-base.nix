@@ -89,6 +89,7 @@ in
     clolcat # 🌈
     cmatrix # there is no spoon
     cowsay # moo
+    croc # share files between computers
     ddate # discordian date
     delta # git diffs done right
     dysk # shows info for mounted drives - a better 'df'
