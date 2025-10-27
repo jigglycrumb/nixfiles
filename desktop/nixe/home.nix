@@ -11,6 +11,7 @@ let
 in
 {
   imports = [
+    ../../common/modules/digikam/digikam.nix
     ../../common/modules/home-base.nix
     ../../common/modules/pico-8/pico-8.nix
     ../../common/modules/picotron/picotron.nix
@@ -148,7 +149,7 @@ in
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
 
-    "Pictures/digiKam/digikamrc.template".source = common + /home/Pictures/digiKam/digikamrc.template;
+    # "Pictures/digiKam/digikamrc.template".source = common + /home/Pictures/digiKam/digikamrc.template;
 
     ".config/niri/config.kdl".source = ./dotfiles/config/niri/config.kdl;
     ".config/waybar/config".source = ./dotfiles/config/waybar/config;

@@ -192,7 +192,7 @@ in
         options.desc = "Back to normal mode";
       }
       {
-        mode = [ "i" "v" ];
+        mode = [ "i" ];
         key = "jj";
         action = "<ESC>";
         options.desc = "Back to normal mode";
