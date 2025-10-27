@@ -65,6 +65,7 @@
     gurk-rs # terminal client for Signal messenger
     hollywood # hacking...
     jp2a # convert jpg and png to ascii art
+    jrnl # take notes in the terminal
     lazydocker # docker tui
     lazygit # git tui
     lynx # terminal web browser, can be scripted for tasks
@@ -139,8 +140,6 @@
     ".config/niri/config.kdl".source = ./dotfiles/config/niri/config.kdl;
     ".config/waybar/config".source = ./dotfiles/config/waybar/config;
   };
-
-  programs.jrnl.enable = true; # cli journaling
 
   programs.zsh.shellAliases = {
     p = "pnpm";

@@ -95,8 +95,8 @@ gestures {
 output "Virtual-1" {
   // mode "1920x1200@60"
   // scale 1
-  // mode "3024x1890@60"
-  // scale 1
+  mode "3024x1890@59.99"
+  scale 1.5
 }
 
 // You can configure outputs by their name, which you can find

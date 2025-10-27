@@ -102,6 +102,8 @@
   # File previews for nautilus
   services.gnome.sushi.enable = true;
 
+  programs.firefox.enable = true;
+
   programs.wshowkeys.enable = true; # show keypresses on screen
 
   # Enable keyd to remap keyboard keys
