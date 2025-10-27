@@ -21,6 +21,7 @@
   };
 
   outputs = { self, nixpkgs, home-manager, nixvim }:
+
   let
     hostname = "nixe";
     username = "jigglycrumb";
