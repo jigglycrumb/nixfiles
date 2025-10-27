@@ -31,6 +31,6 @@ case $1 in
   ;;
 esac
 
-kill -s USR1 $(pgrep -f endless-wallpaper-loop)
+kill -s USR1 $(pgrep -f endless-wallpaper-loop.sh)
 
 exit 0
