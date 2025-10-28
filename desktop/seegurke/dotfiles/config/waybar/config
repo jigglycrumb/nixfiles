@@ -1,272 +1,40 @@
-[
-  // ----- TOP BAR -------
-  {
-    // general config
-    "name": "top",
-    "reload_style_on_change": true,
-    "layer": "top",
-    "position": "top",
-    "height": 48,
-    // "margin-top": 8,
-    // "margin-right": 8,
-    // "margin-left": 8,
-    "margin-top": 0,
-    "margin-right": 0,
-    "margin-left": 0,
-    "margin-bottom": 0,
-    "spacing": 4, // space between modules
+{
+  // general config
+  "name": "top",
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top",
+  "height": 48,
+  "margin-top": 0,
+  "margin-right": 0,
+  "margin-left": 0,
+  "margin-bottom": 0,
+  "spacing": 4, // space between modules
 
-    // module slots
-    "modules-left": [
-      "niri/workspaces",
-      "custom/kitty",
-      "custom/nemo",
-      "custom/brave",
-      "niri/window"
-    ],
+  // module slots
+  "modules-left": [
+    "niri/workspaces",
+    "custom/kitty",
+    "custom/nemo",
+    "custom/brave",
+    "niri/window"
+  ],
 
-    "modules-right": [
-      "network",
-      "cpu",
-      "memory",
-      "custom/weather",
-      "tray",
-      "privacy",
-      "idle_inhibitor",
-      "custom/microphone",
-      "custom/screen-recording",
-      "pulseaudio",
-      "battery",
-      "clock",
-      "custom/notification"
-    ],
+  "modules-right": [
+    "network",
+    "cpu",
+    "memory",
+    "custom/weather",
+    "tray",
+    "privacy",
+    "idle_inhibitor",
+    "custom/microphone",
+    "custom/screen-recording",
+    "pulseaudio",
+    "battery",
+    "clock",
+    "custom/notification"
+  ],
 
-    // module settings
-    "battery": {
-      "format": "{icon} {capacity}%",
-      "format-icons": [
-        "",
-        "",
-        "",
-        "",
-        ""
-      ],
-      "states": {
-        "warning": 30,
-        "critical": 15
-      },
-      "interval": 1
-    },
-
-    "bluetooth": {
-      "format": " {status}",
-      "format-disabled": "",
-      "format-connected": " {num_connections} connected",
-      "tooltip-format": "{controller_alias}\t{controller_address}",
-      "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
-      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
-    },
-
-    "clock": {
-      "format": " {:%H:%M}",
-      "format-alt": " {:%A, %d. %B %Y, %R}",
-      "tooltip-format": "<tt><small>{calendar}</small></tt>",
-      "calendar": {
-        "mode"          : "year",
-        "mode-mon-col"  : 3,
-        "weeks-pos"     : "right",
-        "on-scroll"     : 1,
-        "on-click-right": "mode",
-        "format": {
-          "months":     "<span color='#ffead3'><b>{}</b></span>",
-          "days":       "<span color='#ecc6d9'><b>{}</b></span>",
-          "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
-          "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
-          "today":      "<span color='#ff6699'><b>{}</b></span>"
-        }
-      },
-      "actions":  {
-        "on-click-right": "mode",
-        "on-click-forward": "tz_up",
-        "on-click-backward": "tz_down",
-        "on-scroll-up": "shift_up",
-        "on-scroll-down": "shift_down"
-        }
-    },
-
-    "cpu": {
-      "interval": 10,
-      "format": " {usage}%",
-      "max-length": 10
-    },
-
-    "custom/brave": {
-      "format": "",
-      "tooltip": false,
-      "on-click": "niri msg action spawn -- brave"
-    },
-
-    "custom/keyboard": {
-      "format": "{}",
-      "tooltip": true,
-      "interval": 1,
-      "exec": "~/.config/waybar/scripts/keyboard-layout.sh",
-      "on-click": "~/.config/waybar/scripts/keyboard-layout.sh --toggle",
-      "return-type": "json"
-    },
-
-    "custom/kitty": {
-      "format": "",
-      "tooltip": false,
-      "on-click": "niri msg action spawn -- kitty"
-    },
-
-    "custom/microphone": {
-      "format": "{}",
-      "tooltip": true,
-      "interval": 1,
-      "exec": "~/.config/waybar/scripts/microphone.sh",
-      "return-type": "json"
-    },
-
-    "custom/nemo": {
-      "format": "",
-      "tooltip": false,
-      "on-click": "niri msg action spawn -- nemo"
-    },
-
-    "custom/screen-recording": {
-      "format": "{}",
-      "tooltip": true,
-      "interval": 1,
-      "exec": "~/.config/waybar/scripts/screen-recording.sh",
-      "return-type": "json"
-    },
-
-    "custom/notification": {
-      "format": "{icon}",
-      "format-icons": {
-        "notification": "<span foreground='red'><sup></sup></span>",
-        "none": "",
-        "dnd-notification": "<span foreground='red'><sup></sup></span>",
-        "dnd-none": "",
-        "inhibited-notification": "<span foreground='red'><sup></sup></span>",
-        "inhibited-none": "",
-        "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
-        "dnd-inhibited-none": ""
-      },
-      "return-type": "json",
-      "exec-if": "which swaync-client",
-      "exec": "swaync-client -swb",
-      "on-click": "swaync-client -t -sw",
-      "on-click-right": "swaync-client -d -sw",
-      "escape": true
-    },
-
-    "custom/weather": {
-      "format": "{}",
-      "tooltip": true,
-      "interval": 3600,
-      "exec": "~/.config/waybar/scripts/weather.py",
-      "return-type": "json"
-    },
-
-    "disk": {
-      "interval": 30,
-      "format": " {percentage_used}%",
-      "path": "/",
-      "tooltip-format": "Disk space\n{path}\t using {used} of {total} ({percentage_used}%)"
-    },
-
-    "idle_inhibitor": {
-      "format": "{icon}",
-      "format-icons": {
-          "activated": "",
-          "deactivated": ""
-      }
-    },
-
-    "memory": {
-      "interval": 30,
-      "format": " {}%",
-      "max-length": 10,
-      "tooltip-format": "Memory\nUsing {used:0.1f}GiB of {total:0.1f}GiB ({percentage}%)"
-    },
-
-    "network": {
-      "interface": "wlp8s0",
-      "interval": 5,
-      "format": "{ifname}",
-      // "format-wifi": " {signalStrength}%   {bandwidthUpBytes}   {bandwidthDownBytes}",
-      "format-wifi": " {bandwidthUpBytes}   {bandwidthDownBytes}",
-      "format-ethernet": " {bandwidthUpBytes}   {bandwidthDownBytes}",
-      // "format-ethernet": "󰊗 {ipaddr}/{cidr}",
-      "format-disconnected": "no network, GFY",
-      "tooltip-format": "󰊗 {ifname} via {gwaddr}",
-      "tooltip-format-wifi": " {essid} ({signalStrength}%) - {ipaddr}",
-      "tooltip-format-ethernet": " {ifname} - {ipaddr}",
-      "tooltip-format-disconnected": "Disconnected",
-      "max-length": 50
-    },
-
-    "niri/window": {
-      "format": "{title}",
-      "separate-outputs": true,
-    },
-
-    "niri/workspaces": {
-      "format": "{index}",
-    },
-
-    "privacy": {
-      "icon-spacing": 4,
-      "icon-size": 14,
-      "transition-duration": 250,
-      "modules": [
-        {
-          "type": "screenshare",
-          "tooltip": true,
-          "tooltip-icon-size": 24
-        },
-        {
-          "type": "audio-out",
-          "tooltip": true,
-          "tooltip-icon-size": 24
-        },
-        {
-          "type": "audio-in",
-          "tooltip": true,
-          "tooltip-icon-size": 24
-        }
-      ]
-    },
-
-    "pulseaudio": {
-      "format": "{icon} {volume}%",
-      "format-bluetooth": "{icon} {volume}%",
-      "format-muted": " ",
-      "format-icons": {
-        "headphone": "",
-        "hands-free": "",
-        "headset": "",
-        "phone": "",
-        "portable": "",
-        "car": "",
-        "default": [
-          "",
-          ""
-        ]
-      },
-      "scroll-step": 1,
-      "on-click": "pidof pavucontrol && pkill pavucontrol || pavucontrol",
-      "ignored-sinks": [
-        "Easy Effects Sink"
-      ]
-    },
-
-    "tray": {
-      "spacing": 16,
-      "show-passive-items": true
-    },
-  }
-]
+  "include": "~/.config/waybar/modules.conf"
+}

@@ -64,6 +64,7 @@ in
     ".config/swaync".source = ../dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = ../dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = ../dotfiles/config/wal/templates;
+    ".config/waybar/modules.conf".source = ../dotfiles/config/waybar/modules.conf;
     ".config/waybar/scripts".source = ../dotfiles/config/waybar/scripts;
     ".config/waybar/style.css".source = ../dotfiles/config/waybar/style.css;
 
