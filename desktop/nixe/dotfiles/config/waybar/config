@@ -52,5 +52,9 @@
     "custom/notification"
   ],
 
+  "network": {
+    "interface": "wlp2s0"
+  },
+  
   "include": "~/.config/waybar/modules.conf"
 }

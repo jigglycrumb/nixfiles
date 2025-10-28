@@ -36,5 +36,9 @@
     "custom/notification"
   ],
 
+  "network": {
+    "interface": "wlp8s0"
+  },
+
   "include": "~/.config/waybar/modules.conf"
 }
