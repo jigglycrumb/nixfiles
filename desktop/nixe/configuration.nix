@@ -248,14 +248,12 @@ in
       # celestia # spaaaaaaaaaaace
       cheese # webcam fun
       # clipgrab # youtube downloader
-      cool-retro-term # terminal emulator
       # czkawka # remove useless files
       cryptomator # file encryption
       # cura # 3D printing software
       # cura-appimage # 3D printing software
       davinci-resolve # video editor
       devilutionx # Diablo
-      digikam # photo manager
       # discord # (voice)chat
       dosbox-staging # emulates DOS software
       # drawing # basic image editor, similar to MS Paint
@@ -373,7 +371,6 @@ in
   environment.systemPackages = with pkgs; [
     abduco # detachable terminal sessions
     clinfo # shows info about OpenCL (GPU things) - TODO I don't recall why this is here, check if it's still needed and remove
-    exiftool # read & write exif data - integrates with digikam
     linuxKernel.packages.linux_libre.cpupower # switch CPU governors
     # nix-output-monitor # nom nom nom
     # nvd # nix version diff

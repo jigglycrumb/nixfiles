@@ -11,20 +11,22 @@ let
 in
 {
   imports = [
-    ../../common/modules/digikam/digikam.nix
     ../../common/modules/home-base.nix
+
+    ../../common/modules/digikam/digikam.nix
+    ../../common/modules/infocom/infocom.nix
     ../../common/modules/pico-8/pico-8.nix
+    ../../common/modules/picocad/picocad.nix
     ../../common/modules/picotron/picotron.nix
     ../../common/modules/voxatron/voxatron.nix
-    ../../common/modules/picocad/picocad.nix
   ];
 
   modules.pico-8.username = username;
   modules.pico-8.cart-path = "Projects/Github/Private/pico8-carts";
 
+  modules.picocad.username = username;
   modules.picotron.username = username;
   modules.voxatron.username = username;
-  modules.picocad.username = username;
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -68,17 +70,14 @@ in
     eza # ls replacement
     fast-ssh # ssh connection manager
     fluidsynth # software synthesizer
-    frotz # infocom game interpreter
     gh # github cli
     gifgen # jen jifs from video files
     gitui # git tui
     glow # markdown reader
     go # go programming language
     goose-cli # a local AI agent
-    gum # various little helpers
     gurk-rs # terminal client for Signal messenger
     hollywood # hacking...
-    # hyprland-monitor-attached # run scripts when monitors plug
     jp2a # convert jpg and png to ascii art
     lazydocker # docker tui
     lazygit # git tui
@@ -148,8 +147,6 @@ in
     # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-
-    # "Pictures/digiKam/digikamrc.template".source = common + /home/Pictures/digiKam/digikamrc.template;
 
     ".config/niri/config.kdl".source = ./dotfiles/config/niri/config.kdl;
     ".config/waybar/config".source = ./dotfiles/config/waybar/config;

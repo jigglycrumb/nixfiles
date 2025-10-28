@@ -34,9 +34,9 @@ swaync-client --reload-css
 
 
 # reload waybar config
-pkill -USR2 waybar
+# pkill -USR2 waybar
 
-# kill -9 $(pidof waybar)  # kill waybar
-# waybar >/dev/null 2>&1 & # start waybar
+kill -9 $(pidof waybar)  # kill waybar
+waybar >/dev/null 2>&1 & # start waybar
 
 exit 0

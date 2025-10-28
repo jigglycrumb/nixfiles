@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# creates a copy of a file and appends the current date and time
+# creates a copy of a file or folder and appends the current date and time
 
 cp -r $1 $1.bak.$(date +"%Y%m%d-%H%M%S")
 exit 0

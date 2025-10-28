@@ -9,6 +9,8 @@
 {
   imports = [
     ../../common/modules/home-base.nix
+
+    ../../common/modules/infocom/infocom.nix
     ../../common/modules/pico-8/pico-8.nix
     ../../common/modules/picotron/picotron.nix
   ];
@@ -53,12 +55,10 @@
     epy # terminal ebook reader
     eza # ls replacement
     fast-ssh # ssh connection manager
-    frotz # infocom game interpreter
     gifgen # jen jifs from video files
     gitui # git tui
     glow # markdown reader
     go # go programming language
-    gum # various little helpers
     hollywood # hacking...
     jp2a # convert jpg and png to ascii art
     lazygit # git tui

@@ -79,7 +79,6 @@
       angryipscanner # network scanner
       ascii-draw # draw diagrams etc in ASCII
       blanket # ambient sounds
-      cool-retro-term # terminal emulator
       devilutionx # Diablo
       drawing # basic image editor, similar to MS Paint
       fallout-ce # port of Fallout for modern systems
