@@ -54,7 +54,7 @@ in
 
     ".config/atuin/config.toml".source = ../dotfiles/config/atuin/config.toml;
     ".config/direnv/direnv.toml".source = ../dotfiles/config/direnv/direnv.toml;
-    ".config/fuzzel/scripts".source = ../dotfiles/config/fuzzel/scripts;
+    ".config/fuzzel".source = ../dotfiles/config/fuzzel;
     ".config/hypr".source = ../dotfiles/config/hypr;
     ".config/kitty".source = ../dotfiles/config/kitty;
     ".config/mako/config".source = ../dotfiles/config/mako/config;

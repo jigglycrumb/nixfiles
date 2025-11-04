@@ -25,10 +25,6 @@ swww img "$WALLPAPER" \
   --transition-fps $TRANSITION_FPS \
   --transition-type $TRANSITION_TYPE >/dev/null 2>&1
 
-# update fuzzel config - this is hacky, but it works :D
-cp -f $HOME/nixfiles/common/dotfiles/config/fuzzel/fuzzel.ini.template $HOME/.config/fuzzel/fuzzel.ini
-cat $HOME/.cache/wal/colors-fuzzel.ini >>$HOME/.config/fuzzel/fuzzel.ini
-
 # reload mako config
 makoctl reload
 
