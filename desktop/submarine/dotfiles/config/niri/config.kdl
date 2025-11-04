@@ -309,7 +309,6 @@ layout {
 spawn-at-startup "sunsetr"
 spawn-at-startup "soteria"
 spawn-at-startup "swww-daemon"
-spawn-at-startup "swaync"
 spawn-at-startup "waybar"
 spawn-at-startup "~/.config/niri/scripts/endless-wallpaper-niri.sh" "&"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"

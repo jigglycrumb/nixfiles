@@ -29,9 +29,8 @@ swww img "$WALLPAPER" \
 cp -f $HOME/nixfiles/common/dotfiles/config/fuzzel/fuzzel.ini.template $HOME/.config/fuzzel/fuzzel.ini
 cat $HOME/.cache/wal/colors-fuzzel.ini >>$HOME/.config/fuzzel/fuzzel.ini
 
-# reload notification center
-swaync-client --reload-css 
-
+# reload mako config
+makoctl reload
 
 # reload waybar config
 # pkill -USR2 waybar

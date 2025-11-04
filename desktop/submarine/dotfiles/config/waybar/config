@@ -49,8 +49,7 @@
     // "custom/vpn",
     "pulseaudio",
     "battery",
-    "clock",
-    "custom/notification"
+    "clock"
   ],
 
   "include": "~/.config/waybar/modules.conf"

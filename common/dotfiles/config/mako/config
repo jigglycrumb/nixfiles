@@ -1,0 +1,11 @@
+include=~/.cache/wal/colors-mako
+max-history=10
+icon-path=~/.local/share/icons
+border-radius=8
+icon-border-radius=4
+default-timeout=5000
+max-visible=5
+margin=2
+padding=10
+outer-margin=8
+on-notify=exec aplay -q ~/.local/share/sounds/bubble-pop.wav

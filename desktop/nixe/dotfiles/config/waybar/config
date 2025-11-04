@@ -48,8 +48,7 @@
     "custom/vpn",
     "pulseaudio",
     "battery",
-    "clock",
-    "custom/notification"
+    "clock"
   ],
 
   "network": {

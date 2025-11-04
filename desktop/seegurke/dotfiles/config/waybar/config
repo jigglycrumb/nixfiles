@@ -32,8 +32,7 @@
     "custom/screen-recording",
     "pulseaudio",
     "battery",
-    "clock",
-    "custom/notification"
+    "clock"
   ],
 
   "network": {

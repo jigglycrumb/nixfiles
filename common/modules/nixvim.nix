@@ -63,13 +63,13 @@ in
       -- ui things
       -- MiniMap.open()
 
-      vim.g.neominimap = {
-        layout = 'split',
-        split = {
-          -- Automatically close the split window when it is the last window
-          close_if_last_window = true,
-        },
-      }
+      -- vim.g.neominimap = {
+      --   layout = 'split',
+      --   split = {
+      --     -- Automatically close the split window when it is the last window
+      --     close_if_last_window = true,
+      --   },
+      -- }
 
       -- highlight patterns
       local hipatterns = require('mini.hipatterns')
@@ -863,19 +863,19 @@ in
       }
 
       # code mini map
-      {
-        plugin = (
-          pkgs.vimUtils.buildVimPlugin rec {
-            name = "neominimap.nvim";
-            src = pkgs.fetchFromGitHub {
-              owner = "isrothy";
-              repo = name;
-              rev = "505e756fc96d05a7c372792fe76e346aa0ed9240";
-              hash = "sha256-HQEgVk3xdIihg0kVV83PikOo008DblDhxGGswKryvMo=";
-            };
-          }
-        );
-      }
+      # {
+      #   plugin = (
+      #     pkgs.vimUtils.buildVimPlugin rec {
+      #       name = "neominimap.nvim";
+      #       src = pkgs.fetchFromGitHub {
+      #         owner = "isrothy";
+      #         repo = name;
+      #         rev = "505e756fc96d05a7c372792fe76e346aa0ed9240";
+      #         hash = "sha256-HQEgVk3xdIihg0kVV83PikOo008DblDhxGGswKryvMo=";
+      #       };
+      #     }
+      #   );
+      # }
 
       # requires nvim compiled with +sound
       # {

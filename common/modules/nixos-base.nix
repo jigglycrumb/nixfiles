@@ -279,7 +279,6 @@ in
     samba # de janeiro! *da da da da, dadada, dada*
     sunsetr # blue light filter for wayland
     swayimg # image viewer
-    swaynotificationcenter # wayland notifications
     swww # wayland background image daemon
     usbutils # provides lsusb
     wf-recorder # screen recording

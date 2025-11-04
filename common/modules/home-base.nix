@@ -57,11 +57,11 @@ in
     ".config/fuzzel/scripts".source = ../dotfiles/config/fuzzel/scripts;
     ".config/hypr".source = ../dotfiles/config/hypr;
     ".config/kitty".source = ../dotfiles/config/kitty;
+    ".config/mako/config".source = ../dotfiles/config/mako/config;
     ".config/niri/scripts".source = ../dotfiles/config/niri/scripts;
     ".config/raffi".source = ../dotfiles/config/raffi;
     ".config/starship.toml".source = ../dotfiles/config/starship.toml;
     ".config/sunsetr".source = ../dotfiles/config/sunsetr;
-    ".config/swaync".source = ../dotfiles/config/swaync;
     ".config/Thunar/uca.xml".source = ../dotfiles/config/Thunar/uca.xml;
     ".config/wal/templates".source = ../dotfiles/config/wal/templates;
     ".config/waybar/modules.conf".source = ../dotfiles/config/waybar/modules.conf;
@@ -69,8 +69,8 @@ in
     ".config/waybar/style.css".source = ../dotfiles/config/waybar/style.css;
 
     ".functions".source = ../dotfiles/functions;
+    ".local/share/sounds".source = ../dotfiles/local/share/sounds;
     ".scripts".source = ../dotfiles/scripts;
-    ".sounds".source = ../dotfiles/sounds;
 
     ".rtorrent.rc".source = ../dotfiles/rtorrent.rc;
     ".screenrc".source = ../dotfiles/screenrc;
@@ -377,7 +377,7 @@ in
 
       # fun
       decrypt-cookie = "fortune | nms -a | lolcat";
-      sl = "aplay -q ~/.sounds/train.wav & sl";
+      sl = "aplay -q ~/.local/share/sounds/train.wav & sl";
       space-opera = "telnet towel.blinkenlights.nl";
 
       # downloads
@@ -385,6 +385,8 @@ in
       downloadmp3 = "yt-dlp -t mp3 --cookies-from-browser brave";
     };
   };
+
+  services.mako.enable = true;
 
   # Do not create ~/Public & ~/Templates
   xdg.userDirs = {
