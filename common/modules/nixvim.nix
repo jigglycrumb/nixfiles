@@ -247,6 +247,13 @@ in
         options.desc = "File manager";
       }
 
+      # find and replace panel
+      {
+        key = "<leader>fr";
+        action = "<CMD>GrugFar :vnew<CR>";
+        options.desc = "Find & Replace";
+      }
+
 
       # tabs - ALT + key
       # commands powered by barbar.nvim
@@ -549,6 +556,7 @@ in
       fugitive.enable = true; # git command integration
       gitsigns.enable = true; # git markers
       godot.enable = true;
+      grug-far.enable = true; # find and replace
 
       # indentation hints
       indent-blankline = {
@@ -629,9 +637,6 @@ in
           fps = 60;
         };
       };
-
-      # TODO grug-far = { }; # find and replace
-
 
       # mini.nvim plugin suite
       mini = {
