@@ -14,6 +14,9 @@ echo $WALLPAPER
 
 # write wallpaper image path to cache for hyprlock - warning: spaces in the filename will break hyprlock background
 # check hyprlock.conf for more details
+
+# TODO create file when it does not exist
+# TODO if wallpaper is a GIF, extract a frame and use that for hyprlock
 echo "\$wallpaper = $WALLPAPER" >$HOME/.cache/hyprland/hyprlock-wallpaper
 
 # create new color scheme
