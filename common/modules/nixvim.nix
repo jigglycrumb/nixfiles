@@ -43,7 +43,7 @@ in
       isort
       ruff
       stylua
-      typstfmt
+      typstyle
       prettierd
     ];
 
@@ -407,7 +407,7 @@ in
       relativenumber = true; # Show relative line numbers
       winborder = "rounded"; # border for code preview windows
       signcolumn = "yes"; # always draw the sign column
-      smartindent = true;
+      # smartindent = true;
     };
 
     plugins = {
@@ -624,6 +624,12 @@ in
           # source_selector.statusline = true;
           source_selector.winbar = true;
         };
+      };
+
+      # find nerd font glyphs
+      nerdy = {
+        enable = true;
+        enableTelescope = true;
       };
 
       # notifications

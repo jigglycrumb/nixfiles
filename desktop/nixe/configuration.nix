@@ -51,7 +51,7 @@ in
   # Enable amdvlk driver - apps choose between mesa and this one
   # amdvlk is not needed for basic vulkan support but nice to have I guess
   hardware.graphics.extraPackages = with pkgs; [
-    amdvlk
+    # amdvlk
     # rocmPackages
     # rocmPackages.clr.icd
     # rocmPackages.rocm-runtime
@@ -62,7 +62,7 @@ in
 
   # For 32 bit applications
   # Only available on unstable
-  hardware.graphics.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+  # hardware.graphics.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
 
   # enable ledger udev rules
   hardware.ledger.enable = true;
@@ -187,13 +187,13 @@ in
     qemu = {
       package = pkgs.qemu_kvm;
       swtpm.enable = true;
-      ovmf = {
-        enable = true;
-        packages = [(pkgs.OVMFFull.override {
-          secureBoot = true;
-          tpmSupport = true;
-        }).fd];
-      };
+      # ovmf = {
+      #   enable = true;
+      #   packages = [(pkgs.OVMFFull.override {
+      #     secureBoot = true;
+      #     tpmSupport = true;
+      #   }).fd];
+      # };
       vhostUserPackages = [ pkgs.virtiofsd ];
     };
   };
@@ -236,14 +236,14 @@ in
     packages = with pkgs; [
       _86Box-with-roms
       # affine # workspace / knowledge space
-      angryipscanner # network scanner
+      # angryipscanner # network scanner
       # appeditor # gui to edit app launcher entries (.desktop files)
-      appflowy
+      # appflowy
       # arduino # code hardware things
-      ascii-draw # draw diagrams etc in ASCII
+      # ascii-draw # draw diagrams etc in ASCII
       audacity # audio recorder/editor
-      blanket # ambient sounds
-      blender # 3D modeling
+      # blanket # ambient sounds
+      # blender # 3D modeling
       # bruno # API client/tester/explorer
       # celestia # spaaaaaaaaaaace
       cheese # webcam fun
@@ -253,60 +253,61 @@ in
       # cura # 3D printing software
       # cura-appimage # 3D printing software
       davinci-resolve # video editor
-      devilutionx # Diablo
-      # discord # (voice)chat
+      # devilutionx # Diablo
+      discord # (voice)chat
       dosbox-staging # emulates DOS software
       # drawing # basic image editor, similar to MS Paint
-      easyeffects # effects for pipewire apps
+      # easyeffects # effects for pipewire apps
       easytag # edit mp3 tags
       evince # document viewer
       fallout-ce # port of Fallout for modern systems
-      ffmpeg # needed for mediathekview
+      # ffmpeg # needed for mediathekview
       # freecad # CAD modeler 
-      furnace # multi-system chiptune tracker
+      # furnace # multi-system chiptune tracker
       gimp # image manipulation
-      gitify # github notifications in the menu bar
+      # gitify # github notifications in the menu bar
       godot_4 # game engine
-      gossip # nostr client
-      grandorgue # virtual pipe organ
-      # handbrake # video encoding
-      helvum # patchbay for PipeWire
+      google-chrome # web browser
+      # gossip # nostr client
+      # grandorgue # virtual pipe organ
+      handbrake # video encoding
+      # helvum # patchbay for PipeWire
       heroic # GUI for GOG & Epic Games
-      hydrogen # drum machine
+      # hydrogen # drum machine
       ioquake3 # Quake 3 Arena source port
       jstest-gtk # simple joystick testing GUI
       # kdePackages.kdenlive # video editor
       # keeperrl # roguelike
-      krita # painting software
+      # krita # painting software
       # kstars # spaaaaaaaaaaace
-      lagrange # GUI client for gemini
-      letterpress # convert images to ascii art
-      libreoffice # office suite
-      lmms # DAW similar to FL Studio
+      # lagrange # GUI client for gemini
+      # letterpress # convert images to ascii art
+      # libreoffice # office suite
+      # lmms # DAW similar to FL Studio
       # lmstudio # desktop app to run LLMs
       losslesscut-bin # cut video fast
       # lutris # play games
       # makemkv # DVD & Blu-Ray ripper
       # mattermost-desktop # Slack alternative
-      mediathekview # downloader for German public broadcasts
-      meshlab # edit 3D model files
+      # mediathekview # downloader for German public broadcasts
+      # meshlab # edit 3D model files
       milkytracker # music tracker
-      nwg-look # GUI to theme GTK apps
+      # nwg-look # GUI to theme GTK apps
       # obsidian # personal knowledge base
       oculante # fast image viewer
       # oh-my-git # a learning game about git
       # opensnitch-ui # GUI for opensnitch application firewall
       orca # screen reader
       orca-slicer # slicer for 3D printers
-      openclonk # game
+      # openclonk # game
       # openxcom # xcom source port
-      overskride # bluetooth management GUI
-      pablodraw # ANSI/ASCII art drawing
+      # overskride # bluetooth management GUI
+      # pablodraw # ANSI/ASCII art drawing
       pika-backup # a backup thing
-      plasticity # CAD modeler
+      # plasticity # CAD modeler
       prismlauncher # Minecraft launcher
       protonup-qt # GUI to manage Steam compatibility tools
-      qsynth # small gui for fluidsynth
+      # qsynth # small gui for fluidsynth
       # retroarch # multi system emulator
       # rhythmbox # music player like old school itunes
       # rosegarden
@@ -314,17 +315,18 @@ in
       simple-scan # scan documents
       # slack # chat thing
       # simplex-chat-desktop # messenger
-      sonic-pi # code music
-      sparrow
+      # sonic-pi # code music
+      # sparrow
+      # teams-for-linux # bleh
       # teamspeak_client # voice chat
       theforceengine # dark forces source port
-      tor-browser-bundle-bin # browser for the evil dark web
+      # tor-browser # browser for the evil dark web
       # ungoogled-chromium # chrome without google
       ut1999 # Unreal Tournament
       virt-viewer # VM management GUI
       # wargus # Warcraft 2 port
       # wtype # fake keypresses in wayland (bookmarks mgmt)
-      yoshimi # software synthesizer
+      # yoshimi # software synthesizer
       zed-editor # editor
     ];
   };
@@ -371,7 +373,6 @@ in
   environment.systemPackages = with pkgs; [
     abduco # detachable terminal sessions
     clinfo # shows info about OpenCL (GPU things) - TODO I don't recall why this is here, check if it's still needed and remove
-    linuxKernel.packages.linux_libre.cpupower # switch CPU governors
     # nix-output-monitor # nom nom nom
     # nvd # nix version diff
     pass-wayland # local password manager

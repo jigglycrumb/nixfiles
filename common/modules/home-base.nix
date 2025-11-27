@@ -92,7 +92,6 @@ in
     cowsay # moo
     croc # share files between computers
     ddate # discordian date
-    delta # git diffs done right
     dysk # shows info for mounted drives - a better 'df'
     fastfetch # I use nix btw
     fd # a better find
@@ -167,6 +166,16 @@ in
   programs.gpg.enable = true;
   services.gpg-agent.enable = true;
 
+  # Enable delta for fancy diffs
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      features = "line-numbers decorations";
+      syntax-theme = "Monokai Extended Bright";
+    };
+  };
+
   # Enable direnv
   programs.direnv = {
     enable = true;
@@ -183,16 +192,11 @@ in
       # Automatically normalize line endings for all text-based files
       "* text=auto"
     ];
-    delta = {
-      enable = true;
-      options = {
-        features = "line-numbers decorations";
-        syntax-theme = "Monokai Extended Bright";
+    settings = {
+      user = {
+        email = "1476865+jigglycrumb@users.noreply.github.com";
+        name = "jigglycrumb";
       };
-    };
-    userEmail = "1476865+jigglycrumb@users.noreply.github.com";
-    userName = "jigglycrumb";
-    extraConfig = {
       apply = {
         # Detect whitespace errors when applying a patch
         whitespace = "fix";

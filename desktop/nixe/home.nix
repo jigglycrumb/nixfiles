@@ -57,6 +57,7 @@ in
     castero # terminal podcast client
     cava # terminal audio visualizer
     chess-tui # terminal chess
+    cointop # terminal crypto tracker
     confetty # 🎊
     crawl # roguelike
     daktilo # typewriter sounds for the keyboard
@@ -67,7 +68,6 @@ in
     doge # much wow
     dooit # todo tui
     epy # terminal ebook reader
-    eza # ls replacement
     fast-ssh # ssh connection manager
     fluidsynth # software synthesizer
     gh # github cli
@@ -78,6 +78,8 @@ in
     goose-cli # a local AI agent
     gurk-rs # terminal client for Signal messenger
     hollywood # hacking...
+    imv # terminal image viewer
+    irssi # irc client
     jp2a # convert jpg and png to ascii art
     lazydocker # docker tui
     lazygit # git tui
@@ -122,7 +124,8 @@ in
     tuifeed # terminal feed reader
     # ventoy # create multi-boot usb sticks (unfree license, needs flag)
     vitetris # terminal tetris
-    wavemon # Wifi monitoring
+    wavemon # wifi monitoring
+    weechat # irc client
     wiki-tui # terminal wikipedia
     wikiman # offline reader for arch wiki
 
