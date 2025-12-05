@@ -140,12 +140,6 @@ in
       SCARF_NO_ANALYTICS = "True";
       WEBUI_AUTH = "False";
     };
-    # Temporary fix
-    package = pkgs.open-webui.overridePythonAttrs (old: {
-      dependencies = old.dependencies ++ [
-        pkgs.python3Packages.itsdangerous
-      ];
-    });
   };
 
   services.syncthing = {
@@ -316,7 +310,7 @@ in
       # slack # chat thing
       # simplex-chat-desktop # messenger
       # sonic-pi # code music
-      # sparrow
+      sparrow
       # teams-for-linux # bleh
       # teamspeak_client # voice chat
       theforceengine # dark forces source port

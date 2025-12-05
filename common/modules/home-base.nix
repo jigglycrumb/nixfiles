@@ -367,8 +367,7 @@ in
 
       # NixOS specific things
       boot-mode = "[ -d /sys/firmware/efi/efivars ] && echo \"UEFI\" || echo \"Legacy\"";
-      # nixos-cleanup = "home-manager expire-generations \"-7 days\" && sudo nix-collect-garbage --delete-older-than 7d"; 
-      nixos-cleanup = "sudo nix-collect-garbage --delete-older-than 7d"; 
+      nixos-cleanup = "sudo nix-collect-garbage --delete-old"; 
       nixos-update = "(cd ~/nixfiles/desktop/$(hostname) && nix flake update)";
       rebuild = "sudo nixos-rebuild switch --flake ~/nixfiles/desktop/$(hostname) --impure";
 
