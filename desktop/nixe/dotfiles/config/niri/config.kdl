@@ -291,6 +291,14 @@ layout {
     }
 }
 
+recent-windows {
+  highlight {
+    corner-radius 8
+    active-color "#ffc87f"
+    urgent-color "#9b0000"
+  }
+}
+
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
@@ -681,5 +689,5 @@ binds {
     Mod+Shift+P { power-off-monitors; }
 }
 
-// include "../../.cache/wal/colors-niri.kdl"
+include "../../.cache/wal/colors-niri.kdl"
 

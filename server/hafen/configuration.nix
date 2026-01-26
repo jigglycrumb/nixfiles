@@ -42,6 +42,7 @@ in
     allowedTCPPorts = [
       3000 # karakeep
       3080 # watcharr
+      8000 # yamtrack
       20211 # netalertx
     ];
     allowedUDPPorts = [

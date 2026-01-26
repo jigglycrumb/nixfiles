@@ -55,7 +55,7 @@ in
   services.nextcloud = {
     enable = true;
     hostName = "${hostname}";
-    package = pkgs.nextcloud31;
+    package = pkgs.nextcloud32;
 
     config.adminpassFile = "/etc/nextcloud-admin-pass";
     config.dbtype = "sqlite";

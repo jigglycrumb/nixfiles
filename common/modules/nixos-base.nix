@@ -17,6 +17,8 @@ in
     "sg" # SCSI generic for external DVD/BluRay drive support
   ];
 
+  boot.supportedFilesystems = [ "ntfs" ];
+
   # Set hostname
   networking.hostName = hostname;
 
@@ -64,7 +66,8 @@ in
   services.openssh.enable = true;
 
   # Enable below system monitoring
-  services.below.enable = true;
+  # TODO check optoins to autoclean logs - this uses a lot of disk space
+  # services.below.enable = true;
 
   # Enable greeter
   services.greetd = {

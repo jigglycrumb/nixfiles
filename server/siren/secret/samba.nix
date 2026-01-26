@@ -1,1 +1,1 @@
-../../../../common/secret/samba.nix
+../../../common/secret/samba.nix

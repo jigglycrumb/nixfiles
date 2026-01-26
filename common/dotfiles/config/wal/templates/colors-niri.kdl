@@ -1,10 +1,16 @@
 layout {{
   focus-ring {{
-    active-gradient from="{color2.strip}" to="{color6.strip}" angle=45 relative-to="workspace-view"
+    active-gradient from="#{color2.strip}" to="#{color6.strip}" angle=135 relative-to="workspace-view"
     inactive-color "#00000000"
   }}
 
   shadow {{
-    color "{color6.strip}77"
+    color "#{color6.strip}77"
+  }}
+}}
+
+recent-windows {{
+  highlight {{
+    active-color "#{color2.strip}"
   }}
 }}

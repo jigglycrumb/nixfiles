@@ -1,1 +1,1 @@
-../../../../common/secret/wireguard.nix
+../../../common/secret/wireguard.nix

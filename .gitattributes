@@ -2,6 +2,6 @@
 **/secret/** filter=git-crypt diff=git-crypt
 **/ssh/** filter=git-crypt diff=git-crypt
 **/wireguard-keys/** filter=git-crypt diff=git-crypt
-server/hafen/apps/karakeep/.env filter=git-crypt diff=git-crypt
+server/hafen/apps/*/.env filter=git-crypt diff=git-crypt
 geo.toml filter=git-crypt diff=git-crypt
  

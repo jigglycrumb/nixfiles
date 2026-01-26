@@ -69,9 +69,11 @@ in
 
   networking.firewall = {
     allowedTCPPorts = [
+      # 27960 # Quake III Arena
       50000 # rtorrent
     ];
     allowedUDPPorts = [
+      # 27960 # Quake III Arena
       50000 # rtorrent
       secrets-wireguard.port # wireguard
     ];
@@ -227,26 +229,26 @@ in
       "plugdev"
     ];
     packages = with pkgs; [
-      _86Box-with-roms
+      # _86Box-with-roms
       # affine # workspace / knowledge space
       # angryipscanner # network scanner
       # appeditor # gui to edit app launcher entries (.desktop files)
       # appflowy
       # arduino # code hardware things
       # ascii-draw # draw diagrams etc in ASCII
-      audacity # audio recorder/editor
+      # audacity # audio recorder/editor
       # blanket # ambient sounds
       # blender # 3D modeling
       # bruno # API client/tester/explorer
       # celestia # spaaaaaaaaaaace
-      cheese # webcam fun
+      # cheese # webcam fun
       # clipgrab # youtube downloader
       # czkawka # remove useless files
       cryptomator # file encryption
       # cura # 3D printing software
       # cura-appimage # 3D printing software
       davinci-resolve # video editor
-      # devilutionx # Diablo
+      devilutionx # Diablo
       discord # (voice)chat
       dosbox-staging # emulates DOS software
       # drawing # basic image editor, similar to MS Paint
@@ -255,7 +257,7 @@ in
       evince # document viewer
       fallout-ce # port of Fallout for modern systems
       # ffmpeg # needed for mediathekview
-      # freecad # CAD modeler 
+      freecad # CAD modeler 
       # furnace # multi-system chiptune tracker
       gimp # image manipulation
       # gitify # github notifications in the menu bar
@@ -269,9 +271,9 @@ in
       # hydrogen # drum machine
       ioquake3 # Quake 3 Arena source port
       jstest-gtk # simple joystick testing GUI
-      # kdePackages.kdenlive # video editor
+      kdePackages.kdenlive # video editor
       # keeperrl # roguelike
-      # krita # painting software
+      krita # painting software
       # kstars # spaaaaaaaaaaace
       # lagrange # GUI client for gemini
       # letterpress # convert images to ascii art
@@ -284,7 +286,7 @@ in
       # mattermost-desktop # Slack alternative
       # mediathekview # downloader for German public broadcasts
       # meshlab # edit 3D model files
-      milkytracker # music tracker
+      # milkytracker # music tracker
       # nwg-look # GUI to theme GTK apps
       # obsidian # personal knowledge base
       oculante # fast image viewer
@@ -294,6 +296,7 @@ in
       orca-slicer # slicer for 3D printers
       # openclonk # game
       # openxcom # xcom source port
+      openscad-unstable # CAD with code
       # overskride # bluetooth management GUI
       # pablodraw # ANSI/ASCII art drawing
       pika-backup # a backup thing
@@ -317,10 +320,11 @@ in
       # ungoogled-chromium # chrome without google
       ut1999 # Unreal Tournament
       virt-viewer # VM management GUI
+      vivaldi # Web browser
       # wargus # Warcraft 2 port
       # wtype # fake keypresses in wayland (bookmarks mgmt)
       # yoshimi # software synthesizer
-      zed-editor # editor
+      # zed-editor # editor
     ];
   };
 

@@ -93,7 +93,7 @@ in
     navi # cheat sheets at your fingertips
     ncgopher # cli gopher and gemini client
     nms # decrypting...
-    nixfmt-rfc-style # formatter for nix code, used in VSCode
+    nixfmt # formatter for nix code, used in VSCode
     npm-check-updates # tool to check package.json for updates
     nsxiv # new suckless X image viewer
     nyancat # nyan nyan nyan
@@ -103,7 +103,7 @@ in
     pastel # terminal color palette tool
     ponysay # like cowsay, but 20% cooler
     posting # terminal HTTP API client
-    # pywalfox-native # style firefox with pywal
+    pywalfox-native # style firefox with pywal
     rmpc # terminal music player
     rtorrent # terminal torrent client
     scope-tui # terminal oscilloscope
@@ -116,7 +116,7 @@ in
     tasktimer # task timer
     tealdeer # man pages but short
     terminal-parrot # party parrot
-    termpdfpy # graphical pdf/ebook reader for kitty
+    # termpdfpy # graphical pdf/ebook reader for kitty
     # termusic # music player - very promising, but crashes a lot currently
     termshark # wireshark for the terminal
     # tickrs # realtime stock tickers in the terminal
@@ -128,6 +128,7 @@ in
     weechat # irc client
     wiki-tui # terminal wikipedia
     wikiman # offline reader for arch wiki
+    wiremix # tui for pipewire
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
