@@ -708,7 +708,7 @@ in
 
       # overseer.enable = true; # task runner
       render-markdown.enable = true;
-      smear-cursor.enable = true;
+      # smear-cursor.enable = true;
 
       # snacks.enable = true; # enable snacks (bigfile, notifier, quickfile, statuscolumn, words) - doesn't seem to do anything?
       telescope.enable = true; # fuzzy finder

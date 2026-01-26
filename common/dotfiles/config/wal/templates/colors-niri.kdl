@@ -1,6 +1,6 @@
 layout {{
   focus-ring {{
-    active-gradient from="#{color2.strip}" to="#{color6.strip}" angle=135 relative-to="workspace-view"
+    active-gradient from="#{color6.strip}" to="#{color2.strip}" angle=135 relative-to="workspace-view"
     inactive-color "#00000000"
   }}
 
