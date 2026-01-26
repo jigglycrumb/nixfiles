@@ -320,7 +320,6 @@ in
       # ungoogled-chromium # chrome without google
       ut1999 # Unreal Tournament
       virt-viewer # VM management GUI
-      vivaldi # Web browser
       # wargus # Warcraft 2 port
       # wtype # fake keypresses in wayland (bookmarks mgmt)
       # yoshimi # software synthesizer

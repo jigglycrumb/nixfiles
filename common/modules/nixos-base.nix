@@ -308,6 +308,7 @@ in
       peazip # archive utility
       seahorse # keyring manager
       signal-desktop # messenger
+      vivaldi # web browser
       vlc # media player
     ];
   };

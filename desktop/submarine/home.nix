@@ -74,7 +74,7 @@
     mprocs # run multiple processes at the same time
     mpv # video player
     nms # decrypting...
-    nixfmt-rfc-style # formatter for nix code, used in VSCode
+    nixfmt # formatter for nix code, used in VSCode
     npm-check-updates # tool to check package.json for updates
     nsxiv # new suckless X image viewer
     nyancat # nyan nyan nyan
@@ -96,7 +96,7 @@
     tasktimer # task timer
     tealdeer # man pages but short
     terminal-parrot # party parrot
-    termpdfpy # graphical pdf/ebook reader for kitty
+    # termpdfpy # graphical pdf/ebook reader for kitty
     termshark # wireshark for the terminal
     tui-journal # terminal journal app
     vitetris # terminal tetris
