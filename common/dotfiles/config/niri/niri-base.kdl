@@ -1,3 +1,13 @@
+// This config is in the KDL format: https://kdl.dev
+// "/-" comments out the following node.
+// Check the wiki for a full description of the configuration:
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Introduction
+
+environment {
+  // DISPLAY ":0"
+  SUDO_ASKPASS "~/.config/fuzzel/scripts/askpass"
+  // ELECTRON_OZONE_PLATFORM_HINT "auto"
+}
 
 xwayland-satellite {
   path "xwayland-satellite"
