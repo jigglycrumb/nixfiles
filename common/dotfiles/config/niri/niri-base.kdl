@@ -9,6 +9,13 @@ gestures {
   }
 }
 
+cursor {
+  // xcursor-theme "breeze_cursors"
+  // xcursor-size 48
+  hide-when-typing
+  hide-after-inactive-ms 2000
+}
+
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
@@ -382,6 +389,14 @@ binds {
     Mod+Shift+U         { move-workspace-down; }
     Mod+Shift+I         { move-workspace-up; }
 
+    Mod+Shift+Home { move-workspace-to-monitor-left; }
+    Mod+Shift+End   { move-workspace-to-monitor-right; }
+
+    Mod+Shift+Ctrl+Alt+J   { move-workspace-down; }
+    Mod+Shift+Ctrl+Alt+K   { move-workspace-up; }
+    Mod+Shift+Ctrl+Alt+H   { move-workspace-to-monitor-left; }
+    Mod+Shift+Ctrl+Alt+L   { move-workspace-to-monitor-right; }
+ 
     Mod+Ctrl+WheelScrollRight { move-column-right; }
     Mod+Ctrl+WheelScrollLeft  { move-column-left; }
 
