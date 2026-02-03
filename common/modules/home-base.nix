@@ -58,6 +58,7 @@ in
     ".config/hypr".source = ../dotfiles/config/hypr;
     ".config/kitty".source = ../dotfiles/config/kitty;
     ".config/mako/config".source = ../dotfiles/config/mako/config;
+    ".config/niri/niri-base.kdl".source = ../dotfiles/config/niri/niri-base.kdl;
     ".config/niri/scripts".source = ../dotfiles/config/niri/scripts;
     ".config/raffi".source = ../dotfiles/config/raffi;
     ".config/starship.toml".source = ../dotfiles/config/starship.toml;

@@ -38,9 +38,11 @@ function deploy_target() {
 
   # Copy config to target host
   echo "Copying system configuration"
-  sshpass -p $pass scp -r flake.* $user@$target:$target_folder
-  sshpass -p $pass scp -r vm-base.nix $user@$target:$target_folder
-  sshpass -p $pass scp -r $target/* $user@$target:$target_folder/$target
+  sshpass -p $pass scp flake.* $user@$target:$target_folder
+  sshpass -p $pass scp vm-base.nix $user@$target:$target_folder
+  # sshpass -p $pass scp -r $target/* $user@$target:$target_folder/$target
+  sshpass -p $pass rsync -avRL $target $user@$target:$target_folder
+
 
   if [ "$2" != "--copy" ]; then
     # Rebuild system
