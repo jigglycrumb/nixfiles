@@ -71,10 +71,6 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
-    extraGroups = [
-      "docker"
-      "libvirtd"
-    ];
     packages = with pkgs; [
       angryipscanner # network scanner
       ascii-draw # draw diagrams etc in ASCII
@@ -85,13 +81,14 @@
       cheese # webcam fun
       evince # document viewer
       # keeperrl # roguelike
-      letterpress # convert images to ascii art
-      nwg-look # GUI to theme GTK apps
+      # letterpress # convert images to ascii art
+      # nwg-look # GUI to theme GTK apps
       oculante # fast image viewer
       # opensnitch-ui # GUI for opensnitch application firewall
       pablodraw # ANSI/ASCII art drawing
+      qutebrowser
       sonic-pi # code music
-      wargus # Warcraft 2 port
+      # wargus # Warcraft 2 port
     ];
   };
 
