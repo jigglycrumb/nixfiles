@@ -65,7 +65,7 @@
     gurk-rs # terminal client for Signal messenger
     hollywood # hacking...
     jp2a # convert jpg and png to ascii art
-    jrnl # take notes in the terminal
+    # jrnl # take notes in the terminal
     lazydocker # docker tui
     lazygit # git tui
     lynx # terminal web browser, can be scripted for tasks

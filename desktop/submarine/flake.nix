@@ -2,11 +2,14 @@
   description = "NixOS System Configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+
 
     # home-manager, used for managing user configuration
     home-manager = {
-      url = "github:nix-community/home-manager/master";
+      # url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager/release-25.11";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with
       # the `inputs.nixpkgs` of the current flake,
@@ -15,8 +18,9 @@
     };
     
     nixvim = {
-      url = "github:nix-community/nixvim";
+      # url = "github:nix-community/nixvim";
       # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
+      url = "github:nix-community/nixvim/nixos-25.11";
     };
   };
 
